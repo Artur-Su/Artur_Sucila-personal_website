@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News — Artur Sucila</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Three.js for hardware-accelerated 3D background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #030305;
+      --text-main: #ffffff;
+      --text-muted: #a0a0b5;
+      --accent-1: #7c6eff;
+      --accent-2: #4fc3f7;
+      --card-bg: rgba(30, 30, 42, 0.6);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --font-main: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* WebGL Canvas Background */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.5rem 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    nav.scrolled {
+      background: rgba(3, 3, 5, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    .nav-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: color 0.3s ease;
+    }
+
+    .nav-back-btn:hover {
+      color: var(--text-main);
+    }
+
+    .news-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 0 4rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top: 2px solid rgba(124, 110, 255, 0.5);
+      border-radius: 1.25rem;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      background: rgba(79, 195, 247, 0.1);
+      border: 1px solid rgba(79, 195, 247, 0.3);
+      color: var(--accent-2);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .card h1 {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .card p strong {
+      color: #fff;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent-1);
+      color: #fff;
+      border: none;
+      box-shadow: 0 0 20px rgba(124, 110, 255, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(124, 110, 255, 0.6);
+      background: #8e83ff;
+    }
+
+    .fb-icon {
+      font-size: 1.2rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 3rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .card { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="canvas-container"></div>
+
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">Artur</a>
+      <div style="display: flex; align-items: center; gap: 2rem;">
+        <div class="nav-links">
+          <a href="index.html#about">About</a>
+          <a href="index.html#companies">Companies</a>
+          <a href="index.html#skills">Skills</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+        <a href="index.html" class="nav-back-btn">
+          ← Back to Home
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="news-wrapper">
+    <div class="container" style="display: flex; justify-content: center;">
+      <div class="card">
+        <span class="badge">🔥 Action Required</span>
+        <h1>Vote for Artur!</h1>
+        <p>Check out the video comment for <strong>Artur Sucila</strong> and click like for voting. Let's get Claude winning and bring this home!</p>
+        <a href="https://www.facebook.com/reel/1361886042018942" target="_blank" class="btn btn-primary">
+          <span class="fb-icon">👍</span> Vote on Facebook
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Artur. Built with structure, not templates.</p>
+    </div>
+  </footer>
+
+  <script>
+    // 1. Navbar Scroll Effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // 2. Three.js Background Implementation (Same as index.html for seamless transition)
+    const initThreeJS = () => {
+      const container = document.getElementById('canvas-container');
+      const scene = new THREE.Scene();
+      
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 400;
+
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      container.appendChild(renderer.domElement);
+
+      const particleCount = window.innerWidth < 768 ? 100 : 300;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const velocities = [];
+
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 1000;
+        positions[i + 1] = (Math.random() - 0.5) * 1000;
+        positions[i + 2] = (Math.random() - 0.5) * 400;
+
+        velocities.push({
+          x: (Math.random() - 0.5) * 0.5,
+          y: (Math.random() - 0.5) * 0.5,
+          z: (Math.random() - 0.5) * 0.5
+        });
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0x7c6eff,
+        size: 3,
+        transparent: true,
+        opacity: 0.8
+      });
+
+      const particles = new THREE.Points(geometry, particleMaterial);
+      scene.add(particles);
+
+      const lineMaterial = new THREE.LineBasicMaterial({
+        color: 0x4fc3f7,
+        transparent: true,
+        opacity: 0.15
+      });
+
+      const lineGeometry = new THREE.BufferGeometry();
+      const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+      scene.add(lines);
+
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetX = 0;
+      let targetY = 0;
+
+      const windowHalfX = window.innerWidth / 2;
+      const windowHalfY = window.innerHeight / 2;
+
+      document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX - windowHalfX);
+        mouseY = (event.clientY - windowHalfY);
+      });
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+
+        targetX = mouseX * 0.05;
+        targetY = mouseY * 0.05;
+        camera.position.x += (targetX - camera.position.x) * 0.02;
+        camera.position.y += (-targetY - camera.position.y) * 0.02;
+        camera.lookAt(scene.position);
+
+        const positions = particles.geometry.attributes.position.array;
+        const linePositions = [];
+
+        for (let i = 0; i < particleCount; i++) {
+          const i3 = i * 3;
+          
+          positions[i3] += velocities[i].x;
+          positions[i3 + 1] += velocities[i].y;
+          positions[i3 + 2] += velocities[i].z;
+
+          if (Math.abs(positions[i3]) > 500) velocities[i].x *= -1;
+          if (Math.abs(positions[i3 + 1]) > 500) velocities[i].y *= -1;
+          if (Math.abs(positions[i3 + 2]) > 200) velocities[i].z *= -1;
+
+          for (let j = i + 1; j < particleCount; j++) {
+            const j3 = j * 3;
+            const dx = positions[i3] - positions[j3];
+            const dy = positions[i3 + 1] - positions[j3 + 1];
+            const dz = positions[i3 + 2] - positions[j3 + 2];
+            const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+            if (dist < 80) {
+              linePositions.push(
+                positions[i3], positions[i3 + 1], positions[i3 + 2],
+                positions[j3], positions[j3 + 1], positions[j3 + 2]
+              );
+            }
+          }
+        }
+
+        particles.geometry.attributes.position.needsUpdate = true;
+        lines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+
+        renderer.render(scene, camera);
+      };
+
+      animate();
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    };
+
+    window.onload = () => {
+      initThreeJS();
+    };
+  </script>
+</body>
+</html>
