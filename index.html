@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>News — Artur Sucila</title>
+  <title>Artur — Builder & Strategist</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,10 +16,10 @@
     :root {
       --bg: #030305;
       --text-main: #ffffff;
-      --text-muted: #a0a0b5;
+      --text-muted: #a0a0b5; /* Brighter for better readability */
       --accent-1: #7c6eff;
       --accent-2: #4fc3f7;
-      --card-bg: rgba(30, 30, 42, 0.6);
+      --card-bg: rgba(30, 30, 42, 0.6); /* Slightly lighter and more opaque */
       --card-border: rgba(255, 255, 255, 0.1);
       --font-main: 'Inter', sans-serif;
     }
@@ -37,9 +37,10 @@
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    }
+    
+    html {
+      scroll-behavior: smooth;
     }
 
     /* WebGL Canvas Background */
@@ -111,76 +112,94 @@
       color: var(--text-main);
     }
 
-    .nav-back-btn {
+    .nav-news-btn {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      color: var(--text-muted);
+      background: rgba(124, 110, 255, 0.1);
+      border: 1px solid rgba(124, 110, 255, 0.4);
+      color: #fff !important;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
+      padding: 0.5rem 1.25rem;
+      border-radius: 2rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      transition: color 0.3s ease;
+      transition: all 0.3s ease;
     }
 
-    .nav-back-btn:hover {
-      color: var(--text-main);
+    .nav-news-btn:hover {
+      background: var(--accent-1);
+      box-shadow: 0 0 15px rgba(124, 110, 255, 0.5);
+      transform: translateY(-2px);
     }
 
-    .news-wrapper {
-      flex: 1;
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-2);
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px var(--accent-2);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(79, 195, 247, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(79, 195, 247, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(79, 195, 247, 0); }
+    }
+
+    .hero {
+      min-height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 8rem 0 4rem;
+      padding-top: 5rem;
     }
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-top: 2px solid rgba(124, 110, 255, 0.5);
-      border-radius: 1.25rem;
-      padding: 3rem;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
+    .hero-content {
+      max-width: 800px;
     }
 
     .badge {
       display: inline-block;
       padding: 0.5rem 1rem;
       border-radius: 2rem;
-      background: rgba(79, 195, 247, 0.1);
-      border: 1px solid rgba(79, 195, 247, 0.3);
+      background: rgba(124, 110, 255, 0.1);
+      border: 1px solid rgba(124, 110, 255, 0.2);
       color: var(--accent-2);
       font-size: 0.8rem;
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
       margin-bottom: 1.5rem;
     }
 
-    .card h1 {
-      font-size: clamp(2rem, 5vw, 2.5rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .card p {
+    .hero p {
+      font-size: clamp(1.1rem, 2vw, 1.25rem);
       color: var(--text-muted);
-      margin-bottom: 2.5rem;
-      font-size: 1.1rem;
-      line-height: 1.7;
+      max-width: 600px;
+      margin-bottom: 3rem;
     }
 
-    .card p strong {
-      color: #fff;
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .btn {
@@ -190,10 +209,6 @@
       font-size: 1rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
     }
 
     .btn-primary {
@@ -209,8 +224,204 @@
       background: #8e83ff;
     }
 
-    .fb-icon {
-      font-size: 1.2rem;
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-2);
+      background: rgba(79, 195, 247, 0.1);
+    }
+
+    section {
+      padding: 8rem 0;
+      position: relative;
+      border-top: 1px solid rgba(255, 255, 255, 0.03); /* Subtle separation */
+    }
+
+    .section-alt {
+      background: linear-gradient(to bottom, rgba(124, 110, 255, 0.05), transparent 80%);
+    }
+
+    .section-header {
+      margin-bottom: 4rem;
+    }
+
+    .section-num {
+      color: var(--accent-1);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top: 2px solid rgba(124, 110, 255, 0.5); /* Highlight top edge for structure */
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* The Magic Mouse Tracking Glow Effect */
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(
+        800px circle at var(--mouse-x) var(--mouse-y),
+        rgba(124, 110, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+    
+    .card:hover {
+      border-color: rgba(124, 110, 255, 0.4);
+      transform: translateY(-5px);
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--accent-2);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .card ul {
+      margin-bottom: 2rem;
+    }
+
+    .card li {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .card li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent-1);
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: gap 0.3s;
+    }
+
+    .card-link:hover {
+      gap: 0.75rem;
+      color: var(--accent-2);
+    }
+
+    .skills-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .skill-category h4 {
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 0.5rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      padding: 0.5rem 1.25rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+
+    .tag:hover {
+      background: rgba(124, 110, 255, 0.15);
+      border-color: var(--accent-1);
+      color: #fff;
     }
 
     footer {
@@ -221,48 +432,201 @@
       font-size: 0.9rem;
     }
 
-    @media (max-width: 768px) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .grid-2 { grid-template-columns: 1fr; gap: 2rem; }
       .nav-links { display: none; }
-      .card { padding: 2rem; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Background 3D Canvas -->
   <div id="canvas-container"></div>
 
   <nav id="navbar">
     <div class="container nav-inner">
-      <a href="index.html" class="logo">Artur</a>
+      <a href="#" class="logo">Artur</a>
       <div style="display: flex; align-items: center; gap: 2rem;">
         <div class="nav-links">
-          <a href="index.html#about">About</a>
-          <a href="index.html#companies">Companies</a>
-          <a href="index.html#skills">Skills</a>
-          <a href="index.html#contact">Contact</a>
+          <a href="#about">About</a>
+          <a href="#companies">Companies</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
         </div>
-        <a href="index.html" class="nav-back-btn">
-          ← Back to Home
+        <a href="news.html" class="nav-news-btn">
+          <span class="pulse-dot"></span> News
         </a>
       </div>
     </div>
   </nav>
 
-  <main class="news-wrapper">
-    <div class="container" style="display: flex; justify-content: center;">
-      <div class="card">
-        <span class="badge">🔥 Action Required</span>
-        <h1>Vote for Artur!</h1>
-        <p>Check out the video comment for <strong>Artur Sucila</strong> and click like for voting. Let's get Claude winning and bring this home!</p>
-        <a href="https://www.facebook.com/reel/1361886042018942" target="_blank" class="btn btn-primary">
-          <span class="fb-icon">👍</span> Vote on Facebook
-        </a>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content reveal">
+        <span class="badge">Builder · Strategist · Generalist</span>
+        <h1>Hi, I'm <span>Artur</span></h1>
+        <p>I build and operate businesses across technology, health, and physical retail. I think in systems, move across domains, and use structured intelligence to make faster, cleaner decisions.</p>
+        <div class="cta-group">
+          <a href="#companies" class="btn btn-primary">My Companies</a>
+          <a href="#about" class="btn btn-secondary">About Me</a>
+        </div>
       </div>
     </div>
-  </main>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Who I am</h2>
+      </div>
+      <div class="grid-2">
+        <div class="about-text reveal">
+          <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">I am a cross-domain builder and generalist. I don't specialize in one vertical — I operate at the intersection of strategy, technology, and operations, running multiple businesses simultaneously.</p>
+          <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">My working style is systems-oriented. I map problems as structures, connect ideas across domains, and use an external memory system (Central Intelligence) to maintain clarity and momentum across everything I run.</p>
+        </div>
+        <div class="about-stats reveal" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="card" style="padding: 1.5rem;">
+            <h4 style="color: #fff; margin-bottom: 0.5rem;">🧠 Systems Thinker</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0;">Thinks in structures and frameworks</p>
+          </div>
+          <div class="card" style="padding: 1.5rem;">
+            <h4 style="color: #fff; margin-bottom: 0.5rem;">🏗️ Builder-Minded</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0;">Ships products and builds operations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="companies" class="section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">What I operate</h2>
+      </div>
+      <div class="card-grid">
+        
+        <div class="card reveal tracker-card">
+          <span class="card-icon">💊</span>
+          <h3 class="card-title">Nutravit</h3>
+          <span class="card-subtitle">E-commerce · Health Supplements</span>
+          <p>Norwegian-market supplement brand on WooCommerce. Powered by AI customer support and n8n automation.</p>
+          <ul>
+            <li>Norwegian compliance</li>
+            <li>AI customer interaction</li>
+            <li>Optimized logistics</li>
+          </ul>
+          <a href="https://nutravit.no/?ref=artur-sucila-website" target="_blank" class="card-link">nutravit.no <span>→</span></a>
+        </div>
+
+        <div class="card reveal tracker-card">
+          <span class="card-icon">🖥️</span>
+          <h3 class="card-title">PCIN</h3>
+          <span class="card-subtitle">IT Services · Consultancy</span>
+          <p>IT service operation covering hardware diagnostics, repair workflows, OS optimization, and managed services.</p>
+          <ul>
+            <li>Hardware diagnostics</li>
+            <li>OS optimization</li>
+            <li>Data recovery</li>
+          </ul>
+          <a href="https://pcin.no/?ref=artur-sucila-website" target="_blank" class="card-link">pcin.no <span>→</span></a>
+        </div>
+
+        <div class="card reveal tracker-card">
+          <span class="card-icon">🏪</span>
+          <h3 class="card-title">Vareautomater</h3>
+          <span class="card-subtitle">Physical Retail · Vending</span>
+          <p>Vending machine operation managing physical placements across route regions. Structured maintenance routines.</p>
+          <ul>
+            <li>Multi-location network</li>
+            <li>Route-based dispatch</li>
+            <li>Machine tracking</li>
+          </ul>
+          <a href="https://vareautomater.no/?ref=artur-sucila-website" target="_blank" class="card-link">vareautomater.no <span>→</span></a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num">03</span>
+        <h2 class="section-title">What I know</h2>
+      </div>
+      <div class="skills-wrapper reveal">
+        <div class="skill-category">
+          <h4>Business Operations</h4>
+          <div class="tags">
+            <span class="tag">🏢 Multi-business</span>
+            <span class="tag">⚙️ Operations</span>
+            <span class="tag">💰 Pricing architecture</span>
+            <span class="tag">🚚 Logistics</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h4>Technology</h4>
+          <div class="tags">
+            <span class="tag">🤖 n8n automation</span>
+            <span class="tag">🛒 WooCommerce</span>
+            <span class="tag">🧠 AI integration</span>
+            <span class="tag">🖥️ Self-hosted</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h4>Strategy & Systems</h4>
+          <div class="tags">
+            <span class="tag">🧩 Systems thinking</span>
+            <span class="tag">🗄️ Knowledge management</span>
+            <span class="tag">🎯 Context-driven decisions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Get in touch</h2>
+      </div>
+      <div class="grid-2">
+        <div class="contact-text reveal">
+          <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">I'm always open to discussing new operational challenges, strategic partnerships, or connecting with other builders. Feel free to reach out via email or connect with me on social platforms.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <!-- REPLACE THESE LINKS WITH YOUR ACTUAL URLS -->
+            <a href="mailto:your-email@example.com" class="btn btn-primary">Drop me an email</a>
+            <a href="https://linkedin.com/in/yourprofile" target="_blank" class="btn btn-secondary">LinkedIn</a>
+            <a href="https://github.com/yourusername" target="_blank" class="btn btn-secondary">GitHub</a>
+          </div>
+        </div>
+        <div class="contact-info reveal" style="display: flex; flex-direction: column; justify-content: center;">
+            <div class="card" style="padding: 2rem; text-align: center;">
+              <span class="card-icon" style="margin-bottom: 1rem; font-size: 2rem;">🌍</span>
+              <h4 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.2rem;">Location</h4>
+              <p style="font-size: 0.95rem; margin-bottom: 0; color: var(--text-muted);">Norway / Remote</p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer>
-    <div class="container">
+    <div class="container reveal">
       <p>© 2026 Artur. Built with structure, not templates.</p>
     </div>
   </footer>
@@ -278,7 +642,42 @@
       }
     });
 
-    // 2. Three.js Background Implementation (Same as index.html for seamless transition)
+    // 2. Scroll Reveal Animation using Intersection Observer
+    const reveals = document.querySelectorAll('.reveal');
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target); // Run once
+        }
+      });
+    }, observerOptions);
+
+    reveals.forEach(reveal => {
+      observer.observe(reveal);
+    });
+
+    // 3. Mouse Tracking Spotlight Effect for Cards
+    document.querySelectorAll('.tracker-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Update custom CSS variables for the radial gradient
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // 4. Three.js Background Implementation
+    // This creates an interactive, high-performance particle network connecting nodes.
     const initThreeJS = () => {
       const container = document.getElementById('canvas-container');
       const scene = new THREE.Scene();
@@ -291,15 +690,16 @@
       renderer.setPixelRatio(window.devicePixelRatio);
       container.appendChild(renderer.domElement);
 
+      // Create geometry for particles
       const particleCount = window.innerWidth < 768 ? 100 : 300;
       const geometry = new THREE.BufferGeometry();
       const positions = new Float32Array(particleCount * 3);
       const velocities = [];
 
       for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 1000;
-        positions[i + 1] = (Math.random() - 0.5) * 1000;
-        positions[i + 2] = (Math.random() - 0.5) * 400;
+        positions[i] = (Math.random() - 0.5) * 1000;     // x
+        positions[i + 1] = (Math.random() - 0.5) * 1000; // y
+        positions[i + 2] = (Math.random() - 0.5) * 400;  // z
 
         velocities.push({
           x: (Math.random() - 0.5) * 0.5,
@@ -310,6 +710,7 @@
 
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
+      // Material for particles
       const particleMaterial = new THREE.PointsMaterial({
         color: 0x7c6eff,
         size: 3,
@@ -320,6 +721,7 @@
       const particles = new THREE.Points(geometry, particleMaterial);
       scene.add(particles);
 
+      // Material for lines connecting particles
       const lineMaterial = new THREE.LineBasicMaterial({
         color: 0x4fc3f7,
         transparent: true,
@@ -330,6 +732,7 @@
       const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
       scene.add(lines);
 
+      // Mouse tracking for parallax
       let mouseX = 0;
       let mouseY = 0;
       let targetX = 0;
@@ -343,16 +746,21 @@
         mouseY = (event.clientY - windowHalfY);
       });
 
+      // Animation Loop
       const animate = () => {
         requestAnimationFrame(animate);
 
+        // Smooth camera movement (Parallax)
         targetX = mouseX * 0.05;
         targetY = mouseY * 0.05;
         camera.position.x += (targetX - camera.position.x) * 0.02;
         camera.position.y += (-targetY - camera.position.y) * 0.02;
         camera.lookAt(scene.position);
 
+        // Move particles
         const positions = particles.geometry.attributes.position.array;
+        
+        // Setup array for connecting lines
         const linePositions = [];
 
         for (let i = 0; i < particleCount; i++) {
@@ -362,10 +770,12 @@
           positions[i3 + 1] += velocities[i].y;
           positions[i3 + 2] += velocities[i].z;
 
+          // Boundary check & bounce
           if (Math.abs(positions[i3]) > 500) velocities[i].x *= -1;
           if (Math.abs(positions[i3 + 1]) > 500) velocities[i].y *= -1;
           if (Math.abs(positions[i3 + 2]) > 200) velocities[i].z *= -1;
 
+          // Connect nearby particles
           for (let j = i + 1; j < particleCount; j++) {
             const j3 = j * 3;
             const dx = positions[i3] - positions[j3];
@@ -373,6 +783,7 @@
             const dz = positions[i3 + 2] - positions[j3 + 2];
             const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
 
+            // If close enough, draw a line
             if (dist < 80) {
               linePositions.push(
                 positions[i3], positions[i3 + 1], positions[i3 + 2],
@@ -383,6 +794,8 @@
         }
 
         particles.geometry.attributes.position.needsUpdate = true;
+        
+        // Update lines
         lines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
 
         renderer.render(scene, camera);
@@ -390,6 +803,7 @@
 
       animate();
 
+      // Handle Resize
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
@@ -397,6 +811,7 @@
       });
     };
 
+    // Initialize WebGL only on window load
     window.onload = () => {
       initThreeJS();
     };
