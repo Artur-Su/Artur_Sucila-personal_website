@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artur — Builder & Strategist</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <span class="nav-logo">Artur</span>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#companies">Companies</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#companies" class="mobile-link">Companies</a>
+    <a href="#skills" class="mobile-link">Skills</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-tag">Builder · Strategist · Generalist</p>
+      <h1 class="hero-title">Hi, I'm <span class="highlight">Artur</span></h1>
+      <p class="hero-sub">
+        I build and operate businesses across technology, health, and physical retail.
+        I think in systems, move across domains, and use structured intelligence to make faster, cleaner decisions.
+      </p>
+      <div class="hero-cta">
+        <a href="#companies" class="btn btn-primary">My Companies</a>
+        <a href="#about" class="btn btn-ghost">About Me</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-label">01 / About</div>
+      <h2 class="section-title">Who I am</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>I am a cross-domain builder and generalist. I don't specialize in one vertical — I operate at the intersection of strategy, technology, and operations, running multiple businesses simultaneously.</p>
+          <p>My working style is systems-oriented. I map problems as structures, connect ideas across domains, and use an external memory system (Central Intelligence) to maintain clarity and momentum across everything I run.</p>
+          <p>I value clarity over complexity, action over theory, and structured thinking over reactive decisions.</p>
+        </div>
+        <div class="about-traits">
+          <div class="trait-card fade-in">
+            <div class="trait-icon">⚡</div>
+            <div class="trait-text"><strong>Generalist</strong><span>Connects ideas across domains</span></div>
+          </div>
+          <div class="trait-card fade-in">
+            <div class="trait-icon">🧠</div>
+            <div class="trait-text"><strong>Systems Thinker</strong><span>Thinks in structures and frameworks</span></div>
+          </div>
+          <div class="trait-card fade-in">
+            <div class="trait-icon">🏗️</div>
+            <div class="trait-text"><strong>Builder-Minded</strong><span>Ships products and builds operations</span></div>
+          </div>
+          <div class="trait-card fade-in">
+            <div class="trait-icon">🎯</div>
+            <div class="trait-text"><strong>Context-Driven</strong><span>Decisions anchored in real data</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPANIES -->
+  <section class="section section-dark" id="companies">
+    <div class="container">
+      <div class="section-label">02 / Companies</div>
+      <h2 class="section-title">What I operate</h2>
+      <p class="section-sub">Three businesses across different domains — each built on clear operational logic and managed with structured systems.</p>
+      <div class="companies-grid">
+        <div class="company-card fade-in">
+          <div class="company-header">
+            <div class="company-icon">💊</div>
+            <div class="company-meta"><h3>Nutravit</h3><span class="company-tag">E-commerce · Health Supplements</span></div>
+          </div>
+          <p>Norwegian-market supplement brand on WooCommerce. Focused on compliant product descriptions, customer clarity, and efficient shipping logistics. Powered by AI customer support and n8n automation.</p>
+          <ul class="company-details">
+            <li>Norwegian supplement compliance</li>
+            <li>AI-assisted customer interaction</li>
+            <li>WooCommerce + n8n automation stack</li>
+            <li>Optimized shipping &amp; logistics flows</li>
+          </ul>
+          <a href="https://nutravit.no" target="_blank" class="company-link">nutravit.no →</a>
+        </div>
+        <div class="company-card fade-in">
+          <div class="company-header">
+            <div class="company-icon">🖥️</div>
+            <div class="company-meta"><h3>PCIN</h3><span class="company-tag">IT Services · Repair &amp; Consultancy</span></div>
+          </div>
+          <p>IT service operation covering hardware diagnostics, repair workflows, OS optimization, and managed services. Fixed-price quotes for standard repairs and hourly rates for advanced consultancy.</p>
+          <ul class="company-details">
+            <li>Hardware diagnostics &amp; repair</li>
+            <li>OS optimization &amp; driver management</li>
+            <li>Data backup &amp; recovery</li>
+            <li>Fixed-price + hourly consultancy model</li>
+          </ul>
+        </div>
+        <div class="company-card fade-in">
+          <div class="company-header">
+            <div class="company-icon">🏪</div>
+            <div class="company-meta"><h3>Vareautomater</h3><span class="company-tag">Physical Retail · Vending Operations</span></div>
+          </div>
+          <p>Vending machine operation managing physical placements across route regions. Structured maintenance routines, service dispatch workflows, and machine location tracking keep operations efficient.</p>
+          <ul class="company-details">
+            <li>Multi-location vending machine network</li>
+            <li>Route-based service dispatch</li>
+            <li>Structured maintenance routines</li>
+            <li>Machine ID &amp; location tracking</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="section-label">03 / Skills &amp; Knowledge</div>
+      <h2 class="section-title">What I know</h2>
+      <p class="section-sub">A cross-domain stack built through running real businesses — not certifications.</p>
+      <div class="skills-grid">
+        <div class="skill-group fade-in">
+          <h4>Business Operations</h4>
+          <div class="skill-tags">
+            <span>Multi-business management</span><span>Operations strategy</span><span>Pricing architecture</span><span>Workflow design</span><span>Logistics</span>
+          </div>
+        </div>
+        <div class="skill-group fade-in">
+          <h4>Technology</h4>
+          <div class="skill-tags">
+            <span>n8n automation</span><span>WooCommerce</span><span>AI integration</span><span>MCP / API architecture</span><span>Self-hosted infrastructure</span><span>IT repair &amp; diagnostics</span>
+          </div>
+        </div>
+        <div class="skill-group fade-in">
+          <h4>Strategy &amp; Systems</h4>
+          <div class="skill-tags">
+            <span>Systems thinking</span><span>Knowledge management</span><span>Second brain design</span><span>Context-driven decisions</span><span>Cross-domain pattern recognition</span>
+          </div>
+        </div>
+        <div class="skill-group fade-in">
+          <h4>Domain Knowledge</h4>
+          <div class="skill-tags">
+            <span>Health supplements (NO market)</span><span>Vending &amp; physical retail</span><span>E-commerce</span><span>Hardware services</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section section-dark" id="contact">
+    <div class="container contact-container">
+      <div class="section-label">04 / Contact</div>
+      <h2 class="section-title">Get in touch</h2>
+      <p class="section-sub">Interested in collaborating, partnering, or just connecting? Reach out.</p>
+      <div class="contact-links">
+        <a href="https://github.com/Artur-Su" target="_blank" class="contact-card">
+          <span class="contact-icon">🐙</span>
+          <span>GitHub</span>
+          <span class="contact-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <span>© 2026 Artur. Built with structure, not templates.</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    document.querySelectorAll('.mobile-link').forEach(l => {
+      l.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
