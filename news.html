@@ -208,9 +208,29 @@
       box-shadow: 0 0 30px rgba(124, 110, 255, 0.6);
       background: #8e83ff;
     }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-2);
+      background: rgba(79, 195, 247, 0.1);
+    }
 
     .fb-icon {
       font-size: 1.2rem;
+    }
+    
+    .news-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+      width: 100%;
     }
 
     footer {
@@ -249,7 +269,20 @@
   </nav>
 
   <main class="news-wrapper">
-    <div class="container" style="display: flex; justify-content: center;">
+    <div class="container news-container">
+      
+      <!-- Hiring Card -->
+      <div class="card">
+        <span class="badge" style="color: #6dd58c; background: rgba(109, 213, 140, 0.1); border-color: rgba(109, 213, 140, 0.3);">💼 Hiring</span>
+        <h1>We're looking for talent</h1>
+        <p>I am currently looking for a driven, systems-oriented person to join the team. If you thrive in cross-domain environments and love building scalable operations, we should talk.</p>
+        <!-- REPLACE THE EMAIL WITH YOUR ACTUAL EMAIL -->
+        <a href="mailto:your-email@example.com?subject=Job Application" class="btn btn-secondary">
+          Apply Now
+        </a>
+      </div>
+
+      <!-- Voting Card -->
       <div class="card">
         <span class="badge">🔥 Action Required</span>
         <h1>Vote for Artur!</h1>
@@ -258,6 +291,7 @@
           <span class="fb-icon">👍</span> Vote on Facebook
         </a>
       </div>
+
     </div>
   </main>
 
