@@ -9,26 +9,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Three.js for hardware-accelerated 3D background -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
     :root {
       --bg: #030305;
       --text-main: #ffffff;
-      --text-muted: #a0a0b5; /* Brighter for better readability */
-      --accent-1: #7c6eff;
-      --accent-2: #4fc3f7;
-      --card-bg: rgba(30, 30, 42, 0.6); /* Slightly lighter and more opaque */
+      --text-muted: #a0a0b5;
+      --accent-1: #7c6eff; /* Purple */
+      --accent-2: #4fc3f7; /* Cyan */
+      --card-bg: rgba(30, 30, 42, 0.6);
       --card-border: rgba(255, 255, 255, 0.1);
       --font-main: 'Inter', sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-main);
@@ -38,110 +35,107 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
+
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    }
     
-    html {
-      scroll-behavior: smooth;
+    #intro.slide-up {
+      transform: translateY(-100%);
     }
 
-    /* WebGL Canvas Background */
+    .intro-text {
+      font-size: clamp(3rem, 10vw, 8rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2);
+      position: relative;
+    }
+
+    .intro-text::before {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      width: 0;
+      overflow: hidden;
+      animation: fillText 1.5s ease-in-out forwards;
+    }
+
+    @keyframes fillText {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+
     #canvas-container {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      opacity: 0.6;
-      pointer-events: none;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -1; opacity: 0.6; pointer-events: none;
     }
 
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
     nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 100;
-      padding: 1.5rem 0;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 1.5rem 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     nav.scrolled {
       background: rgba(3, 3, 5, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      padding: 1rem 0; border-bottom: 1px solid var(--card-border);
     }
 
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
 
     .logo {
-      font-weight: 800;
-      font-size: 1.5rem;
+      font-weight: 800; font-size: 1.5rem; letter-spacing: -0.05em;
       background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.05em;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-    }
+    .nav-links { display: flex; gap: 2.5rem; align-items: center; }
 
     .nav-links a {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: var(--text-main);
-    }
-
-    .nav-news-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(124, 110, 255, 0.1);
-      border: 1px solid rgba(124, 110, 255, 0.4);
-      color: #fff !important;
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 0.5rem 1.25rem;
-      border-radius: 2rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      font-size: 0.9rem; font-weight: 500; color: var(--text-muted);
       transition: all 0.3s ease;
     }
 
+    .nav-links a:hover {
+      color: var(--accent-2);
+      text-shadow: 0 0 15px rgba(79, 195, 247, 0.6), 0 0 30px rgba(79, 195, 247, 0.4);
+    }
+
+    .nav-news-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 20px;
+      background: rgba(79, 195, 247, 0.1); border: 1px solid rgba(79, 195, 247, 0.3);
+      color: var(--accent-2); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.05em; transition: all 0.3s ease;
+    }
+
     .nav-news-btn:hover {
-      background: var(--accent-1);
-      box-shadow: 0 0 15px rgba(124, 110, 255, 0.5);
+      background: rgba(79, 195, 247, 0.2);
+      box-shadow: 0 0 15px rgba(79, 195, 247, 0.4);
       transform: translateY(-2px);
     }
 
     .pulse-dot {
-      width: 8px;
-      height: 8px;
-      background-color: var(--accent-2);
-      border-radius: 50%;
-      display: inline-block;
-      box-shadow: 0 0 8px var(--accent-2);
-      animation: pulse 2s infinite;
+      width: 8px; height: 8px; background-color: var(--accent-2); border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-2); animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
@@ -150,590 +144,492 @@
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(79, 195, 247, 0); }
     }
 
+    .mobile-menu-btn {
+      display: none; background: none; border: none; cursor: pointer; padding: 0.5rem;
+    }
+
+    .mobile-menu-btn span {
+      display: block; width: 24px; height: 2px; background: var(--text-main);
+      margin: 5px 0; transition: 0.3s;
+    }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      background: rgba(3, 3, 5, 0.95); backdrop-filter: blur(15px);
+      z-index: 99; flex-direction: column; justify-content: center; align-items: center;
+      gap: 2rem; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+    }
+
+    .mobile-menu.active { opacity: 1; pointer-events: all; display: flex; }
+
+    .mobile-menu a {
+      font-size: 1.5rem; font-weight: 600; color: var(--text-muted);
+      transition: color 0.3s ease;
+    }
+    .mobile-menu a:hover { color: var(--accent-2); }
+
     .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: 5rem;
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: 5rem; position: relative;
     }
 
-    .hero-content {
-      max-width: 800px;
+    .hero-content { max-width: 800px; z-index: 10; }
+
+    .tagline {
+      display: inline-block; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-2);
+      margin-bottom: 1.5rem; padding: 0.5rem 1rem; border-radius: 2rem;
+      background: rgba(124, 110, 255, 0.1); border: 1px solid rgba(124, 110, 255, 0.2);
     }
 
-    .badge {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      border-radius: 2rem;
-      background: rgba(124, 110, 255, 0.1);
-      border: 1px solid rgba(124, 110, 255, 0.2);
-      color: var(--accent-2);
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 2rem;
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 800;
+      line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem;
     }
 
-    .hero h1 {
-      font-size: clamp(3rem, 8vw, 5.5rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .hero p {
-      font-size: clamp(1.1rem, 2vw, 1.25rem);
-      color: var(--text-muted);
-      max-width: 600px;
-      margin-bottom: 3rem;
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-muted);
+      line-height: 1.7; margin-bottom: 2.5rem; max-width: 600px;
     }
 
-    .cta-group {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
 
     .btn {
-      padding: 1rem 2rem;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 600; font-size: 1rem;
+      cursor: pointer; transition: all 0.3s ease; display: inline-flex;
+      align-items: center; justify-content: center; text-decoration: none; position: relative;
     }
 
     .btn-primary {
-      background: var(--accent-1);
-      color: #fff;
-      border: none;
-      box-shadow: 0 0 20px rgba(124, 110, 255, 0.4);
+      background: var(--accent-1); color: #fff; border: none;
+      box-shadow: 0 0 15px rgba(124, 110, 255, 0.5);
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px rgba(124, 110, 255, 0.6);
-      background: #8e83ff;
+      transform: translateY(-2px); background: #8e83ff; color: #fff;
+      box-shadow: 0 0 25px rgba(124, 110, 255, 0.8), 0 0 50px rgba(124, 110, 255, 0.6), 0 0 75px rgba(124, 110, 255, 0.4);
     }
 
     .btn-secondary {
-      background: transparent;
-      color: var(--text-main);
-      border: 1px solid var(--card-border);
+      background: transparent; color: var(--text-main); border: 1px solid var(--card-border);
       backdrop-filter: blur(10px);
     }
 
     .btn-secondary:hover {
-      border-color: var(--accent-2);
-      background: rgba(79, 195, 247, 0.1);
+      border-color: var(--accent-2); color: var(--accent-2); background: rgba(79, 195, 247, 0.05);
+      box-shadow: 0 0 15px rgba(79, 195, 247, 0.6), 0 0 30px rgba(79, 195, 247, 0.4);
+      transform: translateY(-2px);
     }
 
-    section {
-      padding: 8rem 0;
-      position: relative;
-      border-top: 1px solid rgba(255, 255, 255, 0.03); /* Subtle separation */
-    }
-
-    .section-alt {
-      background: linear-gradient(to bottom, rgba(124, 110, 255, 0.05), transparent 80%);
-    }
-
-    .section-header {
-      margin-bottom: 4rem;
+    .section { padding: 8rem 0; position: relative; }
+    
+    .section-dark {
+      background: linear-gradient(180deg, rgba(30, 30, 42, 0.2) 0%, rgba(3, 3, 5, 0) 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .section-num {
-      color: var(--accent-1);
-      font-weight: 700;
-      font-size: 0.9rem;
-      letter-spacing: 0.2em;
-      margin-bottom: 0.5rem;
-      display: block;
+      color: var(--accent-1); font-weight: 700; font-size: 0.9rem;
+      letter-spacing: 0.2em; margin-bottom: 0.5rem; display: block;
     }
 
     .section-title {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
+      font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.03em;
+      transition: all 0.3s ease; margin-bottom: 3rem;
     }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+    .section-title:hover {
+      color: #fff; text-shadow: 0 0 20px rgba(124, 110, 255, 0.7), 0 0 40px rgba(124, 110, 255, 0.4);
     }
 
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-top: 2px solid rgba(124, 110, 255, 0.5); /* Highlight top edge for structure */
-      border-radius: 1.25rem;
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+    .tracker-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 1.25rem; padding: 2.5rem; position: relative;
+      overflow: hidden; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       transition: transform 0.3s ease, border-color 0.3s ease;
     }
 
-    /* The Magic Mouse Tracking Glow Effect */
-    .card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(
-        800px circle at var(--mouse-x) var(--mouse-y),
-        rgba(124, 110, 255, 0.15),
-        transparent 40%
-      );
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-      z-index: 0;
+    .tracker-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(124, 110, 255, 0.15), transparent 40%);
+      z-index: 0; opacity: 0; transition: opacity 0.3s; pointer-events: none;
     }
 
-    .card:hover::before {
-      opacity: 1;
-    }
+    .tracker-card:hover::before { opacity: 1; }
+    .tracker-card:hover { border-color: rgba(124, 110, 255, 0.3); transform: translateY(-5px); }
+
+    .card-content { position: relative; z-index: 1; }
+
+    .company-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .company-icon { font-size: 2rem; }
+    .company-title { font-size: 1.5rem; font-weight: 700; color: #fff; }
     
-    .card:hover {
-      border-color: rgba(124, 110, 255, 0.4);
-      transform: translateY(-5px);
+    .card-tag {
+      font-size: 0.75rem; color: var(--accent-2); font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; display: block;
     }
 
-    .card > * {
-      position: relative;
-      z-index: 1;
+    .card-desc { color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.7; }
+
+    .card-list { list-style: none; margin-bottom: 2rem; }
+    .card-list li {
+      color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;
+      padding-left: 1.5rem; position: relative;
+    }
+    .card-list li::before {
+      content: '→'; position: absolute; left: 0; color: var(--accent-1);
     }
 
-    .card-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-      display: inline-block;
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;
     }
 
-    .card-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-subtitle {
-      font-size: 0.85rem;
-      color: var(--accent-2);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 1.5rem;
-      display: block;
-    }
-
-    .card p {
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-      font-size: 0.95rem;
-    }
-
-    .card ul {
-      margin-bottom: 2rem;
-    }
-
-    .card li {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-      padding-left: 1.5rem;
-      position: relative;
-    }
-
-    .card li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: var(--accent-1);
-    }
-
-    .card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: gap 0.3s;
-    }
-
-    .card-link:hover {
-      gap: 0.75rem;
-      color: var(--accent-2);
-    }
-
-    .skills-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
+    .skill-category {
+      background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border);
+      border-radius: 1rem; padding: 2rem; transition: all 0.3s ease;
     }
 
     .skill-category h4 {
-      font-size: 1rem;
-      color: var(--text-main);
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 0.5rem;
+      font-size: 1rem; color: var(--text-main); margin-bottom: 1rem;
+      border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem; transition: all 0.3s ease;
     }
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
+    .skill-category:hover h4 {
+      color: var(--accent-2); border-bottom-color: rgba(79, 195, 247, 0.6);
+      text-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
     }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
     .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--card-border);
-      padding: 0.5rem 1.25rem;
-      border-radius: 2rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      transition: all 0.3s ease;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border);
+      padding: 0.5rem 1.25rem; border-radius: 2rem; font-size: 0.85rem;
+      color: var(--text-muted); transition: all 0.3s ease;
     }
 
     .tag:hover {
-      background: rgba(124, 110, 255, 0.15);
-      border-color: var(--accent-1);
-      color: #fff;
+      background: rgba(124, 110, 255, 0.2); border-color: var(--accent-1); color: #fff;
+      box-shadow: 0 0 15px rgba(124, 110, 255, 0.6), 0 0 30px rgba(124, 110, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;
     }
 
     footer {
-      border-top: 1px solid var(--card-border);
-      padding: 3rem 0;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+      border-top: 1px solid var(--card-border); padding: 3rem 0;
+      text-align: center; color: var(--text-muted); font-size: 0.9rem;
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .intro-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: var(--bg);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-    }
-
-    .intro-overlay.slide-up {
-      transform: translateY(-100%);
-    }
-
-    .intro-text {
-      font-size: clamp(3rem, 8vw, 5rem);
-      font-weight: 800;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
-      position: relative;
-    }
-
-    /* The "loading" fill effect */
-    .intro-text::before {
-      content: 'ARTUR';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 0;
-      height: 100%;
-      color: var(--accent-2);
-      -webkit-text-stroke: 0px transparent;
-      overflow: hidden;
-      border-right: 3px solid var(--accent-1);
-      white-space: nowrap;
-      animation: typeIn 1.2s cubic-bezier(0.86, 0, 0.07, 1) 0.3s forwards;
-    }
-
-    @keyframes typeIn {
-      0% { width: 0; }
-      100% { width: 100%; border-right-color: transparent; }
-    }
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
 
     @media (max-width: 900px) {
-      .grid-2 { grid-template-columns: 1fr; gap: 2rem; }
-      .nav-links { display: none; }
+      .grid-2 { grid-template-columns: 1fr; gap: 3rem; }
+      .nav-links, .nav-news-btn { display: none; }
+      .mobile-menu-btn { display: block; }
+      .hero-title { font-size: 2.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Intro Animation Overlay -->
-  <div id="intro-overlay" class="intro-overlay">
-    <div class="intro-text">ARTUR</div>
+  <div id="intro">
+    <h1 class="intro-text" data-text="ARTUR">ARTUR</h1>
   </div>
 
-  <!-- Background 3D Canvas -->
   <div id="canvas-container"></div>
 
   <nav id="navbar">
     <div class="container nav-inner">
       <a href="#" class="logo">Artur</a>
-      <div style="display: flex; align-items: center; gap: 2rem;">
-        <div class="nav-links">
-          <a href="#about">About</a>
-          <a href="#companies">Companies</a>
-          <a href="#skills">Skills</a>
-          <a href="#contact">Contact</a>
-        </div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#companies">Companies</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
         <a href="news.html" class="nav-news-btn">
-          <span class="pulse-dot"></span> News
+          <div class="pulse-dot"></div> NEWS
         </a>
       </div>
+      <button class="mobile-menu-btn" id="mobile-btn" aria-label="Toggle Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
 
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content reveal">
-        <span class="badge">Builder · Strategist · Generalist</span>
-        <h1>Hi, I'm <span>Artur</span></h1>
-        <p>I build and operate businesses across technology, health, and physical retail. I think in systems, move across domains, and use structured intelligence to make faster, cleaner decisions.</p>
-        <div class="cta-group">
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#companies" class="mobile-link">Companies</a>
+    <a href="#skills" class="mobile-link">Skills</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+    <a href="news.html" class="mobile-link" style="color: var(--accent-2);">News</a>
+  </div>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-content fade-up">
+        <span class="tagline">Builder · Strategist · Generalist</span>
+        <h1 class="hero-title">Hi, I'm <span class="highlight">Artur</span></h1>
+        <p class="hero-desc">
+          I build and operate businesses across technology, health, and physical retail. I think in systems, move across domains, and use structured intelligence to make faster, cleaner decisions.
+        </p>
+        <div class="btn-group">
           <a href="#companies" class="btn btn-primary">My Companies</a>
           <a href="#about" class="btn btn-secondary">About Me</a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="about">
-    <div class="container">
-      <div class="section-header reveal">
+    <section id="about" class="section section-dark">
+      <div class="container">
         <span class="section-num">01</span>
-        <h2 class="section-title">Who I am</h2>
-      </div>
-      <div class="grid-2">
-        <div class="about-text reveal">
-          <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">I am a cross-domain builder and generalist. I don't specialize in one vertical — I operate at the intersection of strategy, technology, and operations, running multiple businesses simultaneously.</p>
-          <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">My working style is systems-oriented. I map problems as structures, connect ideas across domains, and use an external memory system (Central Intelligence) to maintain clarity and momentum across everything I run.</p>
-        </div>
-        <div class="about-stats reveal" style="display: flex; flex-direction: column; gap: 1rem;">
-          <div class="card" style="padding: 1.5rem;">
-            <h4 style="color: #fff; margin-bottom: 0.5rem;">🧠 Systems Thinker</h4>
-            <p style="font-size: 0.9rem; margin-bottom: 0;">Thinks in structures and frameworks</p>
+        <h2 class="section-title fade-up">About Me</h2>
+        <div class="grid-2">
+          <div class="fade-up">
+            <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+              I don't specialize in one vertical. I build and operate businesses by mapping problems as structures. My approach is entirely systems-oriented, using an external memory system to maintain clarity across everything I run.
+            </p>
+            <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">
+              I value clarity over complexity, action over theory, and structured thinking over reactive decisions.
+            </p>
           </div>
-          <div class="card" style="padding: 1.5rem;">
-            <h4 style="color: #fff; margin-bottom: 0.5rem;">🏗️ Builder-Minded</h4>
-            <p style="font-size: 0.9rem; margin-bottom: 0;">Ships products and builds operations</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="companies" class="section-alt">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-num">02</span>
-        <h2 class="section-title">What I operate</h2>
-      </div>
-      <div class="card-grid">
-        
-        <div class="card reveal tracker-card">
-          <span class="card-icon">💊</span>
-          <h3 class="card-title">Nutravit</h3>
-          <span class="card-subtitle">E-commerce · Health Supplements</span>
-          <p>Norwegian-market supplement brand on WooCommerce. Powered by AI customer support and n8n automation.</p>
-          <ul>
-            <li>Norwegian compliance</li>
-            <li>AI customer interaction</li>
-            <li>Optimized logistics</li>
-          </ul>
-          <a href="https://nutravit.no/?artur-sucila-website" target="_blank" class="card-link">nutravit.no <span>→</span></a>
-        </div>
-
-        <div class="card reveal tracker-card">
-          <span class="card-icon">🖥️</span>
-          <h3 class="card-title">PCIN</h3>
-          <span class="card-subtitle">IT Services · Consultancy</span>
-          <p>IT service operation covering hardware diagnostics, repair workflows, OS optimization, and managed services.</p>
-          <ul>
-            <li>Hardware diagnostics</li>
-            <li>OS optimization</li>
-            <li>Data recovery</li>
-          </ul>
-          <a href="https://pcin.no/?artur-sucila-website" target="_blank" class="card-link">pcin.no <span>→</span></a>
-        </div>
-
-        <div class="card reveal tracker-card">
-          <span class="card-icon">🏪</span>
-          <h3 class="card-title">Vareautomater</h3>
-          <span class="card-subtitle">Physical Retail · Vending</span>
-          <p>Vending machine operation managing physical placements across route regions. Structured maintenance routines.</p>
-          <ul>
-            <li>Multi-location network</li>
-            <li>Route-based dispatch</li>
-            <li>Machine tracking</li>
-          </ul>
-          <a href="https://vareautomater.no/?artur-sucila-website" target="_blank" class="card-link">vareautomater.no <span>→</span></a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section id="skills">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-num">03</span>
-        <h2 class="section-title">What I know</h2>
-      </div>
-      <div class="skills-wrapper reveal">
-        <div class="skill-category">
-          <h4>Business Operations</h4>
-          <div class="tags">
-            <span class="tag">🏢 Multi-business</span>
-            <span class="tag">⚙️ Operations</span>
-            <span class="tag">💰 Pricing architecture</span>
-            <span class="tag">🚚 Logistics</span>
-          </div>
-        </div>
-        <div class="skill-category">
-          <h4>Technology</h4>
-          <div class="tags">
-            <span class="tag">🤖 n8n automation</span>
-            <span class="tag">🛒 WooCommerce</span>
-            <span class="tag">🧠 AI integration</span>
-            <span class="tag">🖥️ Self-hosted</span>
-          </div>
-        </div>
-        <div class="skill-category">
-          <h4>Strategy & Systems</h4>
-          <div class="tags">
-            <span class="tag">🧩 Systems thinking</span>
-            <span class="tag">🗄️ Knowledge management</span>
-            <span class="tag">🎯 Context-driven decisions</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="section-alt">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-num">04</span>
-        <h2 class="section-title">Get in touch</h2>
-      </div>
-      <div class="grid-2">
-        <div class="contact-text reveal">
-          <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">I'm always open to discussing new operational challenges, strategic partnerships, or connecting with other builders. Feel free to reach out via email or connect with me on social platforms.</p>
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <a href="mailto:artcila@gmail.com" class="btn btn-primary">Drop me an email</a>
-            <a href="https://www.linkedin.com/in/artur-su/" target="_blank" class="btn btn-secondary">LinkedIn</a>
-            <a href="https://github.com/Artur-Su" target="_blank" class="btn btn-secondary">GitHub</a>
-            <a href="https://letterboxd.com/artur/" target="_blank" class="btn btn-secondary">🍿 Movies</a>
-            <a href="https://findpenguins.com/arturs" target="_blank" class="btn btn-secondary">🐧 Trips</a>
-          </div>
-        </div>
-        <div class="contact-info reveal" style="display: flex; flex-direction: column; justify-content: center;">
-            <div class="card" style="padding: 2rem; text-align: center;">
-              <span class="card-icon" style="margin-bottom: 1rem; font-size: 2rem;">🌍</span>
-              <h4 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.2rem;">Location</h4>
-              <p style="font-size: 0.95rem; margin-bottom: 0; color: var(--text-muted);">Norway / Remote</p>
+          <div class="tracker-card fade-up">
+            <div class="card-content">
+              <h3 style="margin-bottom: 1rem;">Core Philosophy</h3>
+              <ul class="card-list">
+                <li><strong>Generalist:</strong> Connects ideas across disparate domains.</li>
+                <li><strong>Systems Thinker:</strong> Thinks in structures and frameworks.</li>
+                <li><strong>Builder-Minded:</strong> Ships products and builds operations.</li>
+                <li><strong>Context-Driven:</strong> Decisions anchored in real data.</li>
+              </ul>
             </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section id="companies" class="section">
+      <div class="container">
+        <span class="section-num">02</span>
+        <h2 class="section-title fade-up">My Companies</h2>
+        <div class="grid-2">
+          
+          <div class="tracker-card fade-up">
+            <div class="card-content">
+              <div class="company-header">
+                <span class="company-icon">💊</span>
+                <div>
+                  <h3 class="company-title">Nutravit</h3>
+                  <span class="card-tag">E-commerce · Supplements</span>
+                </div>
+              </div>
+              <p class="card-desc">Norwegian-market supplement brand on WooCommerce. Powered by AI customer support and n8n automation for extreme efficiency.</p>
+              <ul class="card-list">
+                <li>Norwegian supplement compliance</li>
+                <li>AI-assisted customer interaction</li>
+                <li>WooCommerce + n8n automation</li>
+              </ul>
+              <a href="https://nutravit.no/?artur-sucila-website" target="_blank" class="btn btn-secondary">Visit nutravit.no</a>
+            </div>
+          </div>
+
+          <div class="tracker-card fade-up">
+            <div class="card-content">
+              <div class="company-header">
+                <span class="company-icon">🖥️</span>
+                <div>
+                  <h3 class="company-title">PCIN</h3>
+                  <span class="card-tag">IT Services · Consultancy</span>
+                </div>
+              </div>
+              <p class="card-desc">IT service operation covering hardware diagnostics, repair workflows, OS optimization, and managed consultancy services.</p>
+              <ul class="card-list">
+                <li>Hardware diagnostics & repair</li>
+                <li>OS optimization & drivers</li>
+                <li>Data backup & recovery</li>
+              </ul>
+              <a href="https://pcin.no/?artur-sucila-website" target="_blank" class="btn btn-secondary">Visit pcin.no</a>
+            </div>
+          </div>
+
+          <div class="tracker-card fade-up" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto; width: 100%;">
+            <div class="card-content">
+              <div class="company-header">
+                <span class="company-icon">🏪</span>
+                <div>
+                  <h3 class="company-title">Vareautomater</h3>
+                  <span class="card-tag">Physical Retail · Vending</span>
+                </div>
+              </div>
+              <p class="card-desc">Vending machine operation managing physical placements across route regions. Structured maintenance routines and machine location tracking keep operations efficient.</p>
+              <ul class="card-list" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                <li>Multi-location network</li>
+                <li>Route-based dispatch</li>
+                <li>Location tracking</li>
+              </ul>
+              <a href="https://vareautomater.no/?artur-sucila-website" target="_blank" class="btn btn-secondary">Visit vareautomater.no</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section section-dark">
+      <div class="container">
+        <span class="section-num">03</span>
+        <h2 class="section-title fade-up">Skills & Stack</h2>
+        <div class="skills-grid">
+          
+          <div class="skill-category fade-up">
+            <h4>Business Operations</h4>
+            <div class="tags">
+              <span class="tag">🏢 Multi-business</span>
+              <span class="tag">⚙️ Operations</span>
+              <span class="tag">💰 Pricing architecture</span>
+              <span class="tag">🚚 Logistics</span>
+            </div>
+          </div>
+
+          <div class="skill-category fade-up">
+            <h4>Technology</h4>
+            <div class="tags">
+              <span class="tag">🤖 n8n automation</span>
+              <span class="tag">🛒 WooCommerce</span>
+              <span class="tag">🧠 AI integration</span>
+              <span class="tag">🖥️ Self-hosted</span>
+            </div>
+          </div>
+
+          <div class="skill-category fade-up">
+            <h4>Strategy & Systems</h4>
+            <div class="tags">
+              <span class="tag">🧩 Systems thinking</span>
+              <span class="tag">🗄️ Knowledge management</span>
+              <span class="tag">🎯 Context-driven decisions</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <span class="section-num">04</span>
+        <h2 class="section-title fade-up">Connect</h2>
+        <div class="contact-grid">
+          
+          <a href="mailto:artcila@gmail.com" class="tracker-card fade-up" style="text-align: center; padding: 2rem;">
+            <div class="card-content">
+              <div style="font-size: 2.5rem; margin-bottom: 1rem;">✉️</div>
+              <h3 style="color: #fff; margin-bottom: 0.5rem;">Email</h3>
+              <p style="color: var(--accent-2); font-size: 0.9rem;">artcila@gmail.com</p>
+            </div>
+          </a>
+
+          <a href="https://www.linkedin.com/in/artur-su/" target="_blank" class="tracker-card fade-up" style="text-align: center; padding: 2rem;">
+            <div class="card-content">
+              <div style="font-size: 2.5rem; margin-bottom: 1rem;">💼</div>
+              <h3 style="color: #fff; margin-bottom: 0.5rem;">LinkedIn</h3>
+              <p style="color: var(--accent-2); font-size: 0.9rem;">Connect Professionaly</p>
+            </div>
+          </a>
+
+          <a href="https://letterboxd.com/artur/" target="_blank" class="tracker-card fade-up" style="text-align: center; padding: 2rem;">
+            <div class="card-content">
+              <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎬</div>
+              <h3 style="color: #fff; margin-bottom: 0.5rem;">Letterboxd</h3>
+              <p style="color: var(--accent-2); font-size: 0.9rem;">My Movie List</p>
+            </div>
+          </a>
+
+          <a href="https://findpenguins.com/arturs" target="_blank" class="tracker-card fade-up" style="text-align: center; padding: 2rem;">
+            <div class="card-content">
+              <div style="font-size: 2.5rem; margin-bottom: 1rem;">✈️</div>
+              <h3 style="color: #fff; margin-bottom: 0.5rem;">FindPenguins</h3>
+              <p style="color: var(--accent-2); font-size: 0.9rem;">My Trip List</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <div class="container reveal">
+    <div class="container">
       <p>© 2026 Artur. Built with structure, not templates.</p>
     </div>
   </footer>
 
   <script>
-    // 1. Navbar Scroll Effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
+    // Intro Animation
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('intro').classList.add('slide-up');
+      }, 1800); // Wait for text fill animation to finish
     });
 
-    // 2. Scroll Reveal Animation using Intersection Observer
-    const reveals = document.querySelectorAll('.reveal');
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.15
-    };
+    // Navbar Scroll & Mobile Menu
+    const navbar = document.getElementById('navbar');
+    const mobileBtn = document.getElementById('mobile-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
 
-    const observer = new IntersectionObserver((entries, observer) => {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) { navbar.classList.add('scrolled'); } 
+      else { navbar.classList.remove('scrolled'); }
+    });
+
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+      });
+    });
+
+    // Intersection Observer for Fade-Ups
+    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          observer.unobserve(entry.target); // Run once
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    reveals.forEach(reveal => {
-      observer.observe(reveal);
-    });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // 3. Mouse Tracking Spotlight Effect for Cards
+    // Mouse Tracking for Cards
     document.querySelectorAll('.tracker-card').forEach(card => {
       card.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
-        // Update custom CSS variables for the radial gradient
         card.style.setProperty('--mouse-x', `${x}px`);
         card.style.setProperty('--mouse-y', `${y}px`);
       });
     });
 
-    // 4. Three.js Background Implementation
-    // This creates an interactive, high-performance particle network connecting nodes.
+    // Three.js Background Implementation
     const initThreeJS = () => {
       const container = document.getElementById('canvas-container');
       const scene = new THREE.Scene();
@@ -746,16 +642,15 @@
       renderer.setPixelRatio(window.devicePixelRatio);
       container.appendChild(renderer.domElement);
 
-      // Create geometry for particles
       const particleCount = window.innerWidth < 768 ? 100 : 300;
       const geometry = new THREE.BufferGeometry();
       const positions = new Float32Array(particleCount * 3);
       const velocities = [];
 
       for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 1000;     // x
-        positions[i + 1] = (Math.random() - 0.5) * 1000; // y
-        positions[i + 2] = (Math.random() - 0.5) * 400;  // z
+        positions[i] = (Math.random() - 0.5) * 1000;
+        positions[i + 1] = (Math.random() - 0.5) * 1000;
+        positions[i + 2] = (Math.random() - 0.5) * 400;
 
         velocities.push({
           x: (Math.random() - 0.5) * 0.5,
@@ -766,33 +661,23 @@
 
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-      // Material for particles
       const particleMaterial = new THREE.PointsMaterial({
-        color: 0x7c6eff,
-        size: 3,
-        transparent: true,
-        opacity: 0.8
+        color: 0x7c6eff, size: 3, transparent: true, opacity: 0.8
       });
 
       const particles = new THREE.Points(geometry, particleMaterial);
       scene.add(particles);
 
-      // Material for lines connecting particles
       const lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x4fc3f7,
-        transparent: true,
-        opacity: 0.15
+        color: 0x4fc3f7, transparent: true, opacity: 0.15
       });
 
       const lineGeometry = new THREE.BufferGeometry();
       const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
       scene.add(lines);
 
-      // Mouse tracking for parallax
-      let mouseX = 0;
-      let mouseY = 0;
-      let targetX = 0;
-      let targetY = 0;
+      let mouseX = 0; let mouseY = 0;
+      let targetX = 0; let targetY = 0;
 
       const windowHalfX = window.innerWidth / 2;
       const windowHalfY = window.innerHeight / 2;
@@ -802,21 +687,15 @@
         mouseY = (event.clientY - windowHalfY);
       });
 
-      // Animation Loop
       const animate = () => {
         requestAnimationFrame(animate);
 
-        // Smooth camera movement (Parallax)
-        targetX = mouseX * 0.05;
-        targetY = mouseY * 0.05;
+        targetX = mouseX * 0.05; targetY = mouseY * 0.05;
         camera.position.x += (targetX - camera.position.x) * 0.02;
         camera.position.y += (-targetY - camera.position.y) * 0.02;
         camera.lookAt(scene.position);
 
-        // Move particles
         const positions = particles.geometry.attributes.position.array;
-        
-        // Setup array for connecting lines
         const linePositions = [];
 
         for (let i = 0; i < particleCount; i++) {
@@ -826,12 +705,10 @@
           positions[i3 + 1] += velocities[i].y;
           positions[i3 + 2] += velocities[i].z;
 
-          // Boundary check & bounce
           if (Math.abs(positions[i3]) > 500) velocities[i].x *= -1;
           if (Math.abs(positions[i3 + 1]) > 500) velocities[i].y *= -1;
           if (Math.abs(positions[i3 + 2]) > 200) velocities[i].z *= -1;
 
-          // Connect nearby particles
           for (let j = i + 1; j < particleCount; j++) {
             const j3 = j * 3;
             const dx = positions[i3] - positions[j3];
@@ -839,7 +716,6 @@
             const dz = positions[i3 + 2] - positions[j3 + 2];
             const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
 
-            // If close enough, draw a line
             if (dist < 80) {
               linePositions.push(
                 positions[i3], positions[i3 + 1], positions[i3 + 2],
@@ -850,8 +726,6 @@
         }
 
         particles.geometry.attributes.position.needsUpdate = true;
-        
-        // Update lines
         lines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
 
         renderer.render(scene, camera);
@@ -859,7 +733,6 @@
 
       animate();
 
-      // Handle Resize
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
@@ -867,22 +740,9 @@
       });
     };
 
-    // Initialize WebGL and handle intro sequence on window load
-    window.onload = () => {
-      initThreeJS();
-      
-      const introOverlay = document.getElementById('intro-overlay');
-      
-      // Let the text fill animation play, then slide up the overlay
-      setTimeout(() => {
-        introOverlay.classList.add('slide-up');
-        
-        // Remove the overlay from the DOM after the slide transition completes
-        setTimeout(() => {
-          introOverlay.remove();
-        }, 800);
-      }, 1600);
-    };
+    // Initialize 3D only after intro completes to prevent stuttering
+    setTimeout(initThreeJS, 100); 
+
   </script>
 </body>
 </html>

@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Three.js for hardware-accelerated 3D background -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
@@ -24,11 +23,7 @@
       --font-main: 'Inter', sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: var(--font-main);
@@ -42,203 +37,130 @@
       min-height: 100vh;
     }
 
-    /* WebGL Canvas Background */
     #canvas-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      opacity: 0.6;
-      pointer-events: none;
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -1; opacity: 0.6; pointer-events: none;
     }
 
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
     nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 100;
-      padding: 1.5rem 0;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 1.5rem 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     nav.scrolled {
       background: rgba(3, 3, 5, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      padding: 1rem 0; border-bottom: 1px solid var(--card-border);
     }
 
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
 
     .logo {
-      font-weight: 800;
-      font-size: 1.5rem;
+      font-weight: 800; font-size: 1.5rem; letter-spacing: -0.05em;
       background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.05em;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-    }
+    .nav-links { display: flex; gap: 2.5rem; align-items: center; }
 
     .nav-links a {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      transition: color 0.3s;
+      font-size: 0.9rem; font-weight: 500; color: var(--text-muted);
+      transition: all 0.3s ease;
     }
 
     .nav-links a:hover {
-      color: var(--text-main);
+      color: var(--accent-2);
+      text-shadow: 0 0 15px rgba(79, 195, 247, 0.6), 0 0 30px rgba(79, 195, 247, 0.4);
     }
 
     .nav-back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      transition: color 0.3s ease;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--text-muted); font-size: 0.85rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s ease;
     }
 
     .nav-back-btn:hover {
-      color: var(--text-main);
+      color: var(--accent-2);
+      text-shadow: 0 0 15px rgba(79, 195, 247, 0.6);
     }
 
     .news-wrapper {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      flex: 1; display: flex; align-items: center; justify-content: center;
       padding: 8rem 0 4rem;
     }
 
+    .news-container {
+      display: flex; flex-direction: column; align-items: center; gap: 3rem; width: 100%;
+    }
+
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-top: 2px solid rgba(124, 110, 255, 0.5);
-      border-radius: 1.25rem;
-      padding: 3rem;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-top: 2px solid rgba(124, 110, 255, 0.5); border-radius: 1.25rem;
+      padding: 3rem; position: relative; overflow: hidden;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       transition: transform 0.3s ease, border-color 0.3s ease;
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
+      max-width: 600px; width: 100%; text-align: center;
+    }
+
+    .card:hover {
+      border-color: rgba(124, 110, 255, 0.3); transform: translateY(-5px);
     }
 
     .badge {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      border-radius: 2rem;
-      background: rgba(79, 195, 247, 0.1);
-      border: 1px solid rgba(79, 195, 247, 0.3);
-      color: var(--accent-2);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      display: inline-block; padding: 0.5rem 1rem; border-radius: 2rem;
+      background: rgba(79, 195, 247, 0.1); border: 1px solid rgba(79, 195, 247, 0.3);
+      color: var(--accent-2); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem;
     }
 
     .card h1 {
-      font-size: clamp(2rem, 5vw, 2.5rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
+      font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 800;
+      letter-spacing: -0.03em; margin-bottom: 1rem;
     }
 
     .card p {
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-      font-size: 1.1rem;
-      line-height: 1.7;
+      color: var(--text-muted); margin-bottom: 2.5rem; font-size: 1.1rem; line-height: 1.7;
     }
 
-    .card p strong {
-      color: #fff;
-    }
+    .card p strong { color: #fff; }
 
     .btn {
-      padding: 1rem 2rem;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
+      padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 600; font-size: 1rem;
+      cursor: pointer; transition: all 0.3s ease; display: inline-flex;
+      align-items: center; gap: 0.5rem; text-decoration: none; position: relative;
     }
 
     .btn-primary {
-      background: var(--accent-1);
-      color: #fff;
-      border: none;
-      box-shadow: 0 0 20px rgba(124, 110, 255, 0.4);
+      background: var(--accent-1); color: #fff; border: none;
+      box-shadow: 0 0 15px rgba(124, 110, 255, 0.5);
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px rgba(124, 110, 255, 0.6);
-      background: #8e83ff;
+      transform: translateY(-2px); background: #8e83ff; color: #fff;
+      box-shadow: 0 0 25px rgba(124, 110, 255, 0.8), 0 0 50px rgba(124, 110, 255, 0.6), 0 0 75px rgba(124, 110, 255, 0.4);
     }
     
     .btn-secondary {
-      background: transparent;
-      color: var(--text-main);
-      border: 1px solid var(--card-border);
+      background: transparent; color: var(--text-main); border: 1px solid var(--card-border);
       backdrop-filter: blur(10px);
     }
 
     .btn-secondary:hover {
-      border-color: var(--accent-2);
-      background: rgba(79, 195, 247, 0.1);
+      border-color: var(--accent-2); color: var(--accent-2); background: rgba(79, 195, 247, 0.05);
+      box-shadow: 0 0 15px rgba(79, 195, 247, 0.6), 0 0 30px rgba(79, 195, 247, 0.4);
+      transform: translateY(-2px);
     }
 
-    .fb-icon {
-      font-size: 1.2rem;
-    }
+    .fb-icon { font-size: 1.2rem; }
     
-    .news-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3rem;
-      width: 100%;
-    }
-
     footer {
-      border-top: 1px solid var(--card-border);
-      padding: 3rem 0;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+      border-top: 1px solid var(--card-border); padding: 3rem 0;
+      text-align: center; color: var(--text-muted); font-size: 0.9rem;
     }
 
     @media (max-width: 768px) {
@@ -301,17 +223,14 @@
   </footer>
 
   <script>
-    // 1. Navbar Scroll Effect
+    // Navbar Scroll Effect
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
+      if (window.scrollY > 50) { navbar.classList.add('scrolled'); } 
+      else { navbar.classList.remove('scrolled'); }
     });
 
-    // 2. Three.js Background Implementation (Same as index.html for seamless transition)
+    // Three.js Background Implementation
     const initThreeJS = () => {
       const container = document.getElementById('canvas-container');
       const scene = new THREE.Scene();
@@ -344,29 +263,22 @@
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
       const particleMaterial = new THREE.PointsMaterial({
-        color: 0x7c6eff,
-        size: 3,
-        transparent: true,
-        opacity: 0.8
+        color: 0x7c6eff, size: 3, transparent: true, opacity: 0.8
       });
 
       const particles = new THREE.Points(geometry, particleMaterial);
       scene.add(particles);
 
       const lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x4fc3f7,
-        transparent: true,
-        opacity: 0.15
+        color: 0x4fc3f7, transparent: true, opacity: 0.15
       });
 
       const lineGeometry = new THREE.BufferGeometry();
       const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
       scene.add(lines);
 
-      let mouseX = 0;
-      let mouseY = 0;
-      let targetX = 0;
-      let targetY = 0;
+      let mouseX = 0; let mouseY = 0;
+      let targetX = 0; let targetY = 0;
 
       const windowHalfX = window.innerWidth / 2;
       const windowHalfY = window.innerHeight / 2;
@@ -379,8 +291,7 @@
       const animate = () => {
         requestAnimationFrame(animate);
 
-        targetX = mouseX * 0.05;
-        targetY = mouseY * 0.05;
+        targetX = mouseX * 0.05; targetY = mouseY * 0.05;
         camera.position.x += (targetX - camera.position.x) * 0.02;
         camera.position.y += (-targetY - camera.position.y) * 0.02;
         camera.lookAt(scene.position);
@@ -430,9 +341,7 @@
       });
     };
 
-    window.onload = () => {
-      initThreeJS();
-    };
+    window.onload = initThreeJS;
   </script>
 </body>
 </html>
