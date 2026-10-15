@@ -1,6 +1,5 @@
 /**
  * Artur Sucila — Mobile-First Interactive Systems Controller (ES Module)
- * - Controls WebGL 3D mode switcher & reactor core tap pulse
  * - Interactive Architecture Terminal inspector (4 live system blueprints)
  * - Native <dialog> Command Palette
  * - Mobile Thumb-Zone OS Dock active section sync
@@ -92,32 +91,6 @@ const SYSTEM_BLUEPRINTS = {
       },
     ],
   },
-};
-
-const initWebGLControls = () => {
-  const modeBtns = document.querySelectorAll('[data-webgl-mode]');
-  const reactorWrap = document.getElementById('reactor-core-trigger');
-
-  modeBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const mode = btn.getAttribute('data-webgl-mode');
-      modeBtns.forEach((b) => b.classList.toggle('active', b === btn));
-      if (typeof window.setWebGLMode === 'function') {
-        window.setWebGLMode(mode);
-      }
-    });
-  });
-
-  if (reactorWrap) {
-    reactorWrap.addEventListener('click', () => {
-      const modes = ['mesh', 'vortex', 'matrix'];
-      const activeBtn = document.querySelector('[data-webgl-mode].active');
-      const current = activeBtn ? activeBtn.getAttribute('data-webgl-mode') : 'mesh';
-      const next = modes[(modes.indexOf(current) + 1) % modes.length];
-      const nextBtn = document.querySelector(`[data-webgl-mode="${next}"]`);
-      if (nextBtn) nextBtn.click();
-    });
-  }
 };
 
 const initTerminalInspector = () => {
@@ -235,14 +208,13 @@ const initCommandDialog = () => {
     item.addEventListener('click', async () => {
       const href = item.getAttribute('data-href');
       const copy = item.getAttribute('data-copy');
-      const mode = item.getAttribute('data-mode');
+      const globePing = item.getAttribute('data-globe-ping');
       const external = item.getAttribute('data-external') === 'true';
 
       dialog.close();
 
-      if (mode && typeof window.setWebGLMode === 'function') {
-        const modeBtn = document.querySelector(`[data-webgl-mode="${mode}"]`);
-        if (modeBtn) modeBtn.click();
+      if (globePing === 'true' && typeof window.triggerGlobePing === 'function') {
+        window.triggerGlobePing();
         return;
       }
 
@@ -297,7 +269,6 @@ const initDockSpy = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  initWebGLControls();
   initTerminalInspector();
   initNorwayClock();
   initCopyEmail();
