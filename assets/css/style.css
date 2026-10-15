@@ -1,11 +1,12 @@
 /* ==========================================================================
    Artur Sucila — Mobile-First Next-Gen CSS Architecture (Chrome 155+)
    Features:
+   - Full-width mobile 3D Earth Globe HUD with pan-y 2-finger touch
    - CSS Houdini @property animated conic-gradient laser borders
    - Native CSS Scroll-Driven Animations (animation-timeline: scroll() & view())
    - Wide-Gamut OKLCH Color System & color-mix(in oklch, ...)
    - Native CSS Nesting, :has(), @starting-style, interpolate-size
-   - Container Queries (@container) & Mobile Thumb-Zone Glass OS Dock
+   - Mobile Thumb-Zone Glass OS Dock
    ========================================================================== */
 
 @view-transition {
@@ -48,8 +49,8 @@
   --border-hairline: color-mix(in oklch, var(--text-bright) 9%, transparent);
   --border-bright: color-mix(in oklch, var(--accent-cyan) 42%, transparent);
 
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -97,7 +98,7 @@ button {
 }
 
 /* ==========================================================================
-   Scroll-Driven Top Laser Progress Bar (animation-timeline: scroll())
+   Scroll-Driven Top Laser Progress Bar
    ========================================================================== */
 
 .scroll-laser-bar {
@@ -120,7 +121,7 @@ button {
 }
 
 /* ==========================================================================
-   3D WebGL Canvas & Holographic Grid Overlay
+   3D WebGL Background Canvas & Cyber Grid Backdrop
    ========================================================================== */
 
 #canvas-container {
@@ -158,7 +159,7 @@ main, header, footer {
 }
 
 /* ==========================================================================
-   Top Telemetry Bar (Compact Mobile-First Header)
+   Top Header & Telemetry
    ========================================================================== */
 
 .site-header {
@@ -321,11 +322,10 @@ main, header, footer {
 }
 
 /* ==========================================================================
-   Houdini @property Laser Card System + Scroll-Driven 3D Entry
+   Laser Card System
    ========================================================================== */
 
 .laser-card {
-  container-type: inline-size;
   position: relative;
   border-radius: var(--radius-lg);
   background:
@@ -362,7 +362,7 @@ main, header, footer {
 }
 
 /* ==========================================================================
-   Mobile-First Hero & Interactive 3D Geodesic Globe Card
+   Hero Section
    ========================================================================== */
 
 .hero {
@@ -419,142 +419,6 @@ main, header, footer {
   line-height: 1.68;
 }
 
-/* Interactive 3D Globe Telemetry HUD Card */
-.globe-hud-card {
-  padding: 1.1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  background:
-    radial-gradient(circle at 50% 42%, oklch(0.66 0.22 272 / 0.2), transparent 70%),
-    oklch(0.13 0.03 265 / 0.88);
-
-  .hud-top-bar {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--border-hairline);
-    padding-bottom: 0.55rem;
-  }
-
-  .globe-stage {
-    width: 100%;
-    height: 275px;
-    position: relative;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: radial-gradient(circle at 50% 50%, oklch(0.2 0.05 245 / 0.32), oklch(0.08 0.02 265 / 0.92));
-    border: 1px solid var(--border-hairline);
-    user-select: none;
-    touch-action: none;
-
-    canvas {
-      width: 100% !important;
-      height: 100% !important;
-      display: block;
-    }
-  }
-
-  .globe-pin-tag {
-    position: absolute;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    padding: 0.2rem 0.5rem;
-    border-radius: 6px;
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-    backdrop-filter: blur(8px);
-    transition: opacity 0.2s ease;
-    will-change: transform, opacity;
-
-    &.norway {
-      background: oklch(0.16 0.05 160 / 0.88);
-      border: 1px solid var(--accent-emerald);
-      color: var(--accent-emerald);
-      box-shadow: 0 0 12px oklch(0.79 0.18 160 / 0.35);
-    }
-
-    &.visitor {
-      background: oklch(0.16 0.05 220 / 0.88);
-      border: 1px solid var(--accent-cyan);
-      color: var(--accent-cyan);
-      box-shadow: 0 0 12px oklch(0.8 0.16 212 / 0.35);
-    }
-  }
-
-  .globe-telemetry-grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1.25fr 0.9fr auto;
-    gap: 0.45rem;
-    align-items: stretch;
-  }
-
-  .globe-stat {
-    padding: 0.5rem 0.65rem;
-    border-radius: var(--radius-sm);
-    background: oklch(0.1 0.02 265 / 0.9);
-    border: 1px solid var(--border-hairline);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 0;
-
-    .gs-label {
-      font-family: var(--font-mono);
-      font-size: 0.58rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-dim);
-    }
-
-    .gs-val {
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: var(--text-bright);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
-  .ping-action-btn {
-    padding: 0 0.8rem;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-bright);
-    background: linear-gradient(135deg, oklch(0.66 0.22 272 / 0.28), oklch(0.8 0.16 212 / 0.2));
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: var(--accent-cyan);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-
-    &:hover, &:active {
-      background: linear-gradient(135deg, var(--accent-indigo), oklch(0.65 0.18 225));
-      color: var(--text-bright);
-      transform: translateY(-1px);
-    }
-  }
-
-  .hud-hint {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    text-align: center;
-  }
-}
-
 .cta-group {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -601,7 +465,150 @@ main, header, footer {
   }
 }
 
-/* Telemetry Strip */
+/* ==========================================================================
+   Interactive 3D Earth Globe Telemetry HUD Card
+   ========================================================================== */
+
+.globe-hud-card {
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background:
+    radial-gradient(circle at 50% 42%, oklch(0.66 0.22 272 / 0.2), transparent 70%),
+    oklch(0.13 0.03 265 / 0.88);
+
+  .hud-top-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-hairline);
+    padding-bottom: 0.55rem;
+  }
+
+  .globe-stage {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 50%, oklch(0.2 0.05 245 / 0.32), oklch(0.08 0.02 265 / 0.92));
+    border: 1px solid var(--border-hairline);
+    user-select: none;
+    touch-action: pan-y;
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      touch-action: pan-y;
+    }
+  }
+
+  .globe-pin-tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    padding: 0.22rem 0.55rem;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    transition: opacity 0.2s ease;
+    will-change: transform, opacity;
+
+    &.norway {
+      background: oklch(0.16 0.05 160 / 0.88);
+      border: 1px solid var(--accent-emerald);
+      color: var(--accent-emerald);
+      box-shadow: 0 0 12px oklch(0.79 0.18 160 / 0.35);
+    }
+
+    &.visitor {
+      background: oklch(0.16 0.05 220 / 0.88);
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      box-shadow: 0 0 12px oklch(0.8 0.16 212 / 0.35);
+    }
+  }
+
+  .globe-telemetry-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.25fr 0.95fr auto;
+    gap: 0.45rem;
+    align-items: stretch;
+  }
+
+  .globe-stat {
+    padding: 0.5rem 0.65rem;
+    border-radius: var(--radius-sm);
+    background: oklch(0.1 0.02 265 / 0.9);
+    border: 1px solid var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+
+    .gs-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+
+    .gs-val {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .ping-action-btn {
+    padding: 0 0.85rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-bright);
+    background: linear-gradient(135deg, oklch(0.66 0.22 272 / 0.28), oklch(0.8 0.16 212 / 0.2));
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover, &:active {
+      background: linear-gradient(135deg, var(--accent-indigo), oklch(0.65 0.18 225));
+      color: var(--text-bright);
+      transform: translateY(-1px);
+    }
+  }
+
+  .hud-hint {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   Telemetry Strip
+   ========================================================================== */
+
 .telemetry-strip {
   margin-top: 1.5rem;
   display: grid;
@@ -676,7 +683,7 @@ main, header, footer {
 }
 
 /* ==========================================================================
-   01 / Ventures with Embedded Animated SVG Schematics
+   01 / Ventures
    ========================================================================== */
 
 .ventures-grid {
@@ -719,7 +726,7 @@ main, header, footer {
     justify-content: space-between;
     gap: 0.75rem;
 
-    h3 {
+    h3, h2 {
       font-size: 1.35rem;
       font-weight: 800;
       letter-spacing: -0.02em;
@@ -786,162 +793,180 @@ main, header, footer {
 }
 
 /* ==========================================================================
-   02 / Interactive Systems Terminal & Blueprint Inspector
+   02 / Systems Terminal & Blueprint Inspector
    ========================================================================== */
 
-.terminal-shell {
-  padding: 0;
-  overflow: hidden;
+.terminal-card {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-  .terminal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1rem;
-    background: oklch(0.11 0.025 265);
-    border-bottom: 1px solid var(--border-hairline);
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border-hairline);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
 
-    .term-dots {
-      display: flex;
-      gap: 6px;
+.term-lights {
+  display: flex;
+  gap: 0.35rem;
 
-      span {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-      }
-      span:nth-child(1) { background: #ef4444; }
-      span:nth-child(2) { background: #f59e0b; }
-      span:nth-child(3) { background: #10b981; }
-    }
-
-    .term-title {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
+  span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
   }
 
-  .terminal-tabs {
-    display: flex;
-    overflow-x: auto;
-    gap: 0.35rem;
-    padding: 0.6rem 0.85rem;
-    background: oklch(0.13 0.025 265);
-    border-bottom: 1px solid var(--border-hairline);
-    scrollbar-width: none;
+  .tl-red { background: #ef4444; }
+  .tl-yellow { background: #eab308; }
+  .tl-green { background: #10b981; }
+}
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+.terminal-tabs {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+}
 
-    .term-tab {
-      flex-shrink: 0;
-      padding: 0.42rem 0.75rem;
-      border-radius: 7px;
-      border: 1px solid var(--border-hairline);
-      background: oklch(0.17 0.03 265 / 0.6);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s ease;
+.term-tab {
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-hairline);
+  background: oklch(0.12 0.02 265 / 0.8);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
 
-      &.active {
-        background: color-mix(in oklch, var(--accent-indigo) 28%, transparent);
-        border-color: var(--accent-cyan);
-        color: var(--text-bright);
-      }
-    }
+  &.active, &:hover {
+    background: oklch(0.22 0.04 265);
+    color: var(--text-bright);
+    border-color: var(--accent-cyan);
+  }
+}
+
+.terminal-body {
+  background: oklch(0.1 0.02 265 / 0.95);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.term-cmd-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border-hairline);
+
+  .prompt {
+    color: var(--accent-emerald);
+    font-weight: 700;
   }
 
-  .terminal-body {
-    padding: 1.15rem;
+  .term-cmd {
+    color: var(--accent-cyan);
+    word-break: break-all;
+  }
+}
+
+.term-output {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.bp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-sm);
+  background: oklch(0.14 0.025 265 / 0.7);
+  border: 1px solid var(--border-hairline);
+
+  .bp-num {
     font-family: var(--font-mono);
-    font-size: 0.78rem;
-    line-height: 1.7;
-    background: oklch(0.09 0.02 265 / 0.92);
-    color: var(--text-mid);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    line-height: 1.4;
+  }
 
-    .term-cmd-line {
-      color: var(--accent-emerald);
-      margin-bottom: 0.65rem;
-      display: block;
-    }
+  .bp-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
 
-    .term-output-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-    }
+  .bp-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-bright);
+  }
 
-    .term-kv {
-      padding: 0.75rem;
-      border-radius: 8px;
-      background: oklch(0.14 0.03 265 / 0.8);
-      border-left: 3px solid var(--accent-cyan);
-
-      strong {
-        color: var(--text-bright);
-        display: block;
-        margin-bottom: 0.2rem;
-      }
-    }
+  .bp-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
   }
 }
 
 /* ==========================================================================
-   03 / Capabilities Matrix & Operating Principles
+   03 / Capabilities Matrix
    ========================================================================== */
 
-.matrix-grid {
+.capabilities-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
 }
 
-.matrix-card {
+.cap-card {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
 
-  .matrix-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 0.6rem;
-    border-bottom: 1px solid var(--border-hairline);
-
-    h3 {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-cyan);
-    }
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text-bright);
   }
+}
 
-  .chip-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
+.chip-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
 
-    span {
-      padding: 0.36rem 0.7rem;
-      border-radius: 8px;
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      background: oklch(0.2 0.035 265 / 0.75);
-      border: 1px solid var(--border-hairline);
-      color: var(--text-mid);
-    }
+  span {
+    padding: 0.35rem 0.65rem;
+    border-radius: 8px;
+    background: oklch(0.14 0.025 265 / 0.8);
+    border: 1px solid var(--border-hairline);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-mid);
   }
 }
 
 /* ==========================================================================
-   04 / Direct Contact & Channels
+   04 / Contact
    ========================================================================== */
 
 .contact-grid {
@@ -950,156 +975,76 @@ main, header, footer {
   gap: 1rem;
 }
 
-.email-action-box {
-  margin-top: 0.85rem;
-  padding: 0.85rem;
-  border-radius: var(--radius-sm);
-  background: oklch(0.1 0.02 265 / 0.9);
-  border: 1px solid var(--border-bright);
+.contact-card {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-
-  .email-mono {
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--accent-cyan);
-    word-break: break-all;
-  }
-
-  .email-btns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-  }
-}
-
-.channels-bento {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
 
-  .channel-tile {
-    padding: 1.1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 0.65rem;
-
-    .ch-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--accent-cyan);
-
-      svg {
-        width: 20px;
-        height: 20px;
-      }
-    }
-
-    .ch-name {
-      font-weight: 800;
-      font-size: 0.95rem;
-    }
-
-    .ch-sub {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      color: var(--text-muted);
-    }
-  }
-}
-
-/* ==========================================================================
-   Native <dialog> Command Palette with @starting-style
-   ========================================================================== */
-
-dialog.cmd-modal {
-  margin: auto;
-  width: min(92vw, 520px);
-  border: 1px solid var(--border-bright);
-  border-radius: var(--radius-lg);
-  background: oklch(0.13 0.03 265 / 0.96);
-  color: var(--text-bright);
-  padding: 0;
-  box-shadow: 0 24px 70px oklch(0 0 0 / 0.8);
-  opacity: 0;
-  transform: translateY(16px) scale(0.96);
-  transition:
-    opacity 0.22s ease,
-    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-    overlay 0.22s allow-discrete,
-    display 0.22s allow-discrete;
-
-  &[open] {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-
-    @starting-style {
-      opacity: 0;
-      transform: translateY(16px) scale(0.96);
-    }
+  .c-tag {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-emerald);
   }
 
-  &::backdrop {
-    background: oklch(0.05 0.01 265 / 0.75);
-    backdrop-filter: blur(8px);
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
   }
 
-  .cmd-head {
+  p {
+    font-size: 0.86rem;
+    color: var(--text-muted);
+  }
+
+  .email-copy-row {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    padding: 0.9rem 1rem;
-    border-bottom: 1px solid var(--border-hairline);
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: var(--radius-sm);
+    background: oklch(0.1 0.02 265 / 0.8);
+    border: 1px solid var(--border-hairline);
 
-    input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text-bright);
+    .email-text {
       font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
+      color: var(--accent-cyan);
+    }
+
+    .copy-btn {
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-bright);
+      background: oklch(0.2 0.04 265);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover, &.copied {
+        background: var(--accent-emerald);
+        color: #000;
+      }
     }
   }
 
-  .cmd-items {
-    padding: 0.5rem;
-    max-height: 55dvh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+  .c-cta {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
 
-    button {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.7rem 0.8rem;
-      border-radius: 8px;
-      border: none;
-      background: transparent;
-      text-align: left;
-      font-size: 0.84rem;
-      color: var(--text-mid);
-      cursor: pointer;
-
-      &:hover, &:focus {
-        background: oklch(0.66 0.22 272 / 0.24);
-        color: var(--text-bright);
-        outline: none;
-      }
-
-      small {
-        font-family: var(--font-mono);
-        font-size: 0.68rem;
-        color: var(--accent-cyan);
-      }
-    }
+  .c-meta {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
   }
 }
 
@@ -1108,54 +1053,267 @@ dialog.cmd-modal {
    ========================================================================== */
 
 .site-footer {
-  border-top: 1px solid var(--border-hairline);
+  margin-top: 3.5rem;
   padding-block: 2rem;
-  margin-top: auto;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  color: var(--text-dim);
+  border-top: 1px solid var(--border-hairline);
 
   .footer-inner {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1.2rem;
     align-items: center;
     text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+    color: var(--text-bright);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+
+    a {
+      color: var(--text-muted);
+      &:hover { color: var(--accent-cyan); }
+    }
   }
 }
 
 /* ==========================================================================
-   Desktop Adaptation (min-width: 900px) — Mobile-First Scaling Up
+   Command Palette Dialog
    ========================================================================== */
 
-@media (min-width: 900px) {
-  body {
-    padding-bottom: 0;
+dialog.cmd-modal {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  z-index: 500;
+  padding: 1rem;
+
+  &[open] {
+    display: grid;
   }
 
-  .mobile-os-dock {
+  &:not([open]) {
     display: none;
   }
 
+  .cmd-backdrop {
+    position: fixed;
+    inset: 0;
+    background: oklch(0.05 0.01 265 / 0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .cmd-panel {
+    position: relative;
+    z-index: 10;
+    width: min(92vw, 560px);
+    max-height: 80vh;
+    border-radius: var(--radius-lg);
+    background: oklch(0.14 0.03 265 / 0.95);
+    border: 1px solid var(--border-bright);
+    box-shadow: 0 24px 60px oklch(0 0 0 / 0.75);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .cmd-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.9rem 1.15rem;
+    border-bottom: 1px solid var(--border-hairline);
+
+    svg {
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      color: var(--text-bright);
+
+      &::placeholder {
+        color: var(--text-dim);
+      }
+    }
+
+    kbd {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.2rem 0.45rem;
+      border-radius: 6px;
+      background: oklch(0.22 0.04 265);
+      color: var(--text-muted);
+      border: 1px solid var(--border-hairline);
+      cursor: pointer;
+    }
+  }
+
+  .cmd-list {
+    padding: 0.65rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .cmd-group-title {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    padding: 0.5rem 0.6rem 0.25rem;
+  }
+
+  .cmd-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease;
+
+    &:hover, &:focus {
+      background: oklch(0.2 0.04 265 / 0.8);
+      border-color: var(--border-bright);
+    }
+
+    .ci-icon {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .ci-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      min-width: 0;
+    }
+
+    .ci-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-bright);
+    }
+
+    .ci-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    kbd {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 5px;
+      background: oklch(0.18 0.03 265);
+      color: var(--accent-cyan);
+      border: 1px solid var(--border-hairline);
+    }
+  }
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .globe-hud-card {
+    margin-inline: -1.15rem;
+    width: calc(100% + 2.3rem);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 1rem 1.15rem;
+
+    .globe-stage {
+      height: 350px;
+      border-radius: var(--radius-sm);
+    }
+  }
+
+  .globe-telemetry-grid {
+    grid-template-columns: 1.2fr 0.95fr auto;
+  }
+
+  @media (max-width: 420px) {
+    .globe-telemetry-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .ping-action-btn {
+      grid-column: 1 / -1;
+      padding-block: 0.6rem;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .terminal-tabs {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .capabilities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .contact-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 860px) {
   .desktop-nav {
     display: flex;
     align-items: center;
-    gap: 1.75rem;
+    gap: 1.5rem;
 
     a {
-      font-size: 0.86rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-muted);
       transition: color 0.2s ease;
 
-      &:hover, &.active {
-        color: var(--accent-cyan);
+      &.active, &:hover {
+        color: var(--text-bright);
       }
     }
   }
 
-  .hero {
-    padding-block: 3.5rem 4.5rem;
+  .mobile-os-dock {
+    display: none;
   }
 
   .hero-grid {
@@ -1164,7 +1322,7 @@ dialog.cmd-modal {
   }
 
   .globe-hud-card .globe-stage {
-    height: 310px;
+    height: 340px;
   }
 
   .telemetry-strip {
@@ -1173,23 +1331,5 @@ dialog.cmd-modal {
 
   .ventures-grid {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .terminal-shell .terminal-body .term-output-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .matrix-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .contact-grid {
-    grid-template-columns: 1.1fr 0.9fr;
-  }
-
-  .site-footer .footer-inner {
-    flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
   }
 }
