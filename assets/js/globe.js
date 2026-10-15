@@ -2,9 +2,11 @@
  * Artur Sucila — Interactive 3D WebGL Earth Globe & Live Geodesic Ping Engine
  * - Real Natural Earth continent coastlines + 10,000-node Fibonacci land dot-matrix
  * - High-definition highlighted Norway border polygon & Oslo HQ beacon (59.91°N, 10.75°E)
+ * - Country flag emoji visualization for all visitor locations & Norway HQ
+ * - Strict 2-finger rotate physics on mobile (1 finger scrolls page without moving globe)
  * - Live visitor IP geolocation + real HTTP RTT network ping measurement
  * - Great-circle 3D geodesic telemetry arc with animated ping packets
- * - Real-time 3D-to-2D projected floating pin labels & finger-drag inertia physics
+ * - Real-time 3D-to-2D projected floating pin labels
  */
 
 const FIB_COUNT = 10000;
@@ -15,7 +17,21 @@ const NORWAY_RINGS = [[[286, 691], [290, 698], [277, 702], [262, 698], [257, 691
 const NORWAY_HQ = {
   lat: 59.9139,
   lon: 10.7522,
-  label: "NORWAY · 59.9°N",
+  label: "🇳🇴 NORWAY HQ · OSLO",
+};
+
+// Convert 2-letter ISO country code to Unicode regional flag emoji
+const getCountryFlag = (countryCode) => {
+  if (!countryCode || typeof countryCode !== "string" || countryCode.length !== 2) {
+    return "🌐";
+  }
+  const code = countryCode.toUpperCase();
+  const codePoints = code.split("").map((c) => 127397 + c.charCodeAt(0));
+  try {
+    return String.fromCodePoint(...codePoints);
+  } catch {
+    return "🌐";
+  }
 };
 
 const latLonToVec3 = (lat, lon, radius, THREE) => {
@@ -44,7 +60,7 @@ const initInteractiveGlobe = () => {
 
   const THREE = window.THREE;
   const width = stage.clientWidth || 300;
-  const height = stage.clientHeight || 290;
+  const height = stage.clientHeight || 300;
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(40, width / height, 1, 1000);
@@ -295,70 +311,122 @@ const initInteractiveGlobe = () => {
     targetRotX = Math.max(-0.78, Math.min(0.82, ((midLat * Math.PI) / 180) * 0.68));
   };
 
-  // Finger Touch & Mouse Spin Physics
-  const onPointerDown = (clientX, clientY) => {
+  // --------------------------------------------------------------------------
+  // Touch & Mouse Interaction Physics
+  // User Rule: 1 finger does NOT move globe (allows smooth vertical page scrolling).
+  //            2 fingers move/rotate globe on phone screens.
+  // --------------------------------------------------------------------------
+  const domElem = renderer.domElement;
+  domElem.style.touchAction = "pan-y";
+  domElem.style.cursor = "grab";
+
+  // Desktop Mouse Events
+  domElem.addEventListener("mousedown", (e) => {
+    domElem.style.cursor = "grabbing";
     isDragging = true;
-    prevX = clientX;
-    prevY = clientY;
+    prevX = e.clientX;
+    prevY = e.clientY;
     velX = 0;
     velY = 0;
     lastInteractionTime = performance.now();
-  };
-
-  const onPointerMove = (clientX, clientY) => {
-    if (!isDragging) return;
-    const dx = clientX - prevX;
-    const dy = clientY - prevY;
-    prevX = clientX;
-    prevY = clientY;
-
-    velY = dx * 0.0068;
-    velX = dy * 0.0068;
-
-    rotY += velY;
-    rotX = Math.max(-1.15, Math.min(1.15, rotX + velX));
-    targetRotY = rotY;
-    targetRotX = rotX;
-    lastInteractionTime = performance.now();
-  };
-
-  const onPointerUp = () => {
-    isDragging = false;
-  };
-
-  const domElem = renderer.domElement;
-  domElem.style.touchAction = "none";
-  domElem.style.cursor = "grab";
-
-  domElem.addEventListener("mousedown", (e) => {
-    domElem.style.cursor = "grabbing";
-    onPointerDown(e.clientX, e.clientY);
   });
-  window.addEventListener("mousemove", (e) => onPointerMove(e.clientX, e.clientY), { passive: true });
+
+  window.addEventListener(
+    "mousemove",
+    (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - prevX;
+      const dy = e.clientY - prevY;
+      prevX = e.clientX;
+      prevY = e.clientY;
+
+      velY = dx * 0.0068;
+      velX = dy * 0.0068;
+
+      rotY += velY;
+      rotX = Math.max(-1.15, Math.min(1.15, rotX + velX));
+      targetRotY = rotY;
+      targetRotX = rotX;
+      lastInteractionTime = performance.now();
+    },
+    { passive: true }
+  );
+
   window.addEventListener("mouseup", () => {
-    domElem.style.cursor = "grab";
-    onPointerUp();
+    if (isDragging) {
+      domElem.style.cursor = "grab";
+      isDragging = false;
+    }
   });
 
+  // Mobile Touch Events (Strictly 2 Fingers Move Globe, 1 Finger Scrolls Page)
   domElem.addEventListener(
     "touchstart",
     (e) => {
-      if (e.touches.length === 1) {
-        onPointerDown(e.touches[0].clientX, e.touches[0].clientY);
+      if (e.touches.length >= 2) {
+        isDragging = true;
+        const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        prevX = midX;
+        prevY = midY;
+        velX = 0;
+        velY = 0;
+        lastInteractionTime = performance.now();
+      } else {
+        // 1 finger touch: DO NOT move globe, allowing native vertical scrolling
+        isDragging = false;
       }
     },
     { passive: true }
   );
+
   domElem.addEventListener(
     "touchmove",
     (e) => {
-      if (e.touches.length === 1) {
-        onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
+      if (e.touches.length >= 2) {
+        // Prevent page scroll only when user explicitly uses 2 fingers on globe
+        if (e.cancelable) e.preventDefault();
+        const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+
+        const dx = midX - prevX;
+        const dy = midY - prevY;
+        prevX = midX;
+        prevY = midY;
+
+        velY = dx * 0.0075;
+        velX = dy * 0.0075;
+
+        rotY += velY;
+        rotX = Math.max(-1.15, Math.min(1.15, rotX + velX));
+        targetRotY = rotY;
+        targetRotX = rotX;
+        lastInteractionTime = performance.now();
+      } else {
+        // 1 finger move: do not move globe
+        isDragging = false;
+      }
+    },
+    { passive: false }
+  );
+
+  domElem.addEventListener(
+    "touchend",
+    (e) => {
+      if (e.touches.length < 2) {
+        isDragging = false;
       }
     },
     { passive: true }
   );
-  domElem.addEventListener("touchend", onPointerUp, { passive: true });
+
+  domElem.addEventListener(
+    "touchcancel",
+    () => {
+      isDragging = false;
+    },
+    { passive: true }
+  );
 
   // Project 3D coordinate to 2D HTML floating HUD tag
   const updatePinTag = (tagEl, localVec) => {
@@ -381,11 +449,11 @@ const initInteractiveGlobe = () => {
     tagEl.style.opacity = "1";
   };
 
-  // Geolocation & Network Ping Telemetry
+  // Geolocation & Network Ping Telemetry with Country Flags
   const fetchVisitorLocation = async () => {
     const originEl = document.getElementById("globe-visitor-loc");
     const metricsEl = document.getElementById("globe-metrics");
-    if (originEl) originEl.textContent = "Detecting Node...";
+    if (originEl) originEl.textContent = "🌐 Detecting Node...";
 
     const t0 = performance.now();
     let geo = null;
@@ -451,22 +519,23 @@ const initInteractiveGlobe = () => {
       rtt = 42;
       const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "").toLowerCase();
       if (tz.includes("oslo") || tz.includes("norway")) {
-        geo = { lat: 59.91, lon: 10.75, city: "Norway", country: "NO" };
-      } else if (tz.includes("america") || tz.includes("us")) {
+        geo = { lat: 59.91, lon: 10.75, city: "Oslo", country: "NO" };
+      } else if (tz.includes("america") || tz.includes("us") || tz.includes("york") || tz.includes("los_angeles") || tz.includes("chicago")) {
         geo = { lat: 40.71, lon: -74.0, city: "New York", country: "US" };
       } else if (tz.includes("tokyo") || tz.includes("asia")) {
         geo = { lat: 35.67, lon: 139.65, city: "Tokyo", country: "JP" };
       } else if (tz.includes("london")) {
-        geo = { lat: 51.5, lon: -0.12, city: "London", country: "UK" };
+        geo = { lat: 51.5, lon: -0.12, city: "London", country: "GB" };
       } else {
         geo = { lat: 52.52, lon: 13.4, city: "Berlin", country: "DE" };
       }
     }
 
     const distKm = computeHaversineKm(geo.lat, geo.lon, NORWAY_HQ.lat, NORWAY_HQ.lon);
+    const flag = getCountryFlag(geo.country);
 
     if (originEl) {
-      originEl.textContent = geo.country ? `${geo.city}, ${geo.country}` : geo.city;
+      originEl.textContent = `${flag} ${geo.city}${geo.country ? ", " + geo.country : ""}`;
     }
     if (metricsEl) {
       metricsEl.textContent = `${distKm.toLocaleString()} km · ${rtt || 35} ms`;
@@ -474,7 +543,7 @@ const initInteractiveGlobe = () => {
 
     const tagVisitor = document.getElementById("globe-tag-visitor");
     if (tagVisitor) {
-      tagVisitor.textContent = `YOU · ${geo.city.toUpperCase()}`;
+      tagVisitor.textContent = `${flag} YOU · ${geo.city.toUpperCase()}`;
       tagVisitor.style.display = "block";
     }
 

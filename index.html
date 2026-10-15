@@ -19,6 +19,39 @@
 
   <link rel="stylesheet" href="assets/css/style.css" />
 
+  <style>
+    /* Mobile-first map control full-width & 2-finger touch pan-y */
+    .globe-stage, .globe-stage canvas {
+      touch-action: pan-y !important;
+    }
+    @media (max-width: 768px) {
+      .globe-hud-card {
+        margin-inline: -1.15rem !important;
+        width: calc(100% + 2.3rem) !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        padding: 1rem 1.15rem !important;
+      }
+      .globe-hud-card .globe-stage {
+        height: 350px !important;
+        border-radius: var(--radius-sm) !important;
+      }
+      .globe-telemetry-grid {
+        grid-template-columns: 1.2fr 0.95fr auto;
+      }
+      @media (max-width: 420px) {
+        .globe-telemetry-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+        .ping-action-btn {
+          grid-column: 1 / -1 !important;
+          padding-block: 0.6rem !important;
+        }
+      }
+    }
+  </style>
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -112,19 +145,19 @@
           <div class="laser-card globe-hud-card" id="globe-card">
             <div class="hud-top-bar">
               <span class="hud-live-tag" style="display:inline-flex; align-items:center; gap:0.45rem; color:var(--accent-emerald); font-weight:700;"><span class="pulse-led"></span> LIVE 3D TELEMETRY</span>
-              <span class="hud-sub-tag">NORWAY HQ · 59.91°N, 10.75°E</span>
+              <span class="hud-sub-tag">🇳🇴 NORWAY HQ · 59.91°N, 10.75°E</span>
             </div>
 
             <div class="globe-stage" id="globe-stage">
               <!-- Dynamic Three.js WebGL globe mounted here -->
-              <div class="globe-pin-tag norway" id="globe-tag-norway">NORWAY HQ · OSLO</div>
+              <div class="globe-pin-tag norway" id="globe-tag-norway">🇳🇴 NORWAY HQ · OSLO</div>
               <div class="globe-pin-tag visitor" id="globe-tag-visitor" style="display:none">YOU</div>
             </div>
 
             <div class="globe-telemetry-grid">
               <div class="globe-stat">
                 <span class="gs-label">VISITOR NODE</span>
-                <span class="gs-val" id="globe-visitor-loc">Detecting IP...</span>
+                <span class="gs-val" id="globe-visitor-loc">🌐 Detecting Node...</span>
               </div>
               <div class="globe-stat">
                 <span class="gs-label">DISTANCE / RTT</span>
@@ -136,7 +169,7 @@
             </div>
 
             <div class="hud-hint">
-              Spin globe with finger or mouse · Live geodesic arc to Norway HQ
+              ✌️ 2 fingers to rotate globe · 1 finger scrolls page · Live geodesic ping
             </div>
           </div>
         </div>
@@ -160,7 +193,7 @@
           </div>
           <div class="telemetry-tile">
             <span class="t-label">04 / Jurisdiction</span>
-            <span class="t-val">Norway / NO</span>
+            <span class="t-val">🇳🇴 Norway / NO</span>
             <span class="t-sub">E-Commerce, IT &amp; Retail Fleet</span>
           </div>
         </div>
@@ -286,28 +319,28 @@
           <div class="terminal-body">
             <div class="term-cmd-line">
               <span class="prompt">❯</span>
-              <span class="term-cmd" id="term-cmd">$ sysctl inspect central-intel --layer=mcp</span>
+              <span class="term-cmd" id="term-cmd">$ sysctl inspect central-intelligence --mode=mcp-bridge</span>
             </div>
             <div class="term-output" id="term-output">
               <div class="bp-item">
                 <span class="bp-num">[01]</span>
                 <div class="bp-info">
-                  <h4 class="bp-title">Central Intelligence Architecture</h4>
-                  <p class="bp-desc">Custom second-brain and business operating system unifying company context, strategic rules, and execution frameworks.</p>
+                  <h4 class="bp-title">Cognitive Architecture</h4>
+                  <p class="bp-desc">Canonical second-brain repository storing Artur identity profile, venture pricing rules, and operational SOPs.</p>
                 </div>
               </div>
               <div class="bp-item">
                 <span class="bp-num">[02]</span>
                 <div class="bp-info">
-                  <h4 class="bp-title">Model Context Protocol (MCP) Integration</h4>
-                  <p class="bp-desc">Standardized interfaces linking AI agents to internal ERP databases, documentation, and external APIs.</p>
+                  <h4 class="bp-title">MCP Agent Layer</h4>
+                  <p class="bp-desc">Model Context Protocol bridges connecting live business context directly to autonomous AI workflows.</p>
                 </div>
               </div>
               <div class="bp-item">
                 <span class="bp-num">[03]</span>
                 <div class="bp-info">
-                  <h4 class="bp-title">Context-Driven Execution Engine</h4>
-                  <p class="bp-desc">Reduces operational friction by giving human operators and AI agents instant access to authoritative business truth.</p>
+                  <h4 class="bp-title">Decision Engine</h4>
+                  <p class="bp-desc">Eliminates repetitive guesswork by grounding customer, technical, and strategic output in verified schemas.</p>
                 </div>
               </div>
             </div>
@@ -397,7 +430,7 @@
             <p>Direct encrypted email for business inquiries, venture partnerships, and systems consulting.</p>
             <div class="email-copy-row">
               <span class="email-text">artcila@gmail.com</span>
-              <button type="button" class="copy-btn" id="copy-email-btn" title="Copy email address">
+              <button type="button" class="copy-btn" id="copy-email-btn" data-copy-email="artcila@gmail.com" title="Copy email address">
                 <span id="copy-status">Copy</span>
               </button>
             </div>
@@ -413,7 +446,7 @@
 
           <div class="laser-card contact-card">
             <span class="c-tag">Operating Jurisdiction</span>
-            <h3>Oslo, Norway</h3>
+            <h3>🇳🇴 Oslo, Norway</h3>
             <p>Based in Norway (CET/CEST timezone). Operating cross-border ventures and distributed infrastructure.</p>
             <span class="c-meta" data-oslo-clock>Europe/Oslo (CET)</span>
           </div>

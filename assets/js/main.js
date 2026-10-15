@@ -1,7 +1,7 @@
 /**
  * Artur Sucila — Mobile-First Interactive Systems Controller (ES Module)
  * - Interactive Architecture Terminal inspector (4 live system blueprints)
- * - Native <dialog> Command Palette
+ * - Native <dialog> Command Palette (⌘K / Ctrl+K) with search & actions
  * - Mobile Thumb-Zone OS Dock active section sync
  * - Live Oslo, Norway telemetry clock & one-tap email copy
  */
@@ -96,18 +96,21 @@ const SYSTEM_BLUEPRINTS = {
 const initTerminalInspector = () => {
   const tabs = document.querySelectorAll('[data-blueprint]');
   const cmdEl = document.getElementById('term-cmd');
-  const gridEl = document.getElementById('term-grid');
-  if (!tabs.length || !cmdEl || !gridEl) return;
+  const outputEl = document.getElementById('term-output');
+  if (!tabs.length || !cmdEl || !outputEl) return;
 
   const renderBlueprint = (key) => {
     const data = SYSTEM_BLUEPRINTS[key] || SYSTEM_BLUEPRINTS.central;
     cmdEl.textContent = data.cmd;
-    gridEl.innerHTML = data.items
+    outputEl.innerHTML = data.items
       .map(
-        (item) => `
-        <div class="term-kv">
-          <strong>${item.title}</strong>
-          <span>${item.desc}</span>
+        (item, idx) => `
+        <div class="bp-item">
+          <span class="bp-num">[0${idx + 1}]</span>
+          <div class="bp-info">
+            <h4 class="bp-title">${item.title}</h4>
+            <p class="bp-desc">${item.desc}</p>
+          </div>
         </div>
       `
       )
@@ -152,21 +155,36 @@ const initNorwayClock = () => {
 };
 
 const initCopyEmail = () => {
-  document.querySelectorAll('[data-copy-email]').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      const email = btn.getAttribute('data-copy-email');
-      if (!email) return;
-      const original = btn.textContent;
-      try {
-        await navigator.clipboard.writeText(email);
-        btn.textContent = 'Copied ✓';
-      } catch {
-        window.location.href = `mailto:${email}`;
-      }
-      setTimeout(() => {
-        btn.textContent = original;
-      }, 2000);
+  const copyBtn = document.getElementById('copy-email-btn');
+  const copyStatus = document.getElementById('copy-status');
+
+  const handleCopy = async (targetBtn, emailVal) => {
+    const email = emailVal || 'artcila@gmail.com';
+    try {
+      await navigator.clipboard.writeText(email);
+      if (copyStatus) copyStatus.textContent = 'Copied ✓';
+      targetBtn.classList.add('copied');
+    } catch {
+      window.location.href = `mailto:${email}`;
+    }
+    setTimeout(() => {
+      if (copyStatus) copyStatus.textContent = 'Copy';
+      targetBtn.classList.remove('copied');
+    }, 2000);
+  };
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      handleCopy(copyBtn, copyBtn.getAttribute('data-copy-email'));
     });
+  }
+
+  document.querySelectorAll('[data-copy-email]').forEach((btn) => {
+    if (btn !== copyBtn) {
+      btn.addEventListener('click', () => {
+        handleCopy(btn, btn.getAttribute('data-copy-email'));
+      });
+    }
   });
 };
 
@@ -174,8 +192,10 @@ const initCommandDialog = () => {
   const dialog = document.getElementById('cmd-dialog');
   const openBtns = document.querySelectorAll('[data-open-cmd]');
   const input = document.getElementById('cmd-search');
-  const items = document.querySelectorAll('[data-cmd-action]');
+  const closeBtns = document.querySelectorAll('[data-close-cmd]');
   if (!dialog) return;
+
+  const items = dialog.querySelectorAll('.cmd-item');
 
   const openModal = () => {
     if (!dialog.open) {
@@ -183,12 +203,13 @@ const initCommandDialog = () => {
       if (input) {
         input.value = '';
         items.forEach((el) => (el.style.display = 'flex'));
-        setTimeout(() => input.focus(), 30);
+        setTimeout(() => input.focus(), 40);
       }
     }
   };
 
   openBtns.forEach((btn) => btn.addEventListener('click', openModal));
+  closeBtns.forEach((btn) => btn.addEventListener('click', () => dialog.close()));
 
   dialog.addEventListener('click', (e) => {
     if (e.target === dialog) dialog.close();
@@ -231,7 +252,10 @@ const initCommandDialog = () => {
         if (external) {
           window.open(href, '_blank', 'noopener,noreferrer');
         } else {
-          window.location.href = href;
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       }
     });
