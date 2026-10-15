@@ -1,11 +1,7 @@
 /**
- * Artur Sucila — Mobile-First 3D WebGL Neural & Systems Telemetry Engine
- * Built for 100% active movement on mobile phones & desktop:
- * - Autonomous 3D orbital rotation + sine-wave depth field (always moving)
- * - Touch swipe / drag parallax + tap shockwave impulse on mobile
- * - Scroll-linked 3D camera flight & rotation warp
- * - Mobile gyroscope (deviceorientation) support
- * - Live interactive mode switching (Mesh / Vortex / Matrix)
+ * Artur Sucila — Calibrated 3D WebGL Ambient Systems Engine
+ * Slower, smooth ambient drift tuned for minimal distraction while retaining
+ * full depth and reactivity on mobile phones & desktop.
  */
 
 const initSystemsNetwork = () => {
@@ -17,12 +13,12 @@ const initSystemsNetwork = () => {
 
   const isMobile = window.innerWidth < 820;
   const camera = new THREE.PerspectiveCamera(
-    isMobile ? 78 : 68,
+    isMobile ? 76 : 68,
     window.innerWidth / window.innerHeight,
     0.1,
     1400
   );
-  camera.position.z = isMobile ? 340 : 380;
+  camera.position.z = isMobile ? 350 : 380;
 
   let renderer;
   try {
@@ -40,15 +36,15 @@ const initSystemsNetwork = () => {
   container.innerHTML = '';
   container.appendChild(renderer.domElement);
 
-  const particleCount = isMobile ? 115 : 190;
+  const particleCount = isMobile ? 105 : 175;
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(particleCount * 3);
   const basePositions = new Float32Array(particleCount * 3);
   const velocities = [];
   const phases = new Float32Array(particleCount);
 
-  const spreadX = isMobile ? 520 : 880;
-  const spreadY = isMobile ? 680 : 820;
+  const spreadX = isMobile ? 540 : 880;
+  const spreadY = isMobile ? 700 : 840;
   const spreadZ = isMobile ? 360 : 420;
 
   for (let i = 0; i < particleCount; i++) {
@@ -67,24 +63,25 @@ const initSystemsNetwork = () => {
 
     phases[i] = Math.random() * Math.PI * 2;
 
+    // Slower, smooth ambient velocity
     velocities.push({
-      x: (Math.random() - 0.5) * (isMobile ? 0.95 : 0.75),
-      y: (Math.random() - 0.5) * (isMobile ? 0.95 : 0.75),
-      z: (Math.random() - 0.5) * 0.65,
+      x: (Math.random() - 0.5) * 0.22,
+      y: (Math.random() - 0.5) * 0.22,
+      z: (Math.random() - 0.5) * 0.18,
     });
   }
 
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-  // Generate a crisp circular glowing sprite texture in memory
+  // Circular glowing sprite texture
   const spriteCanvas = document.createElement('canvas');
   spriteCanvas.width = 64;
   spriteCanvas.height = 64;
   const ctx = spriteCanvas.getContext('2d');
   const grad = ctx.createRadialGradient(32, 32, 2, 32, 32, 30);
-  grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-  grad.addColorStop(0.35, 'rgba(56, 189, 248, 0.9)');
-  grad.addColorStop(0.7, 'rgba(99, 102, 241, 0.35)');
+  grad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+  grad.addColorStop(0.35, 'rgba(56, 189, 248, 0.75)');
+  grad.addColorStop(0.7, 'rgba(99, 102, 241, 0.28)');
   grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 64, 64);
@@ -93,9 +90,9 @@ const initSystemsNetwork = () => {
   const particleMaterial = new THREE.PointsMaterial({
     color: 0x38bdf8,
     map: particleTexture,
-    size: isMobile ? 9.5 : 8.5,
+    size: isMobile ? 8.5 : 7.8,
     transparent: true,
-    opacity: 0.95,
+    opacity: 0.82,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
   });
@@ -106,7 +103,7 @@ const initSystemsNetwork = () => {
   const lineMaterial = new THREE.LineBasicMaterial({
     color: 0x6366f1,
     transparent: true,
-    opacity: isMobile ? 0.34 : 0.26,
+    opacity: isMobile ? 0.22 : 0.18,
     blending: THREE.AdditiveBlending,
   });
 
@@ -114,13 +111,13 @@ const initSystemsNetwork = () => {
   const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
   scene.add(lines);
 
-  // Add a secondary wireframe core icosahedron in the background
-  const coreGeo = new THREE.IcosahedronGeometry(isMobile ? 110 : 145, 1);
+  // Background wireframe core
+  const coreGeo = new THREE.IcosahedronGeometry(isMobile ? 105 : 140, 1);
   const coreMat = new THREE.MeshBasicMaterial({
     color: 0x38bdf8,
     wireframe: true,
     transparent: true,
-    opacity: 0.09,
+    opacity: 0.07,
   });
   const coreMesh = new THREE.Mesh(coreGeo, coreMat);
   scene.add(coreMesh);
@@ -129,27 +126,25 @@ const initSystemsNetwork = () => {
   let pointerY = 0;
   let scrollOffset = window.scrollY || 0;
   let pulseBoost = 0;
-  let currentMode = 'mesh'; // 'mesh' | 'vortex' | 'matrix'
+  let currentMode = 'mesh';
   let isTabVisible = !document.hidden;
 
-  // Desktop mouse interaction
   window.addEventListener(
     'mousemove',
     (e) => {
-      pointerX = (e.clientX / window.innerWidth - 0.5) * 2;
-      pointerY = (e.clientY / window.innerHeight - 0.5) * 2;
+      pointerX = (e.clientX / window.innerWidth - 0.5) * 1.4;
+      pointerY = (e.clientY / window.innerHeight - 0.5) * 1.4;
     },
     { passive: true }
   );
 
-  // Mobile touch interaction (swipe & tap shockwave)
   window.addEventListener(
     'touchstart',
     (e) => {
       if (e.touches.length > 0) {
-        pointerX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2.4;
-        pointerY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2.4;
-        pulseBoost = 1.6;
+        pointerX = (e.touches[0].clientX / window.innerWidth - 0.5) * 1.6;
+        pointerY = (e.touches[0].clientY / window.innerHeight - 0.5) * 1.6;
+        pulseBoost = 0.8;
       }
     },
     { passive: true }
@@ -159,26 +154,24 @@ const initSystemsNetwork = () => {
     'touchmove',
     (e) => {
       if (e.touches.length > 0) {
-        pointerX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2.6;
-        pointerY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2.6;
+        pointerX = (e.touches[0].clientX / window.innerWidth - 0.5) * 1.6;
+        pointerY = (e.touches[0].clientY / window.innerHeight - 0.5) * 1.6;
       }
     },
     { passive: true }
   );
 
-  // Mobile gyroscope tilt support
   window.addEventListener(
     'deviceorientation',
     (e) => {
       if (e.gamma !== null && e.beta !== null) {
-        pointerX = Math.max(-1.5, Math.min(1.5, e.gamma / 30));
-        pointerY = Math.max(-1.5, Math.min(1.5, (e.beta - 45) / 30));
+        pointerX = Math.max(-1, Math.min(1, e.gamma / 45));
+        pointerY = Math.max(-1, Math.min(1, (e.beta - 45) / 45));
       }
     },
     { passive: true }
   );
 
-  // Scroll-driven 3D camera warp
   window.addEventListener(
     'scroll',
     () => {
@@ -191,29 +184,28 @@ const initSystemsNetwork = () => {
     isTabVisible = !document.hidden;
   });
 
-  // Expose mode switching for the interactive HUD buttons
   window.setWebGLMode = (mode) => {
     currentMode = mode;
-    pulseBoost = 2.4;
+    pulseBoost = 1.2;
     if (mode === 'mesh') {
       particleMaterial.color.setHex(0x38bdf8);
       lineMaterial.color.setHex(0x6366f1);
       coreMat.color.setHex(0x38bdf8);
-      coreMat.opacity = 0.09;
+      coreMat.opacity = 0.07;
     } else if (mode === 'vortex') {
       particleMaterial.color.setHex(0x10b981);
       lineMaterial.color.setHex(0x38bdf8);
       coreMat.color.setHex(0x10b981);
-      coreMat.opacity = 0.16;
+      coreMat.opacity = 0.12;
     } else if (mode === 'matrix') {
       particleMaterial.color.setHex(0xa855f7);
       lineMaterial.color.setHex(0x38bdf8);
       coreMat.color.setHex(0x6366f1);
-      coreMat.opacity = 0.13;
+      coreMat.opacity = 0.1;
     }
   };
 
-  const maxConnectDist = isMobile ? 105 : 115;
+  const maxConnectDist = isMobile ? 100 : 110;
   const maxConnectDistSq = maxConnectDist * maxConnectDist;
 
   const nodeCountEl = document.getElementById('hud-node-count');
@@ -235,26 +227,26 @@ const initSystemsNetwork = () => {
       lastFpsTime = now;
     }
 
-    clock += 0.012;
-    pulseBoost *= 0.94;
+    // Gentle, non-distracting clock speed
+    clock += 0.0035;
+    pulseBoost *= 0.95;
 
-    // Continuous autonomous orbital camera + scroll & touch parallax
-    const scrollAngle = scrollOffset * 0.0012;
-    const targetCamX = pointerX * 55 + Math.sin(clock * 0.7) * 28;
-    const targetCamY = -pointerY * 55 + Math.cos(clock * 0.5) * 22 - (scrollOffset * 0.04) % 120;
+    const scrollAngle = scrollOffset * 0.0006;
+    const targetCamX = pointerX * 28 + Math.sin(clock * 0.35) * 12;
+    const targetCamY = -pointerY * 28 + Math.cos(clock * 0.28) * 10 - (scrollOffset * 0.02) % 90;
 
-    camera.position.x += (targetCamX - camera.position.x) * 0.05;
-    camera.position.y += (targetCamY - camera.position.y) * 0.05;
+    camera.position.x += (targetCamX - camera.position.x) * 0.035;
+    camera.position.y += (targetCamY - camera.position.y) * 0.035;
     camera.lookAt(scene.position);
 
-    // Rotate 3D scene & wireframe core continuously so mobile is always visibly dynamic
-    particles.rotation.y = clock * 0.22 + scrollAngle;
-    particles.rotation.x = Math.sin(clock * 0.35) * 0.18 + pointerY * 0.15;
+    // Smooth, slow orbital drift
+    particles.rotation.y = clock * 0.08 + scrollAngle;
+    particles.rotation.x = Math.sin(clock * 0.2) * 0.06 + pointerY * 0.06;
     lines.rotation.copy(particles.rotation);
 
-    coreMesh.rotation.y = -clock * 0.45 - scrollAngle;
-    coreMesh.rotation.x = clock * 0.3;
-    const coreScale = 1 + Math.sin(clock * 2) * 0.06 + pulseBoost * 0.12;
+    coreMesh.rotation.y = -clock * 0.12 - scrollAngle;
+    coreMesh.rotation.x = clock * 0.08;
+    const coreScale = 1 + Math.sin(clock * 1.2) * 0.03 + pulseBoost * 0.06;
     coreMesh.scale.set(coreScale, coreScale, coreScale);
 
     const posArray = particles.geometry.attributes.position.array;
@@ -265,23 +257,20 @@ const initSystemsNetwork = () => {
       const i3 = i * 3;
 
       if (currentMode === 'vortex') {
-        // Orbital vortex motion
-        const angle = clock * 0.9 + phases[i];
+        const angle = clock * 0.35 + phases[i];
         const radius = 120 + (i % 7) * 28;
-        posArray[i3] += (Math.cos(angle) * radius - posArray[i3]) * 0.04;
-        posArray[i3 + 1] += (Math.sin(angle) * radius - posArray[i3 + 1]) * 0.04;
-        posArray[i3 + 2] += Math.sin(clock * 2 + phases[i]) * 0.9;
+        posArray[i3] += (Math.cos(angle) * radius - posArray[i3]) * 0.016;
+        posArray[i3 + 1] += (Math.sin(angle) * radius - posArray[i3 + 1]) * 0.016;
+        posArray[i3 + 2] += Math.sin(clock * 0.8 + phases[i]) * 0.35;
       } else if (currentMode === 'matrix') {
-        // Structured digital wave stream
-        posArray[i3 + 1] -= (1.4 + (i % 5) * 0.35) * speedMult;
-        posArray[i3] += Math.sin(clock + phases[i]) * 0.5;
+        posArray[i3 + 1] -= (0.45 + (i % 5) * 0.12) * speedMult;
+        posArray[i3] += Math.sin(clock * 0.6 + phases[i]) * 0.18;
         if (posArray[i3 + 1] < -spreadY / 2) {
           posArray[i3 + 1] = spreadY / 2;
         }
       } else {
-        // Default Neural Mesh mode
-        posArray[i3] += velocities[i].x * speedMult + Math.sin(clock + phases[i]) * 0.22;
-        posArray[i3 + 1] += velocities[i].y * speedMult + Math.cos(clock + phases[i]) * 0.22;
+        posArray[i3] += velocities[i].x * speedMult + Math.sin(clock * 0.5 + phases[i]) * 0.07;
+        posArray[i3 + 1] += velocities[i].y * speedMult + Math.cos(clock * 0.5 + phases[i]) * 0.07;
         posArray[i3 + 2] += velocities[i].z * speedMult;
 
         if (Math.abs(posArray[i3]) > spreadX / 2) velocities[i].x *= -1;
