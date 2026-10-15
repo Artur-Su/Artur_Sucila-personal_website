@@ -3,746 +3,644 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Artur — Builder & Strategist</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <title>Artur Sucila — Systems Builder &amp; Multi-Venture Operator</title>
+  <meta name="description" content="Artur Sucila builds and operates structured businesses across e-commerce (Nutravit), IT consultancy (PCIN), and automated physical retail (Vareautomater) in Norway." />
+  <meta name="author" content="Artur Sucila" />
+  <meta name="theme-color" content="#06070a" />
 
-  <style>
-    :root {
-      --bg: #030305;
-      --text-main: #ffffff;
-      --text-muted: #a0a0b5;
-      --accent-1: #7c6eff; /* Purple */
-      --accent-2: #4fc3f7; /* Cyan */
-      --card-bg: rgba(30, 30, 42, 0.6);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --font-main: 'Inter', sans-serif;
-    }
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Artur Sucila — Systems Builder &amp; Multi-Venture Operator" />
+  <meta property="og:description" content="Operating businesses across technology, health e-commerce, and automated physical retail through structured systems and AI-driven architecture." />
+  <meta property="og:url" content="https://artur-su.github.io/Artur_Sucila-personal_website/" />
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  <!-- Favicon & Typography -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
 
-    html { scroll-behavior: smooth; }
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css" />
 
-    body {
-      font-family: var(--font-main);
-      background-color: var(--bg);
-      color: var(--text-main);
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    #intro {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-    }
-    
-    #intro.slide-up {
-      transform: translateY(-100%);
-    }
-
-    .intro-text {
-      font-size: clamp(3rem, 10vw, 8rem);
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      color: transparent;
-      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2);
-      position: relative;
-    }
-
-    .intro-text::before {
-      content: attr(data-text);
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      width: 0;
-      overflow: hidden;
-      animation: fillText 1.5s ease-in-out forwards;
-    }
-
-    @keyframes fillText {
-      0% { width: 0; }
-      100% { width: 100%; }
-    }
-
-    #canvas-container {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: -1; opacity: 0.6; pointer-events: none;
-    }
-
-    a { text-decoration: none; color: inherit; }
-    ul { list-style: none; }
-
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-
-    nav {
-      position: fixed; top: 0; width: 100%; z-index: 100;
-      padding: 1.5rem 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    nav.scrolled {
-      background: rgba(3, 3, 5, 0.8);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      padding: 1rem 0; border-bottom: 1px solid var(--card-border);
-    }
-
-    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-
-    .logo {
-      font-weight: 800; font-size: 1.5rem; letter-spacing: -0.05em;
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-
-    .nav-links { display: flex; gap: 2.5rem; align-items: center; }
-
-    .nav-links a {
-      font-size: 0.9rem; font-weight: 500; color: var(--text-muted);
-      transition: all 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent-2);
-      text-shadow: 0 0 15px rgba(79, 195, 247, 0.6), 0 0 30px rgba(79, 195, 247, 0.4);
-    }
-
-    .nav-news-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 16px; border-radius: 20px;
-      background: rgba(79, 195, 247, 0.1); border: 1px solid rgba(79, 195, 247, 0.3);
-      color: var(--accent-2); font-size: 0.8rem; font-weight: 700;
-      letter-spacing: 0.05em; transition: all 0.3s ease;
-    }
-
-    .nav-news-btn:hover {
-      background: rgba(79, 195, 247, 0.2);
-      box-shadow: 0 0 15px rgba(79, 195, 247, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .pulse-dot {
-      width: 8px; height: 8px; background-color: var(--accent-2); border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-2); animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(79, 195, 247, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(79, 195, 247, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(79, 195, 247, 0); }
-    }
-
-    .mobile-menu-btn {
-      display: none; background: none; border: none; cursor: pointer; padding: 0.5rem;
-    }
-
-    .mobile-menu-btn span {
-      display: block; width: 24px; height: 2px; background: var(--text-main);
-      margin: 5px 0; transition: 0.3s;
-    }
-
-    .mobile-menu {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-      background: rgba(3, 3, 5, 0.95); backdrop-filter: blur(15px);
-      z-index: 99; flex-direction: column; justify-content: center; align-items: center;
-      gap: 2rem; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
-    }
-
-    .mobile-menu.active { opacity: 1; pointer-events: all; display: flex; }
-
-    .mobile-menu a {
-      font-size: 1.5rem; font-weight: 600; color: var(--text-muted);
-      transition: color 0.3s ease;
-    }
-    .mobile-menu a:hover { color: var(--accent-2); }
-
-    .hero {
-      min-height: 100vh; display: flex; align-items: center;
-      padding-top: 5rem; position: relative;
-    }
-
-    .hero-content { max-width: 800px; z-index: 10; }
-
-    .tagline {
-      display: inline-block; font-size: 0.8rem; font-weight: 700;
-      letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-2);
-      margin-bottom: 1.5rem; padding: 0.5rem 1rem; border-radius: 2rem;
-      background: rgba(124, 110, 255, 0.1); border: 1px solid rgba(124, 110, 255, 0.2);
-    }
-
-    .hero-title {
-      font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 800;
-      line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem;
-    }
-
-    .highlight {
-      background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-desc {
-      font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-muted);
-      line-height: 1.7; margin-bottom: 2.5rem; max-width: 600px;
-    }
-
-    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-    .btn {
-      padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 600; font-size: 1rem;
-      cursor: pointer; transition: all 0.3s ease; display: inline-flex;
-      align-items: center; justify-content: center; text-decoration: none; position: relative;
-    }
-
-    .btn-primary {
-      background: var(--accent-1); color: #fff; border: none;
-      box-shadow: 0 0 15px rgba(124, 110, 255, 0.5);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px); background: #8e83ff; color: #fff;
-      box-shadow: 0 0 25px rgba(124, 110, 255, 0.8), 0 0 50px rgba(124, 110, 255, 0.6), 0 0 75px rgba(124, 110, 255, 0.4);
-    }
-
-    .btn-secondary {
-      background: transparent; color: var(--text-main); border: 1px solid var(--card-border);
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--accent-2); color: var(--accent-2); background: rgba(79, 195, 247, 0.05);
-      box-shadow: 0 0 15px rgba(79, 195, 247, 0.6), 0 0 30px rgba(79, 195, 247, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .section { padding: 8rem 0; position: relative; }
-    
-    .section-dark {
-      background: linear-gradient(180deg, rgba(30, 30, 42, 0.2) 0%, rgba(3, 3, 5, 0) 100%);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .section-num {
-      color: var(--accent-1); font-weight: 700; font-size: 0.9rem;
-      letter-spacing: 0.2em; margin-bottom: 0.5rem; display: block;
-    }
-
-    .section-title {
-      font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.03em;
-      transition: all 0.3s ease; margin-bottom: 3rem;
-    }
-
-    .section-title:hover {
-      color: #fff; text-shadow: 0 0 20px rgba(124, 110, 255, 0.7), 0 0 40px rgba(124, 110, 255, 0.4);
-    }
-
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-
-    .tracker-card {
-      background: var(--card-bg); border: 1px solid var(--card-border);
-      border-radius: 1.25rem; padding: 2.5rem; position: relative;
-      overflow: hidden; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-    }
-
-    .tracker-card::before {
-      content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(124, 110, 255, 0.15), transparent 40%);
-      z-index: 0; opacity: 0; transition: opacity 0.3s; pointer-events: none;
-    }
-
-    .tracker-card:hover::before { opacity: 1; }
-    .tracker-card:hover { border-color: rgba(124, 110, 255, 0.3); transform: translateY(-5px); }
-
-    .card-content { position: relative; z-index: 1; }
-
-    .company-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
-    .company-icon { font-size: 2rem; }
-    .company-title { font-size: 1.5rem; font-weight: 700; color: #fff; }
-    
-    .card-tag {
-      font-size: 0.75rem; color: var(--accent-2); font-weight: 600;
-      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; display: block;
-    }
-
-    .card-desc { color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.7; }
-
-    .card-list { list-style: none; margin-bottom: 2rem; }
-    .card-list li {
-      color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;
-      padding-left: 1.5rem; position: relative;
-    }
-    .card-list li::before {
-      content: '→'; position: absolute; left: 0; color: var(--accent-1);
-    }
-
-    .skills-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;
-    }
-
-    .skill-category {
-      background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border);
-      border-radius: 1rem; padding: 2rem; transition: all 0.3s ease;
-    }
-
-    .skill-category h4 {
-      font-size: 1rem; color: var(--text-main); margin-bottom: 1rem;
-      border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem; transition: all 0.3s ease;
-    }
-
-    .skill-category:hover h4 {
-      color: var(--accent-2); border-bottom-color: rgba(79, 195, 247, 0.6);
-      text-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
-    }
-
-    .tags { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-
-    .tag {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border);
-      padding: 0.5rem 1.25rem; border-radius: 2rem; font-size: 0.85rem;
-      color: var(--text-muted); transition: all 0.3s ease;
-    }
-
-    .tag:hover {
-      background: rgba(124, 110, 255, 0.2); border-color: var(--accent-1); color: #fff;
-      box-shadow: 0 0 15px rgba(124, 110, 255, 0.6), 0 0 30px rgba(124, 110, 255, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .contact-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;
-    }
-
-    footer {
-      border-top: 1px solid var(--card-border); padding: 3rem 0;
-      text-align: center; color: var(--text-muted); font-size: 0.9rem;
-    }
-
-    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-    .fade-up.visible { opacity: 1; transform: translateY(0); }
-
-    @media (max-width: 900px) {
-      .grid-2 { grid-template-columns: 1fr; gap: 3rem; }
-      .nav-links, .nav-news-btn { display: none; }
-      .mobile-menu-btn { display: block; }
-      .hero-title { font-size: 2.5rem; }
-    }
-  </style>
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Artur Sucila",
+    "url": "https://artur-su.github.io/Artur_Sucila-personal_website/",
+    "jobTitle": "Systems Builder & Multi-Venture Operator",
+    "email": "mailto:artcila@gmail.com",
+    "sameAs": [
+      "https://github.com/Artur-Su",
+      "https://www.linkedin.com/in/artur-su/"
+    ],
+    "worksFor": [
+      { "@type": "Organization", "name": "Nutravit", "url": "https://nutravit.no" },
+      { "@type": "Organization", "name": "PCIN", "url": "https://pcin.no" },
+      { "@type": "Organization", "name": "Vareautomater", "url": "https://vareautomater.no" }
+    ]
+  }
+  </script>
 </head>
 <body>
 
-  <div id="intro">
-    <h1 class="intro-text" data-text="ARTUR">ARTUR</h1>
-  </div>
+  <!-- Background Architecture -->
+  <div id="canvas-container" aria-hidden="true"></div>
+  <div class="bg-grid-overlay" aria-hidden="true"></div>
+  <div class="bg-radial-glow" aria-hidden="true"></div>
 
-  <div id="canvas-container"></div>
-
-  <nav id="navbar">
+  <!-- Navigation Header -->
+  <header class="site-header" id="site-header">
     <div class="container nav-inner">
-      <a href="#" class="logo">Artur</a>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#companies">Companies</a>
-        <a href="#skills">Skills</a>
+      <a href="#top" class="brand" aria-label="Artur Sucila Home">
+        <span class="brand-mark">AS<span>.</span></span>
+        <span>Artur Sucila</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="#about">Profile</a>
+        <a href="#companies">Ventures</a>
+        <a href="#systems">Architecture</a>
+        <a href="#skills">Capabilities</a>
         <a href="#contact">Contact</a>
-        <a href="news.html" class="nav-news-btn">
-          <div class="pulse-dot"></div> NEWS
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="cmd-trigger" id="cmd-open" aria-label="Open quick navigation">
+          <span>Quick Jump</span>
+          <kbd>⌘K</kbd>
+        </button>
+        <a href="news.html" class="nav-updates-pill">
+          <span class="status-dot"></span>
+          <span>Updates</span>
         </a>
+        <button type="button" class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+        </button>
       </div>
-      <button class="mobile-menu-btn" id="mobile-btn" aria-label="Toggle Menu">
-        <span></span><span></span><span></span>
-      </button>
     </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <nav class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+    <a href="#about">01 / Profile</a>
+    <a href="#companies">02 / Ventures</a>
+    <a href="#systems">03 / Architecture</a>
+    <a href="#skills">04 / Capabilities</a>
+    <a href="#contact">05 / Contact</a>
+    <a href="news.html" style="color: var(--accent-secondary);">Updates &amp; Announcements →</a>
   </nav>
 
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="#about" class="mobile-link">About</a>
-    <a href="#companies" class="mobile-link">Companies</a>
-    <a href="#skills" class="mobile-link">Skills</a>
-    <a href="#contact" class="mobile-link">Contact</a>
-    <a href="news.html" class="mobile-link" style="color: var(--accent-2);">News</a>
-  </div>
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="reveal">
+          <div class="hero-eyebrow">
+            <span class="status-dot emerald"></span>
+            <span>BUILDER · STRATEGIST · SYSTEMS OPERATOR</span>
+            <span class="eyebrow-sep">/</span>
+            <span>NORWAY</span>
+          </div>
 
-  <main>
-    <section class="hero container">
-      <div class="hero-content fade-up">
-        <span class="tagline">Builder · Strategist · Generalist</span>
-        <h1 class="hero-title">Hi, I'm <span class="highlight">Artur</span></h1>
-        <p class="hero-desc">
-          I build and operate businesses across technology, health, and physical retail. I think in systems, move across domains, and use structured intelligence to make faster, cleaner decisions.
-        </p>
-        <div class="btn-group">
-          <a href="#companies" class="btn btn-primary">My Companies</a>
-          <a href="#about" class="btn btn-secondary">About Me</a>
+          <h1 class="hero-title">
+            Architecting businesses through <span class="text-gradient">structured systems</span> &amp; operational clarity.
+          </h1>
+
+          <p class="hero-lead">
+            I am <strong>Artur Sucila</strong>. I build and operate companies across e-commerce, IT services, and automated physical retail—connecting software automation, AI workflows, and real-world logistics into resilient operations.
+          </p>
+
+          <div class="btn-row">
+            <a href="#companies" class="btn btn-primary">
+              <span>Explore Ventures</span>
+              <svg class="arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href="#systems" class="btn btn-secondary">Systems Architecture</a>
+            <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+          </div>
+        </div>
+
+        <!-- Executive Pillars Strip -->
+        <div class="metrics-strip reveal">
+          <div class="metric-cell">
+            <span class="metric-label">01 / Active Portfolio</span>
+            <span class="metric-value">3 Operating Ventures</span>
+            <span class="metric-sub">Nutravit · PCIN · Vareautomater</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-label">02 / Core Methodology</span>
+            <span class="metric-value">Systems-First Execution</span>
+            <span class="metric-sub">Frameworks over ad-hoc decisions</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-label">03 / Technical Backbone</span>
+            <span class="metric-value">AI + MCP + Automation</span>
+            <span class="metric-sub">n8n, self-hosted infra &amp; custom ERP</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-label">04 / Operating Base</span>
+            <span class="metric-value">Norway &amp; Remote</span>
+            <span class="metric-sub">Physical &amp; digital operations</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="about" class="section section-dark">
+    <!-- 01 / Profile & Philosophy -->
+    <section id="about" class="section section-alt">
       <div class="container">
-        <span class="section-num">01</span>
-        <h2 class="section-title fade-up">About Me</h2>
-        <div class="grid-2">
-          <div class="fade-up">
-            <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
-              I don't specialize in one vertical. I build and operate businesses by mapping problems as structures. My approach is entirely systems-oriented, using an external memory system to maintain clarity across everything I run.
+        <div class="section-header reveal">
+          <span class="section-index">01 / Profile</span>
+          <h2 class="section-title">Cross-domain execution anchored in structure</h2>
+          <p class="section-desc">
+            Rather than specializing in a single narrow vertical, I operate at the intersection of strategy, software automation, and physical operations.
+          </p>
+        </div>
+
+        <div class="about-layout">
+          <div class="about-prose reveal">
+            <p>
+              Running multiple companies simultaneously requires more than effort—it requires <strong>deliberate architecture</strong>. I treat every business challenge as a system: mapping bottlenecks, designing repeatable workflows, and automating routine execution so human attention stays focused on high-leverage decisions.
             </p>
-            <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">
-              I value clarity over complexity, action over theory, and structured thinking over reactive decisions.
+            <p>
+              To maintain context and precision across disparate industries—from Norwegian health supplement compliance to hardware diagnostics and vending machine telemetry—I built <strong>Central Intelligence</strong>, a structured second-brain and AI operating layer that unifies company knowledge, metrics, and decision rules.
+            </p>
+            <p>
+              My standard is simple: <strong>clarity over complexity, verifiable data over assumptions, and durable systems over temporary fixes.</strong>
             </p>
           </div>
-          <div class="tracker-card fade-up">
-            <div class="card-content">
-              <h3 style="margin-bottom: 1rem;">Core Philosophy</h3>
-              <ul class="card-list">
-                <li><strong>Generalist:</strong> Connects ideas across disparate domains.</li>
-                <li><strong>Systems Thinker:</strong> Thinks in structures and frameworks.</li>
-                <li><strong>Builder-Minded:</strong> Ships products and builds operations.</li>
-                <li><strong>Context-Driven:</strong> Decisions anchored in real data.</li>
-              </ul>
+
+          <div class="principles-grid reveal">
+            <div class="surface-card principle-card">
+              <div class="icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+              </div>
+              <h3>Cross-Domain Generalist</h3>
+              <p>Synthesizes patterns across e-commerce, IT engineering, and physical retail logistics.</p>
+            </div>
+
+            <div class="surface-card principle-card">
+              <div class="icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+              </div>
+              <h3>Systems Architect</h3>
+              <p>Translates complex operational friction into clean, documented, and automated workflows.</p>
+            </div>
+
+            <div class="surface-card principle-card">
+              <div class="icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                </svg>
+              </div>
+              <h3>Builder-Operator</h3>
+              <p>Hands-on from infrastructure deployment and API integration to commercial execution.</p>
+            </div>
+
+            <div class="surface-card principle-card">
+              <div class="icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+              </div>
+              <h3>Context-Driven</h3>
+              <p>Anchors strategic and operational decisions in structured context and real performance data.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- 02 / Ventures -->
     <section id="companies" class="section">
       <div class="container">
-        <span class="section-num">02</span>
-        <h2 class="section-title fade-up">My Companies</h2>
-        <div class="grid-2">
-          
-          <div class="tracker-card fade-up">
-            <div class="card-content">
-              <div class="company-header">
-                <span class="company-icon">💊</span>
+        <div class="section-header reveal">
+          <span class="section-index">02 / Operating Ventures</span>
+          <h2 class="section-title">Businesses I build &amp; run</h2>
+          <p class="section-desc">
+            Three distinct operations in the Norwegian market—each engineered with clear unit economics, automated workflows, and structured service delivery.
+          </p>
+        </div>
+
+        <div class="ventures-grid">
+          <!-- Nutravit -->
+          <article class="surface-card venture-card reveal">
+            <div class="venture-top">
+              <div class="venture-header">
                 <div>
-                  <h3 class="company-title">Nutravit</h3>
-                  <span class="card-tag">E-commerce · Supplements</span>
+                  <span class="venture-domain">E-Commerce · Health Supplements</span>
+                  <h3 class="venture-name">Nutravit</h3>
+                </div>
+                <div class="icon-box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.5 20.5 3.5 13.5a4.95 4.95 0 1 1 7-7l7 7a4.95 4.95 0 1 1-7 7Z"></path>
+                    <path d="m8.5 8.5 7 7"></path>
+                  </svg>
                 </div>
               </div>
-              <p class="card-desc">Norwegian-market supplement brand on WooCommerce. Powered by AI customer support and n8n automation for extreme efficiency.</p>
-              <ul class="card-list">
-                <li>Norwegian supplement compliance</li>
-                <li>AI-assisted customer interaction</li>
-                <li>WooCommerce + n8n automation</li>
+              <p class="venture-summary">
+                Norwegian-market health supplement brand built on WooCommerce. Engineered for strict regulatory compliance, transparent product positioning, and automated fulfillment.
+              </p>
+              <ul class="venture-specs">
+                <li>Norwegian supplement regulatory compliance</li>
+                <li>AI-assisted customer support &amp; communication</li>
+                <li>WooCommerce + n8n order &amp; logistics automation</li>
+                <li>PostNord fulfillment &amp; tracking integration</li>
               </ul>
-              <a href="https://nutravit.no/?artur-sucila-website" target="_blank" class="btn btn-secondary">Visit nutravit.no</a>
             </div>
-          </div>
+            <div class="venture-footer">
+              <a href="https://nutravit.no/?artur-sucila-website" target="_blank" rel="noopener noreferrer" class="venture-link">
+                <span>nutravit.no</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+              <span class="venture-market">NO Market</span>
+            </div>
+          </article>
 
-          <div class="tracker-card fade-up">
-            <div class="card-content">
-              <div class="company-header">
-                <span class="company-icon">🖥️</span>
+          <!-- PCIN -->
+          <article class="surface-card venture-card reveal">
+            <div class="venture-top">
+              <div class="venture-header">
                 <div>
-                  <h3 class="company-title">PCIN</h3>
-                  <span class="card-tag">IT Services · Consultancy</span>
+                  <span class="venture-domain">IT Services · Diagnostics &amp; Consultancy</span>
+                  <h3 class="venture-name">PCIN</h3>
+                </div>
+                <div class="icon-box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                  </svg>
                 </div>
               </div>
-              <p class="card-desc">IT service operation covering hardware diagnostics, repair workflows, OS optimization, and managed consultancy services.</p>
-              <ul class="card-list">
-                <li>Hardware diagnostics & repair</li>
-                <li>OS optimization & drivers</li>
-                <li>Data backup & recovery</li>
+              <p class="venture-summary">
+                Structured IT service operation delivering hardware diagnostics, repair dispatch workflows, OS optimization, data recovery, and technical consultancy.
+              </p>
+              <ul class="venture-specs">
+                <li>Hardware diagnostics &amp; component-level repair</li>
+                <li>OS optimization, driver &amp; system stability</li>
+                <li>Data backup, recovery &amp; security hardening</li>
+                <li>Fixed-price repair tiers &amp; specialist consultancy</li>
               </ul>
-              <a href="https://pcin.no/?artur-sucila-website" target="_blank" class="btn btn-secondary">Visit pcin.no</a>
             </div>
-          </div>
+            <div class="venture-footer">
+              <a href="https://pcin.no/?artur-sucila-website" target="_blank" rel="noopener noreferrer" class="venture-link">
+                <span>pcin.no</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+              <span class="venture-market">IT &amp; Systems</span>
+            </div>
+          </article>
 
-          <div class="tracker-card fade-up" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto; width: 100%;">
-            <div class="card-content">
-              <div class="company-header">
-                <span class="company-icon">🏪</span>
+          <!-- Vareautomater -->
+          <article class="surface-card venture-card reveal">
+            <div class="venture-top">
+              <div class="venture-header">
                 <div>
-                  <h3 class="company-title">Vareautomater</h3>
-                  <span class="card-tag">Physical Retail · Vending</span>
+                  <span class="venture-domain">Physical Retail · Automated Vending</span>
+                  <h3 class="venture-name">Vareautomater</h3>
+                </div>
+                <div class="icon-box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                    <line x1="8" y1="6" x2="16" y2="6"></line>
+                    <line x1="8" y1="10" x2="16" y2="10"></line>
+                    <rect x="8" y="14" width="8" height="4" rx="1"></rect>
+                  </svg>
                 </div>
               </div>
-              <p class="card-desc">Vending machine operation managing physical placements across route regions. Structured maintenance routines and machine location tracking keep operations efficient.</p>
-              <ul class="card-list" style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                <li>Multi-location network</li>
-                <li>Route-based dispatch</li>
-                <li>Location tracking</li>
+              <p class="venture-summary">
+                Physical automated retail network managing smart vending placements across Norwegian route regions with structured telemetry, restocking, and maintenance.
+              </p>
+              <ul class="venture-specs">
+                <li>Multi-location smart vending machine fleet</li>
+                <li>Route-based service dispatch &amp; inventory logistics</li>
+                <li>Preventative maintenance &amp; uptime protocols</li>
+                <li>Machine ID, location &amp; screen content management</li>
               </ul>
-              <a href="https://vareautomater.no/?artur-sucila-website" target="_blank" class="btn btn-secondary">Visit vareautomater.no</a>
             </div>
-          </div>
-
+            <div class="venture-footer">
+              <a href="https://vareautomater.no/?artur-sucila-website" target="_blank" rel="noopener noreferrer" class="venture-link">
+                <span>vareautomater.no</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+              <span class="venture-market">Retail Fleet</span>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="skills" class="section section-dark">
+    <!-- 03 / Systems & Architecture -->
+    <section id="systems" class="section section-alt">
       <div class="container">
-        <span class="section-num">03</span>
-        <h2 class="section-title fade-up">Skills & Stack</h2>
-        <div class="skills-grid">
-          
-          <div class="skill-category fade-up">
-            <h4>Business Operations</h4>
-            <div class="tags">
-              <span class="tag">🏢 Multi-business</span>
-              <span class="tag">⚙️ Operations</span>
-              <span class="tag">💰 Pricing architecture</span>
-              <span class="tag">🚚 Logistics</span>
+        <div class="section-header reveal">
+          <span class="section-index">03 / Systems Architecture</span>
+          <h2 class="section-title">How I engineer operations</h2>
+          <p class="section-desc">
+            Behind every customer-facing brand is a unified technical and operational infrastructure designed for leverage, speed, and reliability.
+          </p>
+        </div>
+
+        <div class="systems-grid">
+          <div class="surface-card system-card reveal">
+            <span class="system-badge">Cognitive &amp; Context Layer</span>
+            <h3>Central Intelligence (Second Brain &amp; MCP OS)</h3>
+            <p>
+              A custom-architected personal AI operating system that stores canonical business rules, pricing schemas, customer communication logic, and project blueprints. Connected via Model Context Protocol (MCP) bridges so AI agents operate on verified ground truth rather than guesswork.
+            </p>
+            <div class="arch-diagram" aria-label="Central Intelligence Architecture Flow">
+              <span class="arch-node">Knowledge Vault</span>
+              <span class="arch-arrow">→</span>
+              <span class="arch-node">MCP Bridges</span>
+              <span class="arch-arrow">→</span>
+              <span class="arch-node">AI Execution</span>
             </div>
           </div>
 
-          <div class="skill-category fade-up">
-            <h4>Technology</h4>
-            <div class="tags">
-              <span class="tag">🤖 n8n automation</span>
-              <span class="tag">🛒 WooCommerce</span>
-              <span class="tag">🧠 AI integration</span>
-              <span class="tag">🖥️ Self-hosted</span>
+          <div class="surface-card system-card reveal">
+            <span class="system-badge">Infrastructure &amp; Workflow Layer</span>
+            <h3>Self-Hosted Automation &amp; Custom ERP</h3>
+            <p>
+              End-to-end operational tooling running on self-hosted Linux/Docker infrastructure behind Caddy reverse proxies. Combines n8n event pipelines, custom NocoBase relational schemas for repair dispatch and procurement, and cloud fleet management portals.
+            </p>
+            <div class="arch-diagram" aria-label="Automation Stack Flow">
+              <span class="arch-node">Docker + Caddy</span>
+              <span class="arch-arrow">→</span>
+              <span class="arch-node">n8n + NocoBase</span>
+              <span class="arch-arrow">→</span>
+              <span class="arch-node">Live Ventures</span>
             </div>
           </div>
-
-          <div class="skill-category fade-up">
-            <h4>Strategy & Systems</h4>
-            <div class="tags">
-              <span class="tag">🧩 Systems thinking</span>
-              <span class="tag">🗄️ Knowledge management</span>
-              <span class="tag">🎯 Context-driven decisions</span>
-            </div>
-          </div>
-
         </div>
       </div>
     </section>
 
-    <section id="contact" class="section">
+    <!-- 04 / Capabilities & Stack -->
+    <section id="skills" class="section">
       <div class="container">
-        <span class="section-num">04</span>
-        <h2 class="section-title fade-up">Connect</h2>
-        <div class="contact-grid">
-          
-          <a href="mailto:artcila@gmail.com" class="tracker-card fade-up" style="text-align: center; padding: 2rem;">
-            <div class="card-content">
-              <div style="font-size: 2.5rem; margin-bottom: 1rem;">✉️</div>
-              <h3 style="color: #fff; margin-bottom: 0.5rem;">Email</h3>
-              <p style="color: var(--accent-2); font-size: 0.9rem;">artcila@gmail.com</p>
-            </div>
-          </a>
+        <div class="section-header reveal">
+          <span class="section-index">04 / Capabilities &amp; Stack</span>
+          <h2 class="section-title">Operational &amp; technical matrix</h2>
+          <p class="section-desc">
+            A pragmatic capability stack forged through building, shipping, and maintaining production systems and commercial businesses.
+          </p>
+        </div>
 
-          <a href="https://www.linkedin.com/in/artur-su/" target="_blank" class="tracker-card fade-up" style="text-align: center; padding: 2rem;">
-            <div class="card-content">
-              <div style="font-size: 2.5rem; margin-bottom: 1rem;">💼</div>
-              <h3 style="color: #fff; margin-bottom: 0.5rem;">LinkedIn</h3>
-              <p style="color: var(--accent-2); font-size: 0.9rem;">Connect Professionaly</p>
+        <div class="stack-grid">
+          <div class="surface-card stack-column reveal">
+            <h3>01 / Venture Operations</h3>
+            <div class="stack-list">
+              <div class="stack-item"><span>Multi-Business Management</span></div>
+              <div class="stack-item"><span>Operations &amp; Process Design</span></div>
+              <div class="stack-item"><span>Pricing &amp; Margin Architecture</span></div>
+              <div class="stack-item"><span>Supply Chain &amp; Fulfillment</span></div>
+              <div class="stack-item"><span>NO Market Compliance</span></div>
             </div>
-          </a>
+          </div>
 
-          <a href="https://letterboxd.com/artur/" target="_blank" class="tracker-card fade-up" style="text-align: center; padding: 2rem;">
-            <div class="card-content">
-              <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎬</div>
-              <h3 style="color: #fff; margin-bottom: 0.5rem;">Letterboxd</h3>
-              <p style="color: var(--accent-2); font-size: 0.9rem;">My Movie List</p>
+          <div class="surface-card stack-column reveal">
+            <h3>02 / AI &amp; Automation</h3>
+            <div class="stack-list">
+              <div class="stack-item"><span>Model Context Protocol (MCP)</span></div>
+              <div class="stack-item"><span>n8n Workflow Orchestration</span></div>
+              <div class="stack-item"><span>AI Support &amp; Logic Deltas</span></div>
+              <div class="stack-item"><span>Second-Brain Knowledge Systems</span></div>
+              <div class="stack-item"><span>Browser &amp; API Automation</span></div>
             </div>
-          </a>
+          </div>
 
-          <a href="https://findpenguins.com/arturs" target="_blank" class="tracker-card fade-up" style="text-align: center; padding: 2rem;">
-            <div class="card-content">
-              <div style="font-size: 2.5rem; margin-bottom: 1rem;">✈️</div>
-              <h3 style="color: #fff; margin-bottom: 0.5rem;">FindPenguins</h3>
-              <p style="color: var(--accent-2); font-size: 0.9rem;">My Trip List</p>
+          <div class="surface-card stack-column reveal">
+            <h3>03 / Software &amp; Infra</h3>
+            <div class="stack-list">
+              <div class="stack-item"><span>Linux, Docker &amp; Caddy Server</span></div>
+              <div class="stack-item"><span>NocoBase &amp; Custom Plugins</span></div>
+              <div class="stack-item"><span>WooCommerce &amp; PHP Stack</span></div>
+              <div class="stack-item"><span>TypeScript, React &amp; Go Services</span></div>
+              <div class="stack-item"><span>Self-Hosted Cloud Infrastructure</span></div>
             </div>
-          </a>
+          </div>
 
+          <div class="surface-card stack-column reveal">
+            <h3>04 / Hardware &amp; Field</h3>
+            <div class="stack-list">
+              <div class="stack-item"><span>Hardware Diagnostics &amp; Repair</span></div>
+              <div class="stack-item"><span>Smart Vending Fleet Telemetry</span></div>
+              <div class="stack-item"><span>Android Embedded Systems</span></div>
+              <div class="stack-item"><span>OS Optimization &amp; Data Recovery</span></div>
+              <div class="stack-item"><span>Route Dispatch &amp; Maintenance</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 / Contact -->
+    <section id="contact" class="section section-alt">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-index">05 / Contact</span>
+          <h2 class="section-title">Initiate a conversation</h2>
+          <p class="section-desc">
+            Open to discussing strategic partnerships, operational challenges, or connecting with fellow builders and operators.
+          </p>
+        </div>
+
+        <div class="contact-layout">
+          <div class="surface-card contact-primary-card reveal">
+            <div>
+              <span class="system-badge" style="margin-bottom: 1rem;">Direct Communication</span>
+              <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.02em;">
+                Direct &amp; structured correspondence
+              </h3>
+              <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+                Whether regarding Nutravit, PCIN, Vareautomater, or cross-domain technical collaboration, email is the fastest and most reliable channel.
+              </p>
+            </div>
+
+            <div class="contact-email-box">
+              <span class="contact-email-address">artcila@gmail.com</span>
+              <div class="contact-email-actions">
+                <button type="button" class="btn btn-secondary btn-xs" data-copy-email="artcila@gmail.com">
+                  Copy Email
+                </button>
+                <a href="mailto:artcila@gmail.com" class="btn btn-primary btn-xs">
+                  Send Email →
+                </a>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted);">
+              <span>Base: Norway / Remote</span>
+              <span>Local Time (Oslo): <strong id="norway-time" style="color: var(--text-primary);">CET</strong></span>
+            </div>
+          </div>
+
+          <div class="channels-grid reveal">
+            <a href="https://www.linkedin.com/in/artur-su/" target="_blank" rel="noopener noreferrer" class="surface-card channel-card">
+              <div class="channel-top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+                <span>↗</span>
+              </div>
+              <div>
+                <div class="channel-name">LinkedIn</div>
+                <div class="channel-handle">Professional Network</div>
+              </div>
+            </a>
+
+            <a href="https://github.com/Artur-Su" target="_blank" rel="noopener noreferrer" class="surface-card channel-card">
+              <div class="channel-top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                  <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                </svg>
+                <span>↗</span>
+              </div>
+              <div>
+                <div class="channel-name">GitHub</div>
+                <div class="channel-handle">@Artur-Su</div>
+              </div>
+            </a>
+
+            <a href="https://letterboxd.com/artur/" target="_blank" rel="noopener noreferrer" class="surface-card channel-card">
+              <div class="channel-top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                  <line x1="7" y1="2" x2="7" y2="22"></line>
+                  <line x1="17" y1="2" x2="17" y2="22"></line>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                </svg>
+                <span>↗</span>
+              </div>
+              <div>
+                <div class="channel-name">Letterboxd</div>
+                <div class="channel-handle">Film Archive</div>
+              </div>
+            </a>
+
+            <a href="https://findpenguins.com/arturs" target="_blank" rel="noopener noreferrer" class="surface-card channel-card">
+              <div class="channel-top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                </svg>
+                <span>↗</span>
+              </div>
+              <div>
+                <div class="channel-name">FindPenguins</div>
+                <div class="channel-handle">Travel Log</div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="container">
-      <p>© 2026 Artur. Built with structure, not templates.</p>
+  <!-- Command Palette Modal (⌘K / Ctrl+K) -->
+  <div class="cmd-backdrop" id="cmd-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Quick Navigation">
+    <div class="cmd-dialog">
+      <div class="cmd-search-bar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="cmd-input" id="cmd-input" placeholder="Jump to section, venture, or action..." autocomplete="off" />
+      </div>
+      <div class="cmd-list">
+        <button type="button" class="cmd-item" data-href="#about">
+          <span>01 / Profile &amp; Operating Philosophy</span>
+          <span class="cmd-item-type">Section</span>
+        </button>
+        <button type="button" class="cmd-item" data-href="#companies">
+          <span>02 / Operating Ventures</span>
+          <span class="cmd-item-type">Section</span>
+        </button>
+        <button type="button" class="cmd-item" data-href="#systems">
+          <span>03 / Systems Architecture (Central Intelligence)</span>
+          <span class="cmd-item-type">Section</span>
+        </button>
+        <button type="button" class="cmd-item" data-href="#skills">
+          <span>04 / Capabilities &amp; Technical Stack</span>
+          <span class="cmd-item-type">Section</span>
+        </button>
+        <button type="button" class="cmd-item" data-href="#contact">
+          <span>05 / Contact &amp; Channels</span>
+          <span class="cmd-item-type">Section</span>
+        </button>
+        <button type="button" class="cmd-item" data-href="news.html">
+          <span>Updates &amp; Announcements</span>
+          <span class="cmd-item-type">Page</span>
+        </button>
+        <button type="button" class="cmd-item" data-href="https://nutravit.no/?artur-sucila-website" data-external="true">
+          <span>Visit Nutravit (nutravit.no)</span>
+          <span class="cmd-item-type">Venture ↗</span>
+        </button>
+        <button type="button" class="cmd-item" data-href="https://pcin.no/?artur-sucila-website" data-external="true">
+          <span>Visit PCIN (pcin.no)</span>
+          <span class="cmd-item-type">Venture ↗</span>
+        </button>
+        <button type="button" class="cmd-item" data-href="https://vareautomater.no/?artur-sucila-website" data-external="true">
+          <span>Visit Vareautomater (vareautomater.no)</span>
+          <span class="cmd-item-type">Venture ↗</span>
+        </button>
+        <button type="button" class="cmd-item" data-cmd-copy="artcila@gmail.com">
+          <span>Copy Email Address (artcila@gmail.com)</span>
+          <span class="cmd-item-type">Action</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© 2026 Artur Sucila. Engineered with structure, not templates.</span>
+      <div class="footer-meta">
+        <a href="https://github.com/Artur-Su" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/artur-su/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="news.html">Updates</a>
+      </div>
     </div>
   </footer>
 
-  <script>
-    // Intro Animation
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('intro').classList.add('slide-up');
-      }, 1800); // Wait for text fill animation to finish
-    });
-
-    // Navbar Scroll & Mobile Menu
-    const navbar = document.getElementById('navbar');
-    const mobileBtn = document.getElementById('mobile-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) { navbar.classList.add('scrolled'); } 
-      else { navbar.classList.remove('scrolled'); }
-    });
-
-    mobileBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
-    });
-
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-      });
-    });
-
-    // Intersection Observer for Fade-Ups
-    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-    // Mouse Tracking for Cards
-    document.querySelectorAll('.tracker-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-      });
-    });
-
-    // Three.js Background Implementation
-    const initThreeJS = () => {
-      const container = document.getElementById('canvas-container');
-      const scene = new THREE.Scene();
-      
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 400;
-
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
-      container.appendChild(renderer.domElement);
-
-      const particleCount = window.innerWidth < 768 ? 100 : 300;
-      const geometry = new THREE.BufferGeometry();
-      const positions = new Float32Array(particleCount * 3);
-      const velocities = [];
-
-      for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 1000;
-        positions[i + 1] = (Math.random() - 0.5) * 1000;
-        positions[i + 2] = (Math.random() - 0.5) * 400;
-
-        velocities.push({
-          x: (Math.random() - 0.5) * 0.5,
-          y: (Math.random() - 0.5) * 0.5,
-          z: (Math.random() - 0.5) * 0.5
-        });
-      }
-
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-      const particleMaterial = new THREE.PointsMaterial({
-        color: 0x7c6eff, size: 3, transparent: true, opacity: 0.8
-      });
-
-      const particles = new THREE.Points(geometry, particleMaterial);
-      scene.add(particles);
-
-      const lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x4fc3f7, transparent: true, opacity: 0.15
-      });
-
-      const lineGeometry = new THREE.BufferGeometry();
-      const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-      scene.add(lines);
-
-      let mouseX = 0; let mouseY = 0;
-      let targetX = 0; let targetY = 0;
-
-      const windowHalfX = window.innerWidth / 2;
-      const windowHalfY = window.innerHeight / 2;
-
-      document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX - windowHalfX);
-        mouseY = (event.clientY - windowHalfY);
-      });
-
-      const animate = () => {
-        requestAnimationFrame(animate);
-
-        targetX = mouseX * 0.05; targetY = mouseY * 0.05;
-        camera.position.x += (targetX - camera.position.x) * 0.02;
-        camera.position.y += (-targetY - camera.position.y) * 0.02;
-        camera.lookAt(scene.position);
-
-        const positions = particles.geometry.attributes.position.array;
-        const linePositions = [];
-
-        for (let i = 0; i < particleCount; i++) {
-          const i3 = i * 3;
-          
-          positions[i3] += velocities[i].x;
-          positions[i3 + 1] += velocities[i].y;
-          positions[i3 + 2] += velocities[i].z;
-
-          if (Math.abs(positions[i3]) > 500) velocities[i].x *= -1;
-          if (Math.abs(positions[i3 + 1]) > 500) velocities[i].y *= -1;
-          if (Math.abs(positions[i3 + 2]) > 200) velocities[i].z *= -1;
-
-          for (let j = i + 1; j < particleCount; j++) {
-            const j3 = j * 3;
-            const dx = positions[i3] - positions[j3];
-            const dy = positions[i3 + 1] - positions[j3 + 1];
-            const dz = positions[i3 + 2] - positions[j3 + 2];
-            const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
-
-            if (dist < 80) {
-              linePositions.push(
-                positions[i3], positions[i3 + 1], positions[i3 + 2],
-                positions[j3], positions[j3 + 1], positions[j3 + 2]
-              );
-            }
-          }
-        }
-
-        particles.geometry.attributes.position.needsUpdate = true;
-        lines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-
-        renderer.render(scene, camera);
-      };
-
-      animate();
-
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-    };
-
-    // Initialize 3D only after intro completes to prevent stuttering
-    setTimeout(initThreeJS, 100); 
-
-  </script>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/network.js"></script>
 </body>
 </html>
