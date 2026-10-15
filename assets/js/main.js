@@ -51,14 +51,14 @@ const SYSTEM_BLUEPRINTS = {
     ],
   },
   pcin: {
-    cmd: '$ sysctl inspect pcin.no --module=nocobase-erp',
+    cmd: '$ sysctl inspect pcin.no --module=custom-erp',
     items: [
       {
         title: 'Hardware Diagnostics & Repair',
         desc: 'Component-level hardware diagnostics, OS & driver optimization, and data recovery workflows.',
       },
       {
-        title: 'Custom NocoBase Dispatch ERP',
+        title: 'Custom Dispatch & Operations ERP',
         desc: 'Relational ticket, procurement, and repair-dispatch architecture with automated customer status updates.',
       },
       {
@@ -79,8 +79,8 @@ const SYSTEM_BLUEPRINTS = {
         desc: 'Multi-location smart vending machine network operating across Norwegian route regions.',
       },
       {
-        title: 'PickyVend Cloud & Embedded Stack',
-        desc: 'Go cloud backend, React 19 management portal, and Android 8.1 embedded vending screen interfaces.',
+        title: 'Cloud Fleet & Embedded Screen Platform',
+        desc: 'Go cloud backend, React 19 management portal, and Android embedded vending screen interfaces.',
       },
       {
         title: 'Route & Maintenance Logistics',
