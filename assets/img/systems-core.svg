@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" fill="none">
+  <defs>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.45"/>
+      <stop offset="55%" stop-color="#38bdf8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#06070a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ringGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="ringGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.1"/>
+    </linearGradient>
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Core Glow -->
+  <circle cx="210" cy="210" r="185" fill="url(#coreGlow)"/>
+
+  <!-- Outer Telemetry Ring -->
+  <g opacity="0.55">
+    <circle cx="210" cy="210" r="190" stroke="url(#ringGrad2)" stroke-width="1" stroke-dasharray="4 8"/>
+    <animateTransform attributeName="transform" type="rotate" from="0 210 210" to="360 210 210" dur="48s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Counter-Rotating Segmented Ring -->
+  <g>
+    <circle cx="210" cy="210" r="162" stroke="url(#ringGrad1)" stroke-width="1.5" stroke-dasharray="60 25 12 25 90 35" stroke-linecap="round"/>
+    <animateTransform attributeName="transform" type="rotate" from="360 210 210" to="0 210 210" dur="28s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Hexagonal Architecture Frame -->
+  <g opacity="0.75">
+    <polygon points="210,72 329,141 329,279 210,348 91,279 91,141" stroke="url(#ringGrad1)" stroke-width="1.2" fill="rgba(99,102,241,0.03)"/>
+    <animateTransform attributeName="transform" type="rotate" from="0 210 210" to="360 210 210" dur="36s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Inner Gyroscope Ring -->
+  <g>
+    <circle cx="210" cy="210" r="112" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="32 18 8 18" stroke-opacity="0.7"/>
+    <circle cx="210" cy="98" r="4" fill="#38bdf8" filter="url(#neonGlow)"/>
+    <circle cx="210" cy="322" r="4" fill="#6366f1" filter="url(#neonGlow)"/>
+    <animateTransform attributeName="transform" type="rotate" from="0 210 210" to="360 210 210" dur="16s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Crosshair Axis & Data Vectors -->
+  <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+    <line x1="210" y1="20" x2="210" y2="85"/>
+    <line x1="210" y1="335" x2="210" y2="400"/>
+    <line x1="20" y1="210" x2="85" y2="210"/>
+    <line x1="335" y1="210" x2="400" y2="210"/>
+  </g>
+
+  <!-- Active Data Circuit Spokes -->
+  <g stroke="url(#ringGrad1)" stroke-width="1.5" opacity="0.85">
+    <line x1="210" y1="150" x2="210" y2="98" stroke-dasharray="6 4">
+      <animate attributeName="stroke-dashoffset" from="20" to="0" dur="1.5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="262" y1="240" x2="318" y2="272" stroke-dasharray="6 4">
+      <animate attributeName="stroke-dashoffset" from="20" to="0" dur="1.5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="158" y1="240" x2="102" y2="272" stroke-dasharray="6 4">
+      <animate attributeName="stroke-dashoffset" from="20" to="0" dur="1.5s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Satellite Venture Nodes -->
+  <g filter="url(#neonGlow)">
+    <circle cx="210" cy="72" r="6" fill="#10b981"/>
+    <circle cx="329" cy="279" r="6" fill="#38bdf8"/>
+    <circle cx="91" cy="279" r="6" fill="#6366f1"/>
+  </g>
+
+  <!-- Central Intelligence Core -->
+  <circle cx="210" cy="210" r="54" fill="#090c15" stroke="url(#ringGrad1)" stroke-width="2"/>
+  <circle cx="210" cy="210" r="42" fill="rgba(99,102,241,0.12)" stroke="#38bdf8" stroke-width="1" stroke-dasharray="6 4">
+    <animate attributeName="r" values="40;45;40" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Core Monogram & Pulse -->
+  <text x="210" y="216" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-weight="700" font-size="18" letter-spacing="2">AS·OS</text>
+  <text x="210" y="232" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-weight="600" font-size="8" letter-spacing="1.5">MCP ACTIVE</text>
+</svg>

@@ -1,134 +1,189 @@
 /**
- * Artur Sucila — Personal Website Main Controller (ES Module)
- * Handles navigation scroll state, active section spy, spotlight cards,
- * command palette (⌘K / Ctrl+K), live Norway clock, and email copy feedback.
+ * Artur Sucila — Mobile-First Interactive Systems Controller (ES Module)
+ * - Controls WebGL 3D mode switcher & reactor core tap pulse
+ * - Interactive Architecture Terminal inspector (4 live system blueprints)
+ * - Native <dialog> Command Palette
+ * - Mobile Thumb-Zone OS Dock active section sync
+ * - Live Oslo, Norway telemetry clock & one-tap email copy
  */
 
-const initHeaderScroll = () => {
-  const header = document.getElementById('site-header');
-  if (!header) return;
-
-  const updateScroll = () => {
-    header.classList.toggle('scrolled', window.scrollY > 24);
-  };
-  updateScroll();
-  window.addEventListener('scroll', updateScroll, { passive: true });
-};
-
-const initMobileMenu = () => {
-  const toggleBtn = document.getElementById('mobile-toggle');
-  const drawer = document.getElementById('mobile-drawer');
-  if (!toggleBtn || !drawer) return;
-
-  const closeDrawer = () => {
-    drawer.classList.remove('open');
-    toggleBtn.setAttribute('aria-expanded', 'false');
-  };
-
-  toggleBtn.addEventListener('click', () => {
-    const isOpen = drawer.classList.toggle('open');
-    toggleBtn.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  drawer.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', closeDrawer);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeDrawer();
-  });
-};
-
-const initScrollReveal = () => {
-  const elements = document.querySelectorAll('.reveal');
-  if (!elements.length) return;
-
-  if (!('IntersectionObserver' in window)) {
-    elements.forEach((el) => el.classList.add('visible'));
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-  );
-
-  elements.forEach((el) => observer.observe(el));
-};
-
-const initSectionSpy = () => {
-  const sections = document.querySelectorAll('main section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-  if (!sections.length || !navLinks.length) return;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.getAttribute('id');
-          navLinks.forEach((link) => {
-            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-          });
-        }
-      });
-    },
-    { rootMargin: '-35% 0px -55% 0px' }
-  );
-
-  sections.forEach((section) => observer.observe(section));
-};
-
-const initSpotlightCards = () => {
-  const cards = document.querySelectorAll('.surface-card');
-  cards.forEach((card) => {
-    card.addEventListener(
-      'mousemove',
-      (e) => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+const SYSTEM_BLUEPRINTS = {
+  central: {
+    cmd: '$ sysctl inspect central-intelligence --mode=mcp-bridge',
+    items: [
+      {
+        title: 'Cognitive Architecture',
+        desc: 'Canonical second-brain repository storing Artur identity profile, venture pricing rules, and operational SOPs.',
       },
-      { passive: true }
-    );
+      {
+        title: 'MCP Agent Layer',
+        desc: 'Model Context Protocol bridges connecting live business context directly to autonomous AI workflows.',
+      },
+      {
+        title: 'Decision Engine',
+        desc: 'Eliminates repetitive guesswork by grounding customer, technical, and strategic output in verified schemas.',
+      },
+      {
+        title: 'Stack & Runtime',
+        desc: 'Git-backed Markdown/JSON schemas · Automated GitHub Actions sync · Multi-agent routing.',
+      },
+    ],
+  },
+  nutravit: {
+    cmd: '$ sysctl inspect nutravit.no --pipeline=ecommerce-ai',
+    items: [
+      {
+        title: 'Storefront & Compliance',
+        desc: 'Norwegian health supplement e-commerce built on WooCommerce with strict Mattilsynet regulatory compliance.',
+      },
+      {
+        title: 'n8n Order & Fulfillment Automation',
+        desc: 'Automated PostNord shipping label generation, tracking dispatch, and inventory synchronization.',
+      },
+      {
+        title: 'AI Customer Support Pipeline',
+        desc: 'Context-aware support workflows using structured communication logic deltas and responsive HTML templates.',
+      },
+      {
+        title: 'Market & Status',
+        desc: 'Production · Norway (nutravit.no) · Automated 24/7 order processing.',
+      },
+    ],
+  },
+  pcin: {
+    cmd: '$ sysctl inspect pcin.no --module=nocobase-erp',
+    items: [
+      {
+        title: 'Hardware Diagnostics & Repair',
+        desc: 'Component-level hardware diagnostics, OS & driver optimization, and data recovery workflows.',
+      },
+      {
+        title: 'Custom NocoBase Dispatch ERP',
+        desc: 'Relational ticket, procurement, and repair-dispatch architecture with automated customer status updates.',
+      },
+      {
+        title: 'Commercial Model',
+        desc: 'Predictable fixed-price tiers for standard diagnostics paired with hourly specialist IT consultancy.',
+      },
+      {
+        title: 'Self-Hosted Infrastructure',
+        desc: 'Ubuntu Server · Docker containers · Caddy reverse proxy with automated TLS.',
+      },
+    ],
+  },
+  vareautomater: {
+    cmd: '$ sysctl inspect vareautomater.no --fleet=telemetry',
+    items: [
+      {
+        title: 'Automated Retail Fleet',
+        desc: 'Multi-location smart vending machine network operating across Norwegian route regions.',
+      },
+      {
+        title: 'PickyVend Cloud & Embedded Stack',
+        desc: 'Go cloud backend, React 19 management portal, and Android 8.1 embedded vending screen interfaces.',
+      },
+      {
+        title: 'Route & Maintenance Logistics',
+        desc: 'Machine ID location tracking, preventative maintenance schedules, and telemetry-driven restocking.',
+      },
+      {
+        title: 'On-Screen Merchandising',
+        desc: 'High-conversion Norwegian product copy and nutrition summaries tailored for gym & venue screens.',
+      },
+    ],
+  },
+};
+
+const initWebGLControls = () => {
+  const modeBtns = document.querySelectorAll('[data-webgl-mode]');
+  const reactorWrap = document.getElementById('reactor-core-trigger');
+
+  modeBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const mode = btn.getAttribute('data-webgl-mode');
+      modeBtns.forEach((b) => b.classList.toggle('active', b === btn));
+      if (typeof window.setWebGLMode === 'function') {
+        window.setWebGLMode(mode);
+      }
+    });
   });
+
+  if (reactorWrap) {
+    reactorWrap.addEventListener('click', () => {
+      const modes = ['mesh', 'vortex', 'matrix'];
+      const activeBtn = document.querySelector('[data-webgl-mode].active');
+      const current = activeBtn ? activeBtn.getAttribute('data-webgl-mode') : 'mesh';
+      const next = modes[(modes.indexOf(current) + 1) % modes.length];
+      const nextBtn = document.querySelector(`[data-webgl-mode="${next}"]`);
+      if (nextBtn) nextBtn.click();
+    });
+  }
+};
+
+const initTerminalInspector = () => {
+  const tabs = document.querySelectorAll('[data-blueprint]');
+  const cmdEl = document.getElementById('term-cmd');
+  const gridEl = document.getElementById('term-grid');
+  if (!tabs.length || !cmdEl || !gridEl) return;
+
+  const renderBlueprint = (key) => {
+    const data = SYSTEM_BLUEPRINTS[key] || SYSTEM_BLUEPRINTS.central;
+    cmdEl.textContent = data.cmd;
+    gridEl.innerHTML = data.items
+      .map(
+        (item) => `
+        <div class="term-kv">
+          <strong>${item.title}</strong>
+          <span>${item.desc}</span>
+        </div>
+      `
+      )
+      .join('');
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const key = tab.getAttribute('data-blueprint');
+      tabs.forEach((t) => t.classList.toggle('active', t === tab));
+      renderBlueprint(key);
+    });
+  });
+
+  renderBlueprint('central');
 };
 
 const initNorwayClock = () => {
-  const clockEl = document.getElementById('norway-time');
-  if (!clockEl) return;
+  const clockElements = document.querySelectorAll('[data-oslo-clock]');
+  if (!clockElements.length) return;
 
-  const updateClock = () => {
+  const update = () => {
     try {
-      const formatter = new Intl.DateTimeFormat('en-GB', {
+      const timeStr = new Intl.DateTimeFormat('en-GB', {
         timeZone: 'Europe/Oslo',
         hour: '2-digit',
         minute: '2-digit',
-        timeZoneName: 'short',
+        second: '2-digit',
+      }).format(new Date());
+      clockElements.forEach((el) => {
+        el.textContent = `${timeStr} CET`;
       });
-      clockEl.textContent = formatter.format(new Date());
     } catch {
-      clockEl.textContent = 'CET / CEST';
+      clockElements.forEach((el) => {
+        el.textContent = 'OSLO · CET';
+      });
     }
   };
 
-  updateClock();
-  setInterval(updateClock, 30000);
+  update();
+  setInterval(update, 1000);
 };
 
 const initCopyEmail = () => {
-  const copyBtns = document.querySelectorAll('[data-copy-email]');
-  copyBtns.forEach((btn) => {
+  document.querySelectorAll('[data-copy-email]').forEach((btn) => {
     btn.addEventListener('click', async () => {
       const email = btn.getAttribute('data-copy-email');
       if (!email) return;
-      const originalText = btn.textContent;
+      const original = btn.textContent;
       try {
         await navigator.clipboard.writeText(email);
         btn.textContent = 'Copied ✓';
@@ -136,65 +191,66 @@ const initCopyEmail = () => {
         window.location.href = `mailto:${email}`;
       }
       setTimeout(() => {
-        btn.textContent = originalText;
+        btn.textContent = original;
       }, 2000);
     });
   });
 };
 
-const initCommandPalette = () => {
-  const backdrop = document.getElementById('cmd-backdrop');
-  const openBtn = document.getElementById('cmd-open');
-  const input = document.getElementById('cmd-input');
-  const items = document.querySelectorAll('.cmd-item');
-  if (!backdrop || !input) return;
+const initCommandDialog = () => {
+  const dialog = document.getElementById('cmd-dialog');
+  const openBtns = document.querySelectorAll('[data-open-cmd]');
+  const input = document.getElementById('cmd-search');
+  const items = document.querySelectorAll('[data-cmd-action]');
+  if (!dialog) return;
 
-  const openPalette = () => {
-    backdrop.classList.add('open');
-    backdrop.setAttribute('aria-hidden', 'false');
-    input.value = '';
-    filterItems('');
-    setTimeout(() => input.focus(), 40);
+  const openModal = () => {
+    if (!dialog.open) {
+      dialog.showModal();
+      if (input) {
+        input.value = '';
+        items.forEach((el) => (el.style.display = 'flex'));
+        setTimeout(() => input.focus(), 30);
+      }
+    }
   };
 
-  const closePalette = () => {
-    backdrop.classList.remove('open');
-    backdrop.setAttribute('aria-hidden', 'true');
-  };
+  openBtns.forEach((btn) => btn.addEventListener('click', openModal));
 
-  const filterItems = (query) => {
-    const q = query.trim().toLowerCase();
-    items.forEach((item) => {
-      const text = (item.textContent || '').toLowerCase();
-      item.style.display = text.includes(q) ? 'flex' : 'none';
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  if (input) {
+    input.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      items.forEach((item) => {
+        const match = (item.textContent || '').toLowerCase().includes(q);
+        item.style.display = match ? 'flex' : 'none';
+      });
     });
-  };
-
-  if (openBtn) {
-    openBtn.addEventListener('click', openPalette);
   }
-
-  backdrop.addEventListener('click', (e) => {
-    if (e.target === backdrop) closePalette();
-  });
-
-  input.addEventListener('input', (e) => {
-    filterItems(e.target.value);
-  });
 
   items.forEach((item) => {
     item.addEventListener('click', async () => {
       const href = item.getAttribute('data-href');
-      const copyEmail = item.getAttribute('data-cmd-copy');
+      const copy = item.getAttribute('data-copy');
+      const mode = item.getAttribute('data-mode');
       const external = item.getAttribute('data-external') === 'true';
 
-      closePalette();
+      dialog.close();
 
-      if (copyEmail) {
+      if (mode && typeof window.setWebGLMode === 'function') {
+        const modeBtn = document.querySelector(`[data-webgl-mode="${mode}"]`);
+        if (modeBtn) modeBtn.click();
+        return;
+      }
+
+      if (copy) {
         try {
-          await navigator.clipboard.writeText(copyEmail);
+          await navigator.clipboard.writeText(copy);
         } catch {
-          window.location.href = `mailto:${copyEmail}`;
+          window.location.href = `mailto:${copy}`;
         }
         return;
       }
@@ -212,24 +268,39 @@ const initCommandPalette = () => {
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
       e.preventDefault();
-      if (backdrop.classList.contains('open')) {
-        closePalette();
-      } else {
-        openPalette();
-      }
-    } else if (e.key === 'Escape' && backdrop.classList.contains('open')) {
-      closePalette();
+      if (dialog.open) dialog.close();
+      else openModal();
     }
   });
 };
 
+const initDockSpy = () => {
+  const sections = document.querySelectorAll('main section[id]');
+  const dockLinks = document.querySelectorAll('.mobile-os-dock a[href^="#"], .desktop-nav a[href^="#"]');
+  if (!sections.length || !dockLinks.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          dockLinks.forEach((link) => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+          });
+        }
+      });
+    },
+    { rootMargin: '-30% 0px -55% 0px' }
+  );
+
+  sections.forEach((s) => observer.observe(s));
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-  initHeaderScroll();
-  initMobileMenu();
-  initScrollReveal();
-  initSectionSpy();
-  initSpotlightCards();
+  initWebGLControls();
+  initTerminalInspector();
   initNorwayClock();
   initCopyEmail();
-  initCommandPalette();
+  initCommandDialog();
+  initDockSpy();
 });

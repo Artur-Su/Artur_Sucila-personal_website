@@ -2,35 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Artur Sucila — Systems Builder &amp; Multi-Venture Operator</title>
-  <meta name="description" content="Artur Sucila builds and operates structured businesses across e-commerce (Nutravit), IT consultancy (PCIN), and automated physical retail (Vareautomater) in Norway." />
-  <meta name="author" content="Artur Sucila" />
-  <meta name="theme-color" content="#06070a" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Artur Sucila — Systems Architect &amp; Multi-Venture Operator</title>
+  <meta name="description" content="Artur Sucila builds and operates structured businesses across e-commerce (Nutravit), IT diagnostics &amp; ERP systems (PCIN), and smart automated retail (Vareautomater) in Norway." />
+  <meta name="theme-color" content="#07080f" />
 
-  <!-- Open Graph / Social Meta -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Artur Sucila — Systems Builder &amp; Multi-Venture Operator" />
-  <meta property="og:description" content="Operating businesses across technology, health e-commerce, and automated physical retail through structured systems and AI-driven architecture." />
+  <meta property="og:title" content="Artur Sucila — Systems Architect &amp; Multi-Venture Operator" />
+  <meta property="og:description" content="Operating businesses across technology, health e-commerce, and automated physical retail through AI, MCP, and structured systems." />
   <meta property="og:url" content="https://artur-su.github.io/Artur_Sucila-personal_website/" />
 
-  <!-- Favicon & Typography -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
 
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
-  <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Artur Sucila",
     "url": "https://artur-su.github.io/Artur_Sucila-personal_website/",
-    "jobTitle": "Systems Builder & Multi-Venture Operator",
+    "jobTitle": "Systems Architect & Multi-Venture Operator",
     "email": "mailto:artcila@gmail.com",
     "sameAs": [
       "https://github.com/Artur-Su",
@@ -46,470 +41,373 @@
 </head>
 <body>
 
-  <!-- Background Architecture -->
-  <div id="canvas-container" aria-hidden="true"></div>
-  <div class="bg-grid-overlay" aria-hidden="true"></div>
-  <div class="bg-radial-glow" aria-hidden="true"></div>
+  <!-- Scroll-Driven Laser Progress Bar (Chrome 155+ animation-timeline: scroll(root)) -->
+  <div class="scroll-laser-bar" aria-hidden="true"></div>
 
-  <!-- Navigation Header -->
-  <header class="site-header" id="site-header">
+  <!-- 3D Hardware-Accelerated WebGL Background (Active on Mobile & Desktop) -->
+  <div id="canvas-container" aria-hidden="true"></div>
+  <div class="cyber-grid-backdrop" aria-hidden="true"></div>
+
+  <!-- Sticky Telemetry Header -->
+  <header class="site-header">
     <div class="container nav-inner">
-      <a href="#top" class="brand" aria-label="Artur Sucila Home">
-        <span class="brand-mark">AS<span>.</span></span>
+      <a href="#hud" class="brand" aria-label="Artur Sucila">
+        <span class="brand-mark"><span>AS</span></span>
         <span>Artur Sucila</span>
       </a>
 
-      <nav class="nav-links" aria-label="Primary Navigation">
-        <a href="#about">Profile</a>
-        <a href="#companies">Ventures</a>
-        <a href="#systems">Architecture</a>
-        <a href="#skills">Capabilities</a>
-        <a href="#contact">Contact</a>
+      <nav class="desktop-nav" aria-label="Desktop Navigation">
+        <a href="#hud" class="active">HUD</a>
+        <a href="#ventures">Ventures</a>
+        <a href="#systems">Core OS</a>
+        <a href="#capabilities">Stack</a>
+        <a href="#contact">Connect</a>
       </nav>
 
-      <div class="nav-actions">
-        <button type="button" class="cmd-trigger" id="cmd-open" aria-label="Open quick navigation">
-          <span>Quick Jump</span>
-          <kbd>⌘K</kbd>
-        </button>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <div class="header-telemetry">
+          <span class="pulse-led"></span>
+          <span data-oslo-clock>OSLO · CET</span>
+        </div>
         <a href="news.html" class="nav-updates-pill">
-          <span class="status-dot"></span>
-          <span>Updates</span>
+          <span>Bulletin</span>
+          <span>→</span>
         </a>
-        <button type="button" class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu" aria-expanded="false">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="4" y1="7" x2="20" y2="7"></line>
-            <line x1="4" y1="12" x2="20" y2="12"></line>
-            <line x1="4" y1="17" x2="20" y2="17"></line>
-          </svg>
-        </button>
       </div>
     </div>
   </header>
 
-  <!-- Mobile Navigation Drawer -->
-  <nav class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
-    <a href="#about">01 / Profile</a>
-    <a href="#companies">02 / Ventures</a>
-    <a href="#systems">03 / Architecture</a>
-    <a href="#skills">04 / Capabilities</a>
-    <a href="#contact">05 / Contact</a>
-    <a href="news.html" style="color: var(--accent-secondary);">Updates &amp; Announcements →</a>
-  </nav>
-
-  <main id="top">
-    <!-- Hero Section -->
-    <section class="hero">
+  <main>
+    <!-- 00 / Mobile-First Hero & Interactive Reactor Core HUD -->
+    <section id="hud" class="hero">
       <div class="container">
-        <div class="reveal">
-          <div class="hero-eyebrow">
-            <span class="status-dot emerald"></span>
-            <span>BUILDER · STRATEGIST · SYSTEMS OPERATOR</span>
-            <span class="eyebrow-sep">/</span>
-            <span>NORWAY</span>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow-chip">
+              <span class="pulse-led"></span>
+              <span>SYSTEMS ARCHITECT · MULTI-VENTURE OPERATOR · NORWAY</span>
+            </div>
+
+            <h1 class="hero-title">
+              Engineering <span class="holo-text">autonomous operations</span> across digital &amp; physical markets.
+            </h1>
+
+            <p class="hero-lead">
+              I am <strong>Artur Sucila</strong>. I build and operate companies across e-commerce, IT services, and automated retail—powered by self-hosted Linux/Docker infrastructure, AI workflows, and a custom MCP second-brain operating system.
+            </p>
+
+            <div class="cta-group">
+              <a href="#ventures" class="btn btn-primary">
+                <span>Explore Ventures</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+              <button type="button" class="btn btn-glass" data-open-cmd>
+                <span>Command Console</span>
+                <span style="font-family: var(--font-mono); font-size: 0.72rem; opacity: 0.8;">⌘K</span>
+              </button>
+            </div>
           </div>
 
-          <h1 class="hero-title">
-            Architecting businesses through <span class="text-gradient">structured systems</span> &amp; operational clarity.
-          </h1>
+          <!-- Interactive 3D Telemetry & SVG Core HUD -->
+          <div class="laser-card reactor-hud-card">
+            <div class="hud-top-bar">
+              <span>WEBGL 3D ENGINE: <strong style="color: var(--accent-emerald);">ONLINE</strong></span>
+              <span id="hud-fps">60 FPS</span>
+            </div>
 
-          <p class="hero-lead">
-            I am <strong>Artur Sucila</strong>. I build and operate companies across e-commerce, IT services, and automated physical retail—connecting software automation, AI workflows, and real-world logistics into resilient operations.
-          </p>
+            <div class="reactor-svg-wrap" id="reactor-core-trigger" title="Tap to cycle 3D engine geometry">
+              <img src="assets/img/systems-core.svg" alt="Artur Sucila Central Intelligence Core Schematic" width="230" height="230" />
+            </div>
 
-          <div class="btn-row">
-            <a href="#companies" class="btn btn-primary">
-              <span>Explore Ventures</span>
-              <svg class="arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
-            <a href="#systems" class="btn btn-secondary">Systems Architecture</a>
-            <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            <div class="webgl-mode-switcher" role="group" aria-label="3D Background Visualization Mode">
+              <button type="button" class="mode-btn active" data-webgl-mode="mesh">01 · MESH</button>
+              <button type="button" class="mode-btn" data-webgl-mode="vortex">02 · VORTEX</button>
+              <button type="button" class="mode-btn" data-webgl-mode="matrix">03 · STREAM</button>
+            </div>
+
+            <div class="hud-hint">
+              Tap core or modes above · Swipe or tilt phone to warp 3D nodes (<span id="hud-node-count">115</span> active)
+            </div>
           </div>
         </div>
 
-        <!-- Executive Pillars Strip -->
-        <div class="metrics-strip reveal">
-          <div class="metric-cell">
-            <span class="metric-label">01 / Active Portfolio</span>
-            <span class="metric-value">3 Operating Ventures</span>
-            <span class="metric-sub">Nutravit · PCIN · Vareautomater</span>
+        <!-- Live Telemetry Strip -->
+        <div class="telemetry-strip">
+          <div class="telemetry-tile">
+            <span class="t-label">01 / Active Ventures</span>
+            <span class="t-val">03 Production</span>
+            <span class="t-sub">Nutravit · PCIN · Vareautomater</span>
           </div>
-          <div class="metric-cell">
-            <span class="metric-label">02 / Core Methodology</span>
-            <span class="metric-value">Systems-First Execution</span>
-            <span class="metric-sub">Frameworks over ad-hoc decisions</span>
+          <div class="telemetry-tile">
+            <span class="t-label">02 / Cognitive OS</span>
+            <span class="t-val">Central Intel</span>
+            <span class="t-sub">MCP Agent &amp; Context Layer</span>
           </div>
-          <div class="metric-cell">
-            <span class="metric-label">03 / Technical Backbone</span>
-            <span class="metric-value">AI + MCP + Automation</span>
-            <span class="metric-sub">n8n, self-hosted infra &amp; custom ERP</span>
+          <div class="telemetry-tile">
+            <span class="t-label">03 / Infrastructure</span>
+            <span class="t-val">Self-Hosted</span>
+            <span class="t-sub">Docker · Caddy · n8n · NocoBase</span>
           </div>
-          <div class="metric-cell">
-            <span class="metric-label">04 / Operating Base</span>
-            <span class="metric-value">Norway &amp; Remote</span>
-            <span class="metric-sub">Physical &amp; digital operations</span>
+          <div class="telemetry-tile">
+            <span class="t-label">04 / Jurisdiction</span>
+            <span class="t-val">Norway / NO</span>
+            <span class="t-sub">E-Commerce, IT &amp; Retail Fleet</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 01 / Profile & Philosophy -->
-    <section id="about" class="section section-alt">
+    <!-- 01 / Operating Ventures with Custom Animated SVG Schematics -->
+    <section id="ventures" class="section">
       <div class="container">
-        <div class="section-header reveal">
-          <span class="section-index">01 / Profile</span>
-          <h2 class="section-title">Cross-domain execution anchored in structure</h2>
+        <div class="section-header">
+          <span class="section-tag">01 / Operating Ventures</span>
+          <h2 class="section-title">Production businesses engineered as systems</h2>
           <p class="section-desc">
-            Rather than specializing in a single narrow vertical, I operate at the intersection of strategy, software automation, and physical operations.
-          </p>
-        </div>
-
-        <div class="about-layout">
-          <div class="about-prose reveal">
-            <p>
-              Running multiple companies simultaneously requires more than effort—it requires <strong>deliberate architecture</strong>. I treat every business challenge as a system: mapping bottlenecks, designing repeatable workflows, and automating routine execution so human attention stays focused on high-leverage decisions.
-            </p>
-            <p>
-              To maintain context and precision across disparate industries—from Norwegian health supplement compliance to hardware diagnostics and vending machine telemetry—I built <strong>Central Intelligence</strong>, a structured second-brain and AI operating layer that unifies company knowledge, metrics, and decision rules.
-            </p>
-            <p>
-              My standard is simple: <strong>clarity over complexity, verifiable data over assumptions, and durable systems over temporary fixes.</strong>
-            </p>
-          </div>
-
-          <div class="principles-grid reveal">
-            <div class="surface-card principle-card">
-              <div class="icon-box" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                  <polyline points="2 17 12 22 22 17"></polyline>
-                  <polyline points="2 12 12 17 22 12"></polyline>
-                </svg>
-              </div>
-              <h3>Cross-Domain Generalist</h3>
-              <p>Synthesizes patterns across e-commerce, IT engineering, and physical retail logistics.</p>
-            </div>
-
-            <div class="surface-card principle-card">
-              <div class="icon-box" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-                  <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-                  <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-                  <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-                </svg>
-              </div>
-              <h3>Systems Architect</h3>
-              <p>Translates complex operational friction into clean, documented, and automated workflows.</p>
-            </div>
-
-            <div class="surface-card principle-card">
-              <div class="icon-box" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
-                </svg>
-              </div>
-              <h3>Builder-Operator</h3>
-              <p>Hands-on from infrastructure deployment and API integration to commercial execution.</p>
-            </div>
-
-            <div class="surface-card principle-card">
-              <div class="icon-box" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>
-              </div>
-              <h3>Context-Driven</h3>
-              <p>Anchors strategic and operational decisions in structured context and real performance data.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 02 / Ventures -->
-    <section id="companies" class="section">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-index">02 / Operating Ventures</span>
-          <h2 class="section-title">Businesses I build &amp; run</h2>
-          <p class="section-desc">
-            Three distinct operations in the Norwegian market—each engineered with clear unit economics, automated workflows, and structured service delivery.
+            Three distinct Norwegian operations—each backed by custom automation pipelines, clear unit economics, and structured execution.
           </p>
         </div>
 
         <div class="ventures-grid">
           <!-- Nutravit -->
-          <article class="surface-card venture-card reveal">
-            <div class="venture-top">
-              <div class="venture-header">
-                <div>
-                  <span class="venture-domain">E-Commerce · Health Supplements</span>
-                  <h3 class="venture-name">Nutravit</h3>
-                </div>
-                <div class="icon-box" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M10.5 20.5 3.5 13.5a4.95 4.95 0 1 1 7-7l7 7a4.95 4.95 0 1 1-7 7Z"></path>
-                    <path d="m8.5 8.5 7 7"></path>
-                  </svg>
-                </div>
-              </div>
-              <p class="venture-summary">
-                Norwegian-market health supplement brand built on WooCommerce. Engineered for strict regulatory compliance, transparent product positioning, and automated fulfillment.
-              </p>
-              <ul class="venture-specs">
-                <li>Norwegian supplement regulatory compliance</li>
-                <li>AI-assisted customer support &amp; communication</li>
-                <li>WooCommerce + n8n order &amp; logistics automation</li>
-                <li>PostNord fulfillment &amp; tracking integration</li>
-              </ul>
+          <article class="laser-card venture-card">
+            <div class="venture-schematic">
+              <img src="assets/img/venture-nutravit.svg" alt="Nutravit WooCommerce + n8n + AI Agent Pipeline Schematic" width="360" height="140" loading="lazy" />
             </div>
-            <div class="venture-footer">
-              <a href="https://nutravit.no/?artur-sucila-website" target="_blank" rel="noopener noreferrer" class="venture-link">
-                <span>nutravit.no</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
-              <span class="venture-market">NO Market</span>
+            <span class="venture-badge">E-Commerce · Health Supplements</span>
+            <div class="venture-title-row">
+              <h3>Nutravit</h3>
+              <span class="market-pill">nutravit.no</span>
             </div>
+            <p class="venture-desc">
+              Norwegian-market supplement brand on WooCommerce. Built for strict regulatory compliance, AI-assisted customer support, and automated PostNord logistics.
+            </p>
+            <ul class="venture-bullets">
+              <li>Norwegian supplement compliance &amp; clear labeling</li>
+              <li>AI support agents driven by communication logic deltas</li>
+              <li>WooCommerce + n8n order &amp; shipping automation</li>
+            </ul>
+            <a href="https://nutravit.no/?artur-sucila-website" target="_blank" rel="noopener noreferrer" class="venture-cta">
+              <span>Launch nutravit.no</span>
+              <span>↗</span>
+            </a>
           </article>
 
           <!-- PCIN -->
-          <article class="surface-card venture-card reveal">
-            <div class="venture-top">
-              <div class="venture-header">
-                <div>
-                  <span class="venture-domain">IT Services · Diagnostics &amp; Consultancy</span>
-                  <h3 class="venture-name">PCIN</h3>
-                </div>
-                <div class="icon-box" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                  </svg>
-                </div>
-              </div>
-              <p class="venture-summary">
-                Structured IT service operation delivering hardware diagnostics, repair dispatch workflows, OS optimization, data recovery, and technical consultancy.
-              </p>
-              <ul class="venture-specs">
-                <li>Hardware diagnostics &amp; component-level repair</li>
-                <li>OS optimization, driver &amp; system stability</li>
-                <li>Data backup, recovery &amp; security hardening</li>
-                <li>Fixed-price repair tiers &amp; specialist consultancy</li>
-              </ul>
+          <article class="laser-card venture-card">
+            <div class="venture-schematic">
+              <img src="assets/img/venture-pcin.svg" alt="PCIN Hardware Diagnostics &amp; NocoBase ERP Telemetry Schematic" width="360" height="140" loading="lazy" />
             </div>
-            <div class="venture-footer">
-              <a href="https://pcin.no/?artur-sucila-website" target="_blank" rel="noopener noreferrer" class="venture-link">
-                <span>pcin.no</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
-              <span class="venture-market">IT &amp; Systems</span>
+            <span class="venture-badge">IT Engineering · Diagnostics &amp; ERP</span>
+            <div class="venture-title-row">
+              <h3>PCIN</h3>
+              <span class="market-pill">pcin.no</span>
             </div>
+            <p class="venture-desc">
+              IT service and consultancy operation covering component-level hardware diagnostics, OS optimization, data recovery, and custom NocoBase repair-dispatch workflows.
+            </p>
+            <ul class="venture-bullets">
+              <li>Hardware diagnostics, repair &amp; thermal optimization</li>
+              <li>Custom NocoBase ticket &amp; procurement architecture</li>
+              <li>Fixed-price repair tiers + specialist IT consultancy</li>
+            </ul>
+            <a href="https://pcin.no/?artur-sucila-website" target="_blank" rel="noopener noreferrer" class="venture-cta">
+              <span>Launch pcin.no</span>
+              <span>↗</span>
+            </a>
           </article>
 
           <!-- Vareautomater -->
-          <article class="surface-card venture-card reveal">
-            <div class="venture-top">
-              <div class="venture-header">
-                <div>
-                  <span class="venture-domain">Physical Retail · Automated Vending</span>
-                  <h3 class="venture-name">Vareautomater</h3>
-                </div>
-                <div class="icon-box" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="4" y="2" width="16" height="20" rx="2"></rect>
-                    <line x1="8" y1="6" x2="16" y2="6"></line>
-                    <line x1="8" y1="10" x2="16" y2="10"></line>
-                    <rect x="8" y="14" width="8" height="4" rx="1"></rect>
-                  </svg>
-                </div>
-              </div>
-              <p class="venture-summary">
-                Physical automated retail network managing smart vending placements across Norwegian route regions with structured telemetry, restocking, and maintenance.
-              </p>
-              <ul class="venture-specs">
-                <li>Multi-location smart vending machine fleet</li>
-                <li>Route-based service dispatch &amp; inventory logistics</li>
-                <li>Preventative maintenance &amp; uptime protocols</li>
-                <li>Machine ID, location &amp; screen content management</li>
-              </ul>
+          <article class="laser-card venture-card">
+            <div class="venture-schematic">
+              <img src="assets/img/venture-vareautomater.svg" alt="Vareautomater Smart Vending Fleet &amp; Telemetry Schematic" width="360" height="140" loading="lazy" />
             </div>
-            <div class="venture-footer">
-              <a href="https://vareautomater.no/?artur-sucila-website" target="_blank" rel="noopener noreferrer" class="venture-link">
-                <span>vareautomater.no</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
-              <span class="venture-market">Retail Fleet</span>
+            <span class="venture-badge">Physical Retail · Smart Vending Fleet</span>
+            <div class="venture-title-row">
+              <h3>Vareautomater</h3>
+              <span class="market-pill">vareautomater.no</span>
             </div>
+            <p class="venture-desc">
+              Automated physical retail operation managing smart vending machines across Norwegian route regions with cloud telemetry, route dispatch, and embedded screen UI.
+            </p>
+            <ul class="venture-bullets">
+              <li>Multi-location smart vending machine network</li>
+              <li>Go cloud backend, React 19 portal &amp; Android 8.1 UI</li>
+              <li>Route-based restocking &amp; preventative maintenance</li>
+            </ul>
+            <a href="https://vareautomater.no/?artur-sucila-website" target="_blank" rel="noopener noreferrer" class="venture-cta">
+              <span>Launch vareautomater.no</span>
+              <span>↗</span>
+            </a>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- 03 / Systems & Architecture -->
-    <section id="systems" class="section section-alt">
+    <!-- 02 / Interactive Systems & Central Intelligence Inspector -->
+    <section id="systems" class="section">
       <div class="container">
-        <div class="section-header reveal">
-          <span class="section-index">03 / Systems Architecture</span>
-          <h2 class="section-title">How I engineer operations</h2>
+        <div class="section-header">
+          <span class="section-tag">02 / Systems Architecture</span>
+          <h2 class="section-title">Interactive Architecture Inspector</h2>
           <p class="section-desc">
-            Behind every customer-facing brand is a unified technical and operational infrastructure designed for leverage, speed, and reliability.
+            Tap any module below to inspect the live technical architecture powering my ventures and decision systems.
           </p>
         </div>
 
-        <div class="systems-grid">
-          <div class="surface-card system-card reveal">
-            <span class="system-badge">Cognitive &amp; Context Layer</span>
-            <h3>Central Intelligence (Second Brain &amp; MCP OS)</h3>
-            <p>
-              A custom-architected personal AI operating system that stores canonical business rules, pricing schemas, customer communication logic, and project blueprints. Connected via Model Context Protocol (MCP) bridges so AI agents operate on verified ground truth rather than guesswork.
-            </p>
-            <div class="arch-diagram" aria-label="Central Intelligence Architecture Flow">
-              <span class="arch-node">Knowledge Vault</span>
-              <span class="arch-arrow">→</span>
-              <span class="arch-node">MCP Bridges</span>
-              <span class="arch-arrow">→</span>
-              <span class="arch-node">AI Execution</span>
+        <div class="laser-card terminal-shell">
+          <div class="terminal-header">
+            <div class="term-dots" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <span class="term-title">artur@central-intelligence:~ (MCP-OS v2.6)</span>
+          </div>
+
+          <div class="terminal-tabs" role="tablist" aria-label="System Blueprints">
+            <button type="button" class="term-tab active" data-blueprint="central">01 · Central Intelligence</button>
+            <button type="button" class="term-tab" data-blueprint="nutravit">02 · Nutravit AI Stack</button>
+            <button type="button" class="term-tab" data-blueprint="pcin">03 · PCIN NocoBase ERP</button>
+            <button type="button" class="term-tab" data-blueprint="vareautomater">04 · PickyVend Cloud</button>
+          </div>
+
+          <div class="terminal-body">
+            <code class="term-cmd-line" id="term-cmd">$ sysctl inspect central-intelligence --mode=mcp-bridge</code>
+            <div class="term-output-grid" id="term-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 / Capabilities & Specialist Stack -->
+    <section id="capabilities" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">03 / Capabilities Matrix</span>
+          <h2 class="section-title">Full-spectrum technical &amp; operational stack</h2>
+          <p class="section-desc">
+            Built through deploying real infrastructure, writing production code, and operating commercial businesses.
+          </p>
+        </div>
+
+        <div class="matrix-grid">
+          <div class="laser-card matrix-card">
+            <div class="matrix-head">
+              <h3>01 / Infrastructure &amp; DevOps</h3>
+              <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);">SELF-HOSTED</span>
+            </div>
+            <div class="chip-cloud">
+              <span>Ubuntu Linux Server</span>
+              <span>Docker &amp; Compose</span>
+              <span>Caddy Reverse Proxy</span>
+              <span>CyberPanel</span>
+              <span>GitHub Actions CI/CD</span>
+              <span>Cloudflare &amp; DNS</span>
             </div>
           </div>
 
-          <div class="surface-card system-card reveal">
-            <span class="system-badge">Infrastructure &amp; Workflow Layer</span>
-            <h3>Self-Hosted Automation &amp; Custom ERP</h3>
-            <p>
-              End-to-end operational tooling running on self-hosted Linux/Docker infrastructure behind Caddy reverse proxies. Combines n8n event pipelines, custom NocoBase relational schemas for repair dispatch and procurement, and cloud fleet management portals.
-            </p>
-            <div class="arch-diagram" aria-label="Automation Stack Flow">
-              <span class="arch-node">Docker + Caddy</span>
-              <span class="arch-arrow">→</span>
-              <span class="arch-node">n8n + NocoBase</span>
-              <span class="arch-arrow">→</span>
-              <span class="arch-node">Live Ventures</span>
+          <div class="laser-card matrix-card">
+            <div class="matrix-head">
+              <h3>02 / AI, MCP &amp; Automation</h3>
+              <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);">AUTONOMOUS</span>
+            </div>
+            <div class="chip-cloud">
+              <span>Model Context Protocol (MCP)</span>
+              <span>n8n Workflow Engine</span>
+              <span>Central Intelligence OS</span>
+              <span>Tampermonkey / Browser Automation</span>
+              <span>AI Customer Support Pipelines</span>
+              <span>REST &amp; Webhook Bridges</span>
+            </div>
+          </div>
+
+          <div class="laser-card matrix-card">
+            <div class="matrix-head">
+              <h3>03 / Software &amp; Platforms</h3>
+              <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);">FULL-STACK</span>
+            </div>
+            <div class="chip-cloud">
+              <span>Go (Cloud Backend)</span>
+              <span>TypeScript &amp; React 19</span>
+              <span>Kotlin / Android 8.1 Embedded</span>
+              <span>NocoBase Custom Plugins</span>
+              <span>WooCommerce &amp; PHP</span>
+              <span>Python Automation Scripts</span>
+            </div>
+          </div>
+
+          <div class="laser-card matrix-card">
+            <div class="matrix-head">
+              <h3>04 / Venture &amp; Field Operations</h3>
+              <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);">COMMERCIAL</span>
+            </div>
+            <div class="chip-cloud">
+              <span>Multi-Venture Strategy</span>
+              <span>Hardware Diagnostics &amp; Repair</span>
+              <span>Vending Fleet Telemetry</span>
+              <span>PostNord Fulfillment Flows</span>
+              <span>Norwegian Supplement Compliance</span>
+              <span>Pricing &amp; Margin Architecture</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 04 / Capabilities & Stack -->
-    <section id="skills" class="section">
+    <!-- 04 / Direct Contact & Channels -->
+    <section id="contact" class="section">
       <div class="container">
-        <div class="section-header reveal">
-          <span class="section-index">04 / Capabilities &amp; Stack</span>
-          <h2 class="section-title">Operational &amp; technical matrix</h2>
+        <div class="section-header">
+          <span class="section-tag">04 / Direct Channel</span>
+          <h2 class="section-title">Initiate communication</h2>
           <p class="section-desc">
-            A pragmatic capability stack forged through building, shipping, and maintaining production systems and commercial businesses.
+            Available for strategic partnerships, technical architecture discussions, and venture inquiries in Norway or remote.
           </p>
         </div>
 
-        <div class="stack-grid">
-          <div class="surface-card stack-column reveal">
-            <h3>01 / Venture Operations</h3>
-            <div class="stack-list">
-              <div class="stack-item"><span>Multi-Business Management</span></div>
-              <div class="stack-item"><span>Operations &amp; Process Design</span></div>
-              <div class="stack-item"><span>Pricing &amp; Margin Architecture</span></div>
-              <div class="stack-item"><span>Supply Chain &amp; Fulfillment</span></div>
-              <div class="stack-item"><span>NO Market Compliance</span></div>
-            </div>
-          </div>
+        <div class="contact-grid">
+          <div class="laser-card">
+            <span class="eyebrow-chip" style="margin-bottom: 0.75rem;">DIRECT CORRESPONDENCE</span>
+            <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.5rem;">
+              Fast, structured response
+            </h3>
+            <p style="font-size: 0.9rem; color: var(--text-mid);">
+              Tap below to copy my direct address or launch your mail client.
+            </p>
 
-          <div class="surface-card stack-column reveal">
-            <h3>02 / AI &amp; Automation</h3>
-            <div class="stack-list">
-              <div class="stack-item"><span>Model Context Protocol (MCP)</span></div>
-              <div class="stack-item"><span>n8n Workflow Orchestration</span></div>
-              <div class="stack-item"><span>AI Support &amp; Logic Deltas</span></div>
-              <div class="stack-item"><span>Second-Brain Knowledge Systems</span></div>
-              <div class="stack-item"><span>Browser &amp; API Automation</span></div>
-            </div>
-          </div>
-
-          <div class="surface-card stack-column reveal">
-            <h3>03 / Software &amp; Infra</h3>
-            <div class="stack-list">
-              <div class="stack-item"><span>Linux, Docker &amp; Caddy Server</span></div>
-              <div class="stack-item"><span>NocoBase &amp; Custom Plugins</span></div>
-              <div class="stack-item"><span>WooCommerce &amp; PHP Stack</span></div>
-              <div class="stack-item"><span>TypeScript, React &amp; Go Services</span></div>
-              <div class="stack-item"><span>Self-Hosted Cloud Infrastructure</span></div>
-            </div>
-          </div>
-
-          <div class="surface-card stack-column reveal">
-            <h3>04 / Hardware &amp; Field</h3>
-            <div class="stack-list">
-              <div class="stack-item"><span>Hardware Diagnostics &amp; Repair</span></div>
-              <div class="stack-item"><span>Smart Vending Fleet Telemetry</span></div>
-              <div class="stack-item"><span>Android Embedded Systems</span></div>
-              <div class="stack-item"><span>OS Optimization &amp; Data Recovery</span></div>
-              <div class="stack-item"><span>Route Dispatch &amp; Maintenance</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 05 / Contact -->
-    <section id="contact" class="section section-alt">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-index">05 / Contact</span>
-          <h2 class="section-title">Initiate a conversation</h2>
-          <p class="section-desc">
-            Open to discussing strategic partnerships, operational challenges, or connecting with fellow builders and operators.
-          </p>
-        </div>
-
-        <div class="contact-layout">
-          <div class="surface-card contact-primary-card reveal">
-            <div>
-              <span class="system-badge" style="margin-bottom: 1rem;">Direct Communication</span>
-              <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.02em;">
-                Direct &amp; structured correspondence
-              </h3>
-              <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
-                Whether regarding Nutravit, PCIN, Vareautomater, or cross-domain technical collaboration, email is the fastest and most reliable channel.
-              </p>
-            </div>
-
-            <div class="contact-email-box">
-              <span class="contact-email-address">artcila@gmail.com</span>
-              <div class="contact-email-actions">
-                <button type="button" class="btn btn-secondary btn-xs" data-copy-email="artcila@gmail.com">
+            <div class="email-action-box">
+              <span class="email-mono">artcila@gmail.com</span>
+              <div class="email-btns">
+                <button type="button" class="btn btn-glass" data-copy-email="artcila@gmail.com">
                   Copy Email
                 </button>
-                <a href="mailto:artcila@gmail.com" class="btn btn-primary btn-xs">
+                <a href="mailto:artcila@gmail.com" class="btn btn-primary">
                   Send Email →
                 </a>
               </div>
             </div>
-
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted);">
-              <span>Base: Norway / Remote</span>
-              <span>Local Time (Oslo): <strong id="norway-time" style="color: var(--text-primary);">CET</strong></span>
-            </div>
           </div>
 
-          <div class="channels-grid reveal">
-            <a href="https://www.linkedin.com/in/artur-su/" target="_blank" rel="noopener noreferrer" class="surface-card channel-card">
-              <div class="channel-top">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <div class="channels-bento">
+            <a href="https://github.com/Artur-Su" target="_blank" rel="noopener noreferrer" class="laser-card channel-tile">
+              <div class="ch-top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                  <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                </svg>
+                <span>↗</span>
+              </div>
+              <div>
+                <div class="ch-name">GitHub</div>
+                <div class="ch-sub">@Artur-Su</div>
+              </div>
+            </a>
+
+            <a href="https://www.linkedin.com/in/artur-su/" target="_blank" rel="noopener noreferrer" class="laser-card channel-tile">
+              <div class="ch-top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                   <rect x="2" y="9" width="4" height="12"></rect>
                   <circle cx="4" cy="4" r="2"></circle>
@@ -517,28 +415,14 @@
                 <span>↗</span>
               </div>
               <div>
-                <div class="channel-name">LinkedIn</div>
-                <div class="channel-handle">Professional Network</div>
+                <div class="ch-name">LinkedIn</div>
+                <div class="ch-sub">/in/artur-su</div>
               </div>
             </a>
 
-            <a href="https://github.com/Artur-Su" target="_blank" rel="noopener noreferrer" class="surface-card channel-card">
-              <div class="channel-top">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
-                  <path d="M9 18c-4.51 2-5-2-7-2"></path>
-                </svg>
-                <span>↗</span>
-              </div>
-              <div>
-                <div class="channel-name">GitHub</div>
-                <div class="channel-handle">@Artur-Su</div>
-              </div>
-            </a>
-
-            <a href="https://letterboxd.com/artur/" target="_blank" rel="noopener noreferrer" class="surface-card channel-card">
-              <div class="channel-top">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <a href="https://letterboxd.com/artur/" target="_blank" rel="noopener noreferrer" class="laser-card channel-tile">
+              <div class="ch-top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
                   <line x1="7" y1="2" x2="7" y2="22"></line>
                   <line x1="17" y1="2" x2="17" y2="22"></line>
@@ -547,22 +431,22 @@
                 <span>↗</span>
               </div>
               <div>
-                <div class="channel-name">Letterboxd</div>
-                <div class="channel-handle">Film Archive</div>
+                <div class="ch-name">Letterboxd</div>
+                <div class="ch-sub">Film Log</div>
               </div>
             </a>
 
-            <a href="https://findpenguins.com/arturs" target="_blank" rel="noopener noreferrer" class="surface-card channel-card">
-              <div class="channel-top">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <a href="https://findpenguins.com/arturs" target="_blank" rel="noopener noreferrer" class="laser-card channel-tile">
+              <div class="ch-top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
                 </svg>
                 <span>↗</span>
               </div>
               <div>
-                <div class="channel-name">FindPenguins</div>
-                <div class="channel-handle">Travel Log</div>
+                <div class="ch-name">FindPenguins</div>
+                <div class="ch-sub">Travel Radar</div>
               </div>
             </a>
           </div>
@@ -571,75 +455,111 @@
     </section>
   </main>
 
-  <!-- Command Palette Modal (⌘K / Ctrl+K) -->
-  <div class="cmd-backdrop" id="cmd-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Quick Navigation">
-    <div class="cmd-dialog">
-      <div class="cmd-search-bar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" class="cmd-input" id="cmd-input" placeholder="Jump to section, venture, or action..." autocomplete="off" />
-      </div>
-      <div class="cmd-list">
-        <button type="button" class="cmd-item" data-href="#about">
-          <span>01 / Profile &amp; Operating Philosophy</span>
-          <span class="cmd-item-type">Section</span>
-        </button>
-        <button type="button" class="cmd-item" data-href="#companies">
-          <span>02 / Operating Ventures</span>
-          <span class="cmd-item-type">Section</span>
-        </button>
-        <button type="button" class="cmd-item" data-href="#systems">
-          <span>03 / Systems Architecture (Central Intelligence)</span>
-          <span class="cmd-item-type">Section</span>
-        </button>
-        <button type="button" class="cmd-item" data-href="#skills">
-          <span>04 / Capabilities &amp; Technical Stack</span>
-          <span class="cmd-item-type">Section</span>
-        </button>
-        <button type="button" class="cmd-item" data-href="#contact">
-          <span>05 / Contact &amp; Channels</span>
-          <span class="cmd-item-type">Section</span>
-        </button>
-        <button type="button" class="cmd-item" data-href="news.html">
-          <span>Updates &amp; Announcements</span>
-          <span class="cmd-item-type">Page</span>
-        </button>
-        <button type="button" class="cmd-item" data-href="https://nutravit.no/?artur-sucila-website" data-external="true">
-          <span>Visit Nutravit (nutravit.no)</span>
-          <span class="cmd-item-type">Venture ↗</span>
-        </button>
-        <button type="button" class="cmd-item" data-href="https://pcin.no/?artur-sucila-website" data-external="true">
-          <span>Visit PCIN (pcin.no)</span>
-          <span class="cmd-item-type">Venture ↗</span>
-        </button>
-        <button type="button" class="cmd-item" data-href="https://vareautomater.no/?artur-sucila-website" data-external="true">
-          <span>Visit Vareautomater (vareautomater.no)</span>
-          <span class="cmd-item-type">Venture ↗</span>
-        </button>
-        <button type="button" class="cmd-item" data-cmd-copy="artcila@gmail.com">
-          <span>Copy Email Address (artcila@gmail.com)</span>
-          <span class="cmd-item-type">Action</span>
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- Mobile-First Thumb-Zone Glass OS Dock -->
+  <nav class="mobile-os-dock" aria-label="Mobile Quick Navigation Dock">
+    <a href="#hud" class="dock-btn active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+      <span>HUD</span>
+    </a>
+    <a href="#ventures" class="dock-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+        <polyline points="2 17 12 22 22 17"></polyline>
+        <polyline points="2 12 12 17 22 12"></polyline>
+      </svg>
+      <span>Ventures</span>
+    </a>
+    <a href="#systems" class="dock-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 17 10 11 4 5"></polyline>
+        <line x1="12" y1="19" x2="20" y2="19"></line>
+      </svg>
+      <span>Core OS</span>
+    </a>
+    <a href="#capabilities" class="dock-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"></rect>
+        <rect x="14" y="3" width="7" height="7"></rect>
+        <rect x="14" y="14" width="7" height="7"></rect>
+        <rect x="3" y="14" width="7" height="7"></rect>
+      </svg>
+      <span>Stack</span>
+    </a>
+    <button type="button" class="dock-btn" data-open-cmd>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <span>Cmd</span>
+    </button>
+  </nav>
 
-  <!-- Footer -->
+  <!-- Native <dialog> Command Palette (Chrome 155+ @starting-style) -->
+  <dialog class="cmd-modal" id="cmd-dialog" aria-label="System Command Palette">
+    <div class="cmd-head">
+      <span style="color: var(--accent-cyan); font-family: var(--font-mono); font-weight: 700;">&gt;_</span>
+      <input type="text" id="cmd-search" placeholder="Filter commands, ventures, or 3D modes..." autocomplete="off" />
+      <button type="button" onclick="document.getElementById('cmd-dialog').close()" style="background: none; border: none; color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer;">ESC</button>
+    </div>
+    <div class="cmd-items">
+      <button type="button" data-cmd-action data-mode="mesh">
+        <span>3D Engine: Switch to Neural Mesh</span>
+        <small>WEBGL</small>
+      </button>
+      <button type="button" data-cmd-action data-mode="vortex">
+        <span>3D Engine: Switch to Orbital Vortex</span>
+        <small>WEBGL</small>
+      </button>
+      <button type="button" data-cmd-action data-mode="matrix">
+        <span>3D Engine: Switch to Data Stream</span>
+        <small>WEBGL</small>
+      </button>
+      <button type="button" data-cmd-action data-href="#ventures">
+        <span>Jump to Operating Ventures</span>
+        <small>SECTION</small>
+      </button>
+      <button type="button" data-cmd-action data-href="#systems">
+        <span>Jump to Architecture Inspector</span>
+        <small>TERMINAL</small>
+      </button>
+      <button type="button" data-cmd-action data-href="news.html">
+        <span>Open Bulletin &amp; Announcements</span>
+        <small>PAGE</small>
+      </button>
+      <button type="button" data-cmd-action data-href="https://nutravit.no/?artur-sucila-website" data-external="true">
+        <span>Launch Nutravit (nutravit.no)</span>
+        <small>EXTERNAL ↗</small>
+      </button>
+      <button type="button" data-cmd-action data-href="https://pcin.no/?artur-sucila-website" data-external="true">
+        <span>Launch PCIN (pcin.no)</span>
+        <small>EXTERNAL ↗</small>
+      </button>
+      <button type="button" data-cmd-action data-href="https://vareautomater.no/?artur-sucila-website" data-external="true">
+        <span>Launch Vareautomater (vareautomater.no)</span>
+        <small>EXTERNAL ↗</small>
+      </button>
+      <button type="button" data-cmd-action data-copy="artcila@gmail.com">
+        <span>Copy Email (artcila@gmail.com)</span>
+        <small>CLIPBOARD</small>
+      </button>
+    </div>
+  </dialog>
+
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span>© 2026 Artur Sucila. Engineered with structure, not templates.</span>
-      <div class="footer-meta">
-        <a href="https://github.com/Artur-Su" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://www.linkedin.com/in/artur-su/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="news.html">Updates</a>
+      <span>© 2026 ARTUR SUCILA · ENGINEERED WITH CHROME 155+ CSS &amp; WEBGL</span>
+      <div style="display: flex; gap: 1.25rem;">
+        <a href="https://github.com/Artur-Su" target="_blank" rel="noopener noreferrer">GITHUB</a>
+        <a href="https://www.linkedin.com/in/artur-su/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+        <a href="news.html">BULLETIN</a>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script type="module" src="assets/js/main.js"></script>
   <script type="module" src="assets/js/network.js"></script>
 </body>

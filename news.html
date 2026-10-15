@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Updates &amp; Announcements — Artur Sucila</title>
-  <meta name="description" content="Current announcements, recruitment updates, and initiatives from Artur Sucila." />
-  <meta name="theme-color" content="#06070a" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Bulletin &amp; Initiatives — Artur Sucila</title>
+  <meta name="description" content="Active operational updates, talent recruitment, and announcements from Artur Sucila." />
+  <meta name="theme-color" content="#07080f" />
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,136 +16,125 @@
 </head>
 <body>
 
-  <!-- Background Architecture -->
+  <div class="scroll-laser-bar" aria-hidden="true"></div>
   <div id="canvas-container" aria-hidden="true"></div>
-  <div class="bg-grid-overlay" aria-hidden="true"></div>
-  <div class="bg-radial-glow" aria-hidden="true"></div>
+  <div class="cyber-grid-backdrop" aria-hidden="true"></div>
 
-  <!-- Navigation Header -->
-  <header class="site-header" id="site-header">
+  <header class="site-header">
     <div class="container nav-inner">
       <a href="index.html" class="brand" aria-label="Artur Sucila Home">
-        <span class="brand-mark">AS<span>.</span></span>
+        <span class="brand-mark"><span>AS</span></span>
         <span>Artur Sucila</span>
       </a>
 
-      <nav class="nav-links" aria-label="Primary Navigation">
-        <a href="index.html#about">Profile</a>
-        <a href="index.html#companies">Ventures</a>
-        <a href="index.html#systems">Architecture</a>
-        <a href="index.html#skills">Capabilities</a>
-        <a href="index.html#contact">Contact</a>
-      </nav>
-
-      <div class="nav-actions">
-        <a href="index.html" class="btn btn-secondary btn-xs">
-          ← Back to Overview
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <div class="header-telemetry">
+          <span class="pulse-led"></span>
+          <span data-oslo-clock>OSLO · CET</span>
+        </div>
+        <a href="index.html" class="nav-updates-pill">
+          <span>← HUD</span>
         </a>
-        <button type="button" class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu" aria-expanded="false">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="4" y1="7" x2="20" y2="7"></line>
-            <line x1="4" y1="12" x2="20" y2="12"></line>
-            <line x1="4" y1="17" x2="20" y2="17"></line>
-          </svg>
-        </button>
       </div>
     </div>
   </header>
 
-  <!-- Mobile Navigation Drawer -->
-  <nav class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
-    <a href="index.html#about">01 / Profile</a>
-    <a href="index.html#companies">02 / Ventures</a>
-    <a href="index.html#systems">03 / Architecture</a>
-    <a href="index.html#skills">04 / Capabilities</a>
-    <a href="index.html#contact">05 / Contact</a>
-    <a href="index.html" style="color: var(--accent-secondary);">← Back to Overview</a>
-  </nav>
-
-  <main class="news-main">
+  <main class="section" style="padding-top: 2rem;">
     <div class="container">
-      <div class="section-header reveal">
-        <span class="section-index">Bulletin / Updates</span>
-        <h1 class="section-title">Announcements &amp; Active Initiatives</h1>
+      <div class="section-header">
+        <span class="section-tag">BULLETIN // LIVE DISPATCH</span>
+        <h1 class="section-title">Active Initiatives &amp; Recruitment</h1>
         <p class="section-desc">
-          Current operational updates, talent recruitment, and community highlights across my ventures.
+          Current operational dispatches, team expansion, and community highlights.
         </p>
       </div>
 
-      <div class="news-grid">
-        <!-- Hiring Card -->
-        <article class="surface-card news-card reveal">
-          <div>
-            <div class="news-meta" style="margin-bottom: 1.25rem;">
-              <span class="news-tag hiring">
-                <span class="status-dot emerald"></span>
-                <span>Recruitment · Open</span>
-              </span>
-              <span class="news-date">Operations &amp; Systems</span>
-            </div>
-            <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.85rem; letter-spacing: -0.02em;">
-              Looking for Systems-Oriented Talent
-            </h2>
-            <p style="color: var(--text-muted); font-size: 0.96rem; line-height: 1.75;">
-              I am looking for a driven, structured operator or builder to collaborate across my businesses. If you thrive in cross-domain environments, value clear documentation, and enjoy building scalable operations across e-commerce, IT, or physical retail, let's talk.
-            </p>
+      <div class="matrix-grid">
+        <!-- Recruitment Dispatch -->
+        <article class="laser-card venture-card">
+          <span class="eyebrow-chip">RECRUITMENT · OPEN ROLE</span>
+          <div class="venture-title-row">
+            <h2>Looking for Systems-Oriented Talent</h2>
+            <span class="market-pill">NORWAY / REMOTE</span>
           </div>
-          <div style="padding-top: 1.25rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-            <a href="mailto:artcila@gmail.com?subject=Application%20%E2%80%94%20Operations%20%26%20Systems" class="btn btn-primary">
-              <span>Apply via Email</span>
-              <svg class="arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
-            <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim);">artcila@gmail.com</span>
-          </div>
+          <p class="venture-desc">
+            I am looking for a driven, structured operator or builder to collaborate across my businesses. If you thrive in cross-domain environments and enjoy building scalable operations across e-commerce, IT services, or automated retail, let's talk.
+          </p>
+          <a href="mailto:artcila@gmail.com?subject=Job%20Application%20%E2%80%94%20Systems%20%26%20Operations" class="btn btn-primary" style="margin-top: auto;">
+            <span>Apply via Email (artcila@gmail.com)</span>
+            <span>→</span>
+          </a>
         </article>
 
-        <!-- Community / Voting Card -->
-        <article class="surface-card news-card reveal">
-          <div>
-            <div class="news-meta" style="margin-bottom: 1.25rem;">
-              <span class="news-tag community">
-                <span class="status-dot"></span>
-                <span>Community Highlight</span>
-              </span>
-              <span class="news-date">Featured Reel</span>
-            </div>
-            <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.85rem; letter-spacing: -0.02em;">
-              Vote for Artur Sucila
-            </h2>
-            <p style="color: var(--text-muted); font-size: 0.96rem; line-height: 1.75;">
-              Check out the featured video comment under <strong style="color: var(--text-primary);">Artur Sucila</strong> on Facebook and leave a like to support the entry. Every vote counts—thank you for backing the project.
-            </p>
+        <!-- Community Highlight -->
+        <article class="laser-card venture-card">
+          <span class="eyebrow-chip">COMMUNITY HIGHLIGHT</span>
+          <div class="venture-title-row">
+            <h2>Vote for Artur Sucila</h2>
+            <span class="market-pill">FEATURED REEL</span>
           </div>
-          <div style="padding-top: 1.25rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-            <a href="https://www.facebook.com/reel/1361886042018942" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-              <span>View &amp; Vote on Facebook</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-            <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim);">External Link ↗</span>
-          </div>
+          <p class="venture-desc">
+            Check out the video comment for <strong>Artur Sucila</strong> on the featured Facebook reel and leave a like to back the entry.
+          </p>
+          <a href="https://www.facebook.com/reel/1361886042018942" target="_blank" rel="noopener noreferrer" class="btn btn-glass" style="margin-top: auto;">
+            <span>Open Featured Reel on Facebook</span>
+            <span>↗</span>
+          </a>
         </article>
       </div>
     </div>
   </main>
 
+  <nav class="mobile-os-dock" aria-label="Mobile Navigation Dock">
+    <a href="index.html#hud" class="dock-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+      <span>HUD</span>
+    </a>
+    <a href="index.html#ventures" class="dock-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+        <polyline points="2 17 12 22 22 17"></polyline>
+        <polyline points="2 12 12 17 22 12"></polyline>
+      </svg>
+      <span>Ventures</span>
+    </a>
+    <a href="index.html#systems" class="dock-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 17 10 11 4 5"></polyline>
+        <line x1="12" y1="19" x2="20" y2="19"></line>
+      </svg>
+      <span>Core OS</span>
+    </a>
+    <a href="index.html#contact" class="dock-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+      </svg>
+      <span>Connect</span>
+    </a>
+    <a href="news.html" class="dock-btn active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+      </svg>
+      <span>Bulletin</span>
+    </a>
+  </nav>
+
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span>© 2026 Artur Sucila. Engineered with structure, not templates.</span>
-      <div class="footer-meta">
-        <a href="index.html">Overview</a>
-        <a href="https://github.com/Artur-Su" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://www.linkedin.com/in/artur-su/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <span>© 2026 ARTUR SUCILA · ENGINEERED WITH CHROME 155+ CSS &amp; WEBGL</span>
+      <div style="display: flex; gap: 1.25rem;">
+        <a href="index.html">OVERVIEW</a>
+        <a href="https://github.com/Artur-Su" target="_blank" rel="noopener noreferrer">GITHUB</a>
+        <a href="https://www.linkedin.com/in/artur-su/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
       </div>
     </div>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script type="module" src="assets/js/main.js"></script>
   <script type="module" src="assets/js/network.js"></script>
 </body>
