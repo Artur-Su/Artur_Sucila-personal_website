@@ -46,3 +46,42 @@ dialog.cmd-modal .ci-desc {
 @media (max-width: 340px) {
   .brand > span:last-child { display: none; }
 }
+
+/* keyboard: search box pinned to top so the on-screen keyboard cannot cover it */
+@media (max-width: 820px) {
+  dialog.cmd-modal {
+    place-items: start center;
+    align-content: start;
+    padding: max(0.75rem, env(safe-area-inset-top)) 0.75rem 0;
+  }
+  dialog.cmd-modal .cmd-panel {
+    max-height: min(52dvh, 420px);
+  }
+  dialog.cmd-modal .cmd-input-bar input {
+    font-size: 16px;
+  }
+  dialog.cmd-modal .cmd-backdrop {
+    backdrop-filter: none;
+  }
+}
+
+/* scroll smoothness: stop per-card repaints on phones */
+@media (max-width: 820px) {
+  .laser-card {
+    animation: none !important;
+    animation-timeline: auto !important;
+    backdrop-filter: none !important;
+    box-shadow: 0 8px 20px oklch(0 0 0 / 0.35);
+  }
+  .brand .brand-mark { animation: none; }
+  .site-header { backdrop-filter: blur(8px); }
+  .mobile-os-dock { backdrop-filter: blur(10px); }
+  .section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+  html { scroll-behavior: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .laser-card, .brand .brand-mark, .pulse-led { animation: none !important; }
+}
