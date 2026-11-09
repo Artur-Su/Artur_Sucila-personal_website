@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Artur Sucila",
+  "short_name": "Artur Sucila",
+  "description": "Artur Sucila — Systems Architect & Multi-Venture Operator",
+  "lang": "en",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "background_color": "#07080f",
+  "theme_color": "#07080f",
+  "icons": [
+    {
+      "src": "assets/img/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

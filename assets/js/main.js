@@ -299,3 +299,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initCommandDialog();
   initDockSpy();
 });
+
+// Shared by index.html and news.html; resolve relative to this module, not the page URL.
+if (!document.querySelector('link[rel="manifest"]')) {
+  const manifestLink = document.createElement('link');
+  manifestLink.rel = 'manifest';
+  manifestLink.href = new URL('../../manifest.webmanifest', import.meta.url).href;
+  document.head.appendChild(manifestLink);
+}
