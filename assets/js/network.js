@@ -1,7 +1,7 @@
 /**
  * Artur Sucila — Calibrated 3D WebGL Ambient Systems Engine
- * Slower, smooth ambient drift tuned for minimal distraction while retaining
- * full depth and reactivity on mobile phones & desktop.
+ * Performance build: preallocated line buffer (no per-frame GC), 30 FPS cap on phones,
+ * connection search every 3rd frame, height-only resizes ignored (URL bar / keyboard).
  */
 
 const initSystemsNetwork = () => {
@@ -24,22 +24,23 @@ const initSystemsNetwork = () => {
   try {
     renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance',
+      antialias: !isMobile,
+      powerPreference: isMobile ? 'default' : 'high-performance',
     });
   } catch {
     return;
   }
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  let viewW = window.innerWidth;
+  let viewH = window.innerHeight;
+  renderer.setSize(viewW, viewH);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
   container.innerHTML = '';
   container.appendChild(renderer.domElement);
 
   const particleCount = isMobile ? 105 : 175;
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(particleCount * 3);
-  const basePositions = new Float32Array(particleCount * 3);
   const velocities = [];
   const phases = new Float32Array(particleCount);
 
@@ -49,21 +50,12 @@ const initSystemsNetwork = () => {
 
   for (let i = 0; i < particleCount; i++) {
     const i3 = i * 3;
-    const x = (Math.random() - 0.5) * spreadX;
-    const y = (Math.random() - 0.5) * spreadY;
-    const z = (Math.random() - 0.5) * spreadZ;
-
-    positions[i3] = x;
-    positions[i3 + 1] = y;
-    positions[i3 + 2] = z;
-
-    basePositions[i3] = x;
-    basePositions[i3 + 1] = y;
-    basePositions[i3 + 2] = z;
+    positions[i3] = (Math.random() - 0.5) * spreadX;
+    positions[i3 + 1] = (Math.random() - 0.5) * spreadY;
+    positions[i3 + 2] = (Math.random() - 0.5) * spreadZ;
 
     phases[i] = Math.random() * Math.PI * 2;
 
-    // Slower, smooth ambient velocity
     velocities.push({
       x: (Math.random() - 0.5) * 0.22,
       y: (Math.random() - 0.5) * 0.22,
@@ -73,7 +65,6 @@ const initSystemsNetwork = () => {
 
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-  // Circular glowing sprite texture
   const spriteCanvas = document.createElement('canvas');
   spriteCanvas.width = 64;
   spriteCanvas.height = 64;
@@ -107,11 +98,17 @@ const initSystemsNetwork = () => {
     blending: THREE.AdditiveBlending,
   });
 
+  const maxSegments = (particleCount * (particleCount - 1)) / 2;
+  const linePositions = new Float32Array(maxSegments * 6);
   const lineGeometry = new THREE.BufferGeometry();
+  const lineAttr = new THREE.BufferAttribute(linePositions, 3);
+  lineAttr.setUsage(THREE.DynamicDrawUsage);
+  lineGeometry.setAttribute('position', lineAttr);
+  lineGeometry.setDrawRange(0, 0);
   const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+  lines.frustumCulled = false;
   scene.add(lines);
 
-  // Background wireframe core
   const coreGeo = new THREE.IcosahedronGeometry(isMobile ? 105 : 140, 1);
   const coreMat = new THREE.MeshBasicMaterial({
     color: 0x38bdf8,
@@ -213,12 +210,18 @@ const initSystemsNetwork = () => {
 
   let clock = 0;
   let lastFpsTime = performance.now();
+  let lastFrameTime = 0;
   let frameCounter = 0;
+  let tick = 0;
+  const minFrameMs = isMobile ? 33 : 0;
   const fpsEl = document.getElementById('hud-fps');
 
   const animate = (now) => {
     requestAnimationFrame(animate);
     if (!isTabVisible) return;
+    if (minFrameMs && now - lastFrameTime < minFrameMs) return;
+    lastFrameTime = now;
+    tick++;
 
     frameCounter++;
     if (now - lastFpsTime >= 1000) {
@@ -227,19 +230,18 @@ const initSystemsNetwork = () => {
       lastFpsTime = now;
     }
 
-    // Gentle, non-distracting clock speed
-    clock += 0.0035;
-    pulseBoost *= 0.95;
+    const step = isMobile ? 2 : 1;
+    clock += 0.0035 * step;
+    pulseBoost *= isMobile ? 0.9 : 0.95;
 
     const scrollAngle = scrollOffset * 0.0006;
     const targetCamX = pointerX * 28 + Math.sin(clock * 0.35) * 12;
     const targetCamY = -pointerY * 28 + Math.cos(clock * 0.28) * 10 - (scrollOffset * 0.02) % 90;
 
-    camera.position.x += (targetCamX - camera.position.x) * 0.035;
-    camera.position.y += (targetCamY - camera.position.y) * 0.035;
+    camera.position.x += (targetCamX - camera.position.x) * 0.035 * step;
+    camera.position.y += (targetCamY - camera.position.y) * 0.035 * step;
     camera.lookAt(scene.position);
 
-    // Smooth, slow orbital drift
     particles.rotation.y = clock * 0.08 + scrollAngle;
     particles.rotation.x = Math.sin(clock * 0.2) * 0.06 + pointerY * 0.06;
     lines.rotation.copy(particles.rotation);
@@ -250,8 +252,7 @@ const initSystemsNetwork = () => {
     coreMesh.scale.set(coreScale, coreScale, coreScale);
 
     const posArray = particles.geometry.attributes.position.array;
-    const linePositions = [];
-    const speedMult = 1 + pulseBoost;
+    const speedMult = (1 + pulseBoost) * step;
 
     for (let i = 0; i < particleCount; i++) {
       const i3 = i * 3;
@@ -259,47 +260,51 @@ const initSystemsNetwork = () => {
       if (currentMode === 'vortex') {
         const angle = clock * 0.35 + phases[i];
         const radius = 120 + (i % 7) * 28;
-        posArray[i3] += (Math.cos(angle) * radius - posArray[i3]) * 0.016;
-        posArray[i3 + 1] += (Math.sin(angle) * radius - posArray[i3 + 1]) * 0.016;
-        posArray[i3 + 2] += Math.sin(clock * 0.8 + phases[i]) * 0.35;
+        posArray[i3] += (Math.cos(angle) * radius - posArray[i3]) * 0.016 * step;
+        posArray[i3 + 1] += (Math.sin(angle) * radius - posArray[i3 + 1]) * 0.016 * step;
+        posArray[i3 + 2] += Math.sin(clock * 0.8 + phases[i]) * 0.35 * step;
       } else if (currentMode === 'matrix') {
         posArray[i3 + 1] -= (0.45 + (i % 5) * 0.12) * speedMult;
-        posArray[i3] += Math.sin(clock * 0.6 + phases[i]) * 0.18;
+        posArray[i3] += Math.sin(clock * 0.6 + phases[i]) * 0.18 * step;
         if (posArray[i3 + 1] < -spreadY / 2) {
           posArray[i3 + 1] = spreadY / 2;
         }
       } else {
-        posArray[i3] += velocities[i].x * speedMult + Math.sin(clock * 0.5 + phases[i]) * 0.07;
-        posArray[i3 + 1] += velocities[i].y * speedMult + Math.cos(clock * 0.5 + phases[i]) * 0.07;
+        posArray[i3] += velocities[i].x * speedMult + Math.sin(clock * 0.5 + phases[i]) * 0.07 * step;
+        posArray[i3 + 1] += velocities[i].y * speedMult + Math.cos(clock * 0.5 + phases[i]) * 0.07 * step;
         posArray[i3 + 2] += velocities[i].z * speedMult;
 
         if (Math.abs(posArray[i3]) > spreadX / 2) velocities[i].x *= -1;
         if (Math.abs(posArray[i3 + 1]) > spreadY / 2) velocities[i].y *= -1;
         if (Math.abs(posArray[i3 + 2]) > spreadZ / 2) velocities[i].z *= -1;
       }
-
-      for (let j = i + 1; j < particleCount; j++) {
-        const j3 = j * 3;
-        const dx = posArray[i3] - posArray[j3];
-        const dy = posArray[i3 + 1] - posArray[j3 + 1];
-        const dz = posArray[i3 + 2] - posArray[j3 + 2];
-        const distSq = dx * dx + dy * dy + dz * dz;
-
-        if (distSq < maxConnectDistSq) {
-          linePositions.push(
-            posArray[i3],
-            posArray[i3 + 1],
-            posArray[i3 + 2],
-            posArray[j3],
-            posArray[j3 + 1],
-            posArray[j3 + 2]
-          );
-        }
-      }
     }
 
     particles.geometry.attributes.position.needsUpdate = true;
-    lines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+
+    if (tick % 3 === 0) {
+      let n = 0;
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        for (let j = i + 1; j < particleCount; j++) {
+          const j3 = j * 3;
+          const dx = posArray[i3] - posArray[j3];
+          const dy = posArray[i3 + 1] - posArray[j3 + 1];
+          const dz = posArray[i3 + 2] - posArray[j3 + 2];
+          if (dx * dx + dy * dy + dz * dz < maxConnectDistSq) {
+            linePositions[n++] = posArray[i3];
+            linePositions[n++] = posArray[i3 + 1];
+            linePositions[n++] = posArray[i3 + 2];
+            linePositions[n++] = posArray[j3];
+            linePositions[n++] = posArray[j3 + 1];
+            linePositions[n++] = posArray[j3 + 2];
+          }
+        }
+      }
+      lineGeometry.setDrawRange(0, n / 3);
+      lineAttr.needsUpdate = true;
+    }
+
     renderer.render(scene, camera);
   };
 
@@ -308,9 +313,14 @@ const initSystemsNetwork = () => {
   window.addEventListener(
     'resize',
     () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      if (w === viewW && (isMobile || h === viewH)) return;
+      viewW = w;
+      viewH = isMobile ? Math.max(viewH, h) : h;
+      camera.aspect = viewW / viewH;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(viewW, viewH);
     },
     { passive: true }
   );
